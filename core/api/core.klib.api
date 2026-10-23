@@ -1,0 +1,239 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.github.maniramezan.testcommons:core>
+final enum class io.github.maniramezan.testcommons/ReadingDirection : kotlin/Enum<io.github.maniramezan.testcommons/ReadingDirection> { // io.github.maniramezan.testcommons/ReadingDirection|null[0]
+    enum entry LeftToRight // io.github.maniramezan.testcommons/ReadingDirection.LeftToRight|null[0]
+    enum entry RightToLeft // io.github.maniramezan.testcommons/ReadingDirection.RightToLeft|null[0]
+
+    final val entries // io.github.maniramezan.testcommons/ReadingDirection.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.maniramezan.testcommons/ReadingDirection> // io.github.maniramezan.testcommons/ReadingDirection.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.maniramezan.testcommons/ReadingDirection // io.github.maniramezan.testcommons/ReadingDirection.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.maniramezan.testcommons/ReadingDirection> // io.github.maniramezan.testcommons/ReadingDirection.values|values#static(){}[0]
+}
+
+final class <#A: kotlin/Any?, #B: kotlin/Any?> io.github.maniramezan.testcommons/ScriptedResponder { // io.github.maniramezan.testcommons/ScriptedResponder|null[0]
+    constructor <init>(kotlin.collections/List<kotlin/Result<#B>>, kotlin/Result<#B>? = ...) // io.github.maniramezan.testcommons/ScriptedResponder.<init>|<init>(kotlin.collections.List<kotlin.Result<1:1>>;kotlin.Result<1:1>?){}[0]
+
+    final val callCount // io.github.maniramezan.testcommons/ScriptedResponder.callCount|{}callCount[0]
+        final fun <get-callCount>(): kotlin/Int // io.github.maniramezan.testcommons/ScriptedResponder.callCount.<get-callCount>|<get-callCount>(){}[0]
+    final val requests // io.github.maniramezan.testcommons/ScriptedResponder.requests|{}requests[0]
+        final fun <get-requests>(): kotlin.collections/List<#A> // io.github.maniramezan.testcommons/ScriptedResponder.requests.<get-requests>|<get-requests>(){}[0]
+
+    final fun hold(kotlin/Int): io.github.maniramezan.testcommons/AsyncGate // io.github.maniramezan.testcommons/ScriptedResponder.hold|hold(kotlin.Int){}[0]
+    final suspend fun respond(#A): #B // io.github.maniramezan.testcommons/ScriptedResponder.respond|respond(1:0){}[0]
+    final suspend fun waitForCalls(kotlin/Int, kotlin.time/Duration = ...): kotlin.collections/List<#A> // io.github.maniramezan.testcommons/ScriptedResponder.waitForCalls|waitForCalls(kotlin.Int;kotlin.time.Duration){}[0]
+
+    final class Exhausted : kotlin/IllegalStateException { // io.github.maniramezan.testcommons/ScriptedResponder.Exhausted|null[0]
+        constructor <init>(kotlin/Int) // io.github.maniramezan.testcommons/ScriptedResponder.Exhausted.<init>|<init>(kotlin.Int){}[0]
+
+        final val callIndex // io.github.maniramezan.testcommons/ScriptedResponder.Exhausted.callIndex|{}callIndex[0]
+            final fun <get-callIndex>(): kotlin/Int // io.github.maniramezan.testcommons/ScriptedResponder.Exhausted.callIndex.<get-callIndex>|<get-callIndex>(){}[0]
+    }
+}
+
+final class <#A: kotlin/Any?> io.github.maniramezan.testcommons/CallRecorder { // io.github.maniramezan.testcommons/CallRecorder|null[0]
+    constructor <init>() // io.github.maniramezan.testcommons/CallRecorder.<init>|<init>(){}[0]
+
+    final val count // io.github.maniramezan.testcommons/CallRecorder.count|{}count[0]
+        final fun <get-count>(): kotlin/Int // io.github.maniramezan.testcommons/CallRecorder.count.<get-count>|<get-count>(){}[0]
+
+    final fun lastValue(): #A? // io.github.maniramezan.testcommons/CallRecorder.lastValue|lastValue(){}[0]
+    final fun record(#A) // io.github.maniramezan.testcommons/CallRecorder.record|record(1:0){}[0]
+    final fun reset() // io.github.maniramezan.testcommons/CallRecorder.reset|reset(){}[0]
+    final fun values(): kotlin.collections/List<#A> // io.github.maniramezan.testcommons/CallRecorder.values|values(){}[0]
+    final suspend fun waitForCalls(kotlin/Int, kotlin.time/Duration = ...): kotlin.collections/List<#A> // io.github.maniramezan.testcommons/CallRecorder.waitForCalls|waitForCalls(kotlin.Int;kotlin.time.Duration){}[0]
+}
+
+final class <#A: kotlin/Any?> io.github.maniramezan.testcommons/FlowObservation { // io.github.maniramezan.testcommons/FlowObservation|null[0]
+    constructor <init>(kotlin.collections/List<#A>, io.github.maniramezan.testcommons/FlowObservation.End) // io.github.maniramezan.testcommons/FlowObservation.<init>|<init>(kotlin.collections.List<1:0>;io.github.maniramezan.testcommons.FlowObservation.End){}[0]
+
+    final val end // io.github.maniramezan.testcommons/FlowObservation.end|{}end[0]
+        final fun <get-end>(): io.github.maniramezan.testcommons/FlowObservation.End // io.github.maniramezan.testcommons/FlowObservation.end.<get-end>|<get-end>(){}[0]
+    final val values // io.github.maniramezan.testcommons/FlowObservation.values|{}values[0]
+        final fun <get-values>(): kotlin.collections/List<#A> // io.github.maniramezan.testcommons/FlowObservation.values.<get-values>|<get-values>(){}[0]
+
+    final fun component1(): kotlin.collections/List<#A> // io.github.maniramezan.testcommons/FlowObservation.component1|component1(){}[0]
+    final fun component2(): io.github.maniramezan.testcommons/FlowObservation.End // io.github.maniramezan.testcommons/FlowObservation.component2|component2(){}[0]
+    final fun copy(kotlin.collections/List<#A> = ..., io.github.maniramezan.testcommons/FlowObservation.End = ...): io.github.maniramezan.testcommons/FlowObservation<#A> // io.github.maniramezan.testcommons/FlowObservation.copy|copy(kotlin.collections.List<1:0>;io.github.maniramezan.testcommons.FlowObservation.End){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.maniramezan.testcommons/FlowObservation.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.maniramezan.testcommons/FlowObservation.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.maniramezan.testcommons/FlowObservation.toString|toString(){}[0]
+
+    final enum class End : kotlin/Enum<io.github.maniramezan.testcommons/FlowObservation.End> { // io.github.maniramezan.testcommons/FlowObservation.End|null[0]
+        enum entry Finished // io.github.maniramezan.testcommons/FlowObservation.End.Finished|null[0]
+        enum entry LimitReached // io.github.maniramezan.testcommons/FlowObservation.End.LimitReached|null[0]
+        enum entry Matched // io.github.maniramezan.testcommons/FlowObservation.End.Matched|null[0]
+        enum entry TimedOut // io.github.maniramezan.testcommons/FlowObservation.End.TimedOut|null[0]
+
+        final val entries // io.github.maniramezan.testcommons/FlowObservation.End.entries|#static{}entries[0]
+            final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.maniramezan.testcommons/FlowObservation.End> // io.github.maniramezan.testcommons/FlowObservation.End.entries.<get-entries>|<get-entries>#static(){}[0]
+
+        final fun valueOf(kotlin/String): io.github.maniramezan.testcommons/FlowObservation.End // io.github.maniramezan.testcommons/FlowObservation.End.valueOf|valueOf#static(kotlin.String){}[0]
+        final fun values(): kotlin/Array<io.github.maniramezan.testcommons/FlowObservation.End> // io.github.maniramezan.testcommons/FlowObservation.End.values|values#static(){}[0]
+    }
+}
+
+final class <#A: kotlin/Any?> io.github.maniramezan.testcommons/ScriptedValues { // io.github.maniramezan.testcommons/ScriptedValues|null[0]
+    constructor <init>(kotlin.collections/List<#A>, io.github.maniramezan.testcommons/ScriptedValues.Exhaustion<#A> = ...) // io.github.maniramezan.testcommons/ScriptedValues.<init>|<init>(kotlin.collections.List<1:0>;io.github.maniramezan.testcommons.ScriptedValues.Exhaustion<1:0>){}[0]
+
+    final val remainingCount // io.github.maniramezan.testcommons/ScriptedValues.remainingCount|{}remainingCount[0]
+        final fun <get-remainingCount>(): kotlin/Int // io.github.maniramezan.testcommons/ScriptedValues.remainingCount.<get-remainingCount>|<get-remainingCount>(){}[0]
+
+    final fun next(): #A // io.github.maniramezan.testcommons/ScriptedValues.next|next(){}[0]
+
+    sealed interface <#A1: out kotlin/Any?> Exhaustion { // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion|null[0]
+        final class <#A2: kotlin/Any?> Fallback : io.github.maniramezan.testcommons/ScriptedValues.Exhaustion<#A2> { // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fallback|null[0]
+            constructor <init>(#A2) // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fallback.<init>|<init>(1:0){}[0]
+
+            final val value // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fallback.value|{}value[0]
+                final fun <get-value>(): #A2 // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fallback.value.<get-value>|<get-value>(){}[0]
+
+            final fun component1(): #A2 // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fallback.component1|component1(){}[0]
+            final fun copy(#A2 = ...): io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fallback<#A2> // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fallback.copy|copy(1:0){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fallback.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fallback.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fallback.toString|toString(){}[0]
+        }
+
+        final object Fail : io.github.maniramezan.testcommons/ScriptedValues.Exhaustion<kotlin/Nothing> { // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fail|null[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fail.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fail.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.Fail.toString|toString(){}[0]
+        }
+
+        final object RepeatLast : io.github.maniramezan.testcommons/ScriptedValues.Exhaustion<kotlin/Nothing> { // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.RepeatLast|null[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.RepeatLast.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.RepeatLast.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // io.github.maniramezan.testcommons/ScriptedValues.Exhaustion.RepeatLast.toString|toString(){}[0]
+        }
+    }
+
+    final class Exhausted : kotlin/IllegalStateException { // io.github.maniramezan.testcommons/ScriptedValues.Exhausted|null[0]
+        constructor <init>(kotlin/Int) // io.github.maniramezan.testcommons/ScriptedValues.Exhausted.<init>|<init>(kotlin.Int){}[0]
+
+        final val consumedCount // io.github.maniramezan.testcommons/ScriptedValues.Exhausted.consumedCount|{}consumedCount[0]
+            final fun <get-consumedCount>(): kotlin/Int // io.github.maniramezan.testcommons/ScriptedValues.Exhausted.consumedCount.<get-consumedCount>|<get-consumedCount>(){}[0]
+    }
+}
+
+final class io.github.maniramezan.testcommons/AsyncGate { // io.github.maniramezan.testcommons/AsyncGate|null[0]
+    constructor <init>() // io.github.maniramezan.testcommons/AsyncGate.<init>|<init>(){}[0]
+
+    final val isOpen // io.github.maniramezan.testcommons/AsyncGate.isOpen|{}isOpen[0]
+        final fun <get-isOpen>(): kotlin/Boolean // io.github.maniramezan.testcommons/AsyncGate.isOpen.<get-isOpen>|<get-isOpen>(){}[0]
+    final val waiterCount // io.github.maniramezan.testcommons/AsyncGate.waiterCount|{}waiterCount[0]
+        final fun <get-waiterCount>(): kotlin/Int // io.github.maniramezan.testcommons/AsyncGate.waiterCount.<get-waiterCount>|<get-waiterCount>(){}[0]
+
+    final fun open() // io.github.maniramezan.testcommons/AsyncGate.open|open(){}[0]
+    final suspend fun await() // io.github.maniramezan.testcommons/AsyncGate.await|await(){}[0]
+}
+
+final class io.github.maniramezan.testcommons/AutomationId { // io.github.maniramezan.testcommons/AutomationId|null[0]
+    constructor <init>(kotlin/String) // io.github.maniramezan.testcommons/AutomationId.<init>|<init>(kotlin.String){}[0]
+
+    final val namespace // io.github.maniramezan.testcommons/AutomationId.namespace|{}namespace[0]
+        final fun <get-namespace>(): kotlin/String // io.github.maniramezan.testcommons/AutomationId.namespace.<get-namespace>|<get-namespace>(){}[0]
+
+    final fun make(kotlin/String, kotlin/String, kotlin/String, kotlin/String? = ...): kotlin/String // io.github.maniramezan.testcommons/AutomationId.make|make(kotlin.String;kotlin.String;kotlin.String;kotlin.String?){}[0]
+
+    final object Companion { // io.github.maniramezan.testcommons/AutomationId.Companion|null[0]
+        final fun encodeKey(kotlin/String): kotlin/String // io.github.maniramezan.testcommons/AutomationId.Companion.encodeKey|encodeKey(kotlin.String){}[0]
+        final fun isSegment(kotlin/String): kotlin/Boolean // io.github.maniramezan.testcommons/AutomationId.Companion.isSegment|isSegment(kotlin.String){}[0]
+    }
+}
+
+final class io.github.maniramezan.testcommons/Frame { // io.github.maniramezan.testcommons/Frame|null[0]
+    constructor <init>(kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float) // io.github.maniramezan.testcommons/Frame.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+
+    final val bottom // io.github.maniramezan.testcommons/Frame.bottom|{}bottom[0]
+        final fun <get-bottom>(): kotlin/Float // io.github.maniramezan.testcommons/Frame.bottom.<get-bottom>|<get-bottom>(){}[0]
+    final val centerX // io.github.maniramezan.testcommons/Frame.centerX|{}centerX[0]
+        final fun <get-centerX>(): kotlin/Float // io.github.maniramezan.testcommons/Frame.centerX.<get-centerX>|<get-centerX>(){}[0]
+    final val centerY // io.github.maniramezan.testcommons/Frame.centerY|{}centerY[0]
+        final fun <get-centerY>(): kotlin/Float // io.github.maniramezan.testcommons/Frame.centerY.<get-centerY>|<get-centerY>(){}[0]
+    final val height // io.github.maniramezan.testcommons/Frame.height|{}height[0]
+        final fun <get-height>(): kotlin/Float // io.github.maniramezan.testcommons/Frame.height.<get-height>|<get-height>(){}[0]
+    final val left // io.github.maniramezan.testcommons/Frame.left|{}left[0]
+        final fun <get-left>(): kotlin/Float // io.github.maniramezan.testcommons/Frame.left.<get-left>|<get-left>(){}[0]
+    final val right // io.github.maniramezan.testcommons/Frame.right|{}right[0]
+        final fun <get-right>(): kotlin/Float // io.github.maniramezan.testcommons/Frame.right.<get-right>|<get-right>(){}[0]
+    final val top // io.github.maniramezan.testcommons/Frame.top|{}top[0]
+        final fun <get-top>(): kotlin/Float // io.github.maniramezan.testcommons/Frame.top.<get-top>|<get-top>(){}[0]
+    final val width // io.github.maniramezan.testcommons/Frame.width|{}width[0]
+        final fun <get-width>(): kotlin/Float // io.github.maniramezan.testcommons/Frame.width.<get-width>|<get-width>(){}[0]
+
+    final fun component1(): kotlin/Float // io.github.maniramezan.testcommons/Frame.component1|component1(){}[0]
+    final fun component2(): kotlin/Float // io.github.maniramezan.testcommons/Frame.component2|component2(){}[0]
+    final fun component3(): kotlin/Float // io.github.maniramezan.testcommons/Frame.component3|component3(){}[0]
+    final fun component4(): kotlin/Float // io.github.maniramezan.testcommons/Frame.component4|component4(){}[0]
+    final fun copy(kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ...): io.github.maniramezan.testcommons/Frame // io.github.maniramezan.testcommons/Frame.copy|copy(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.maniramezan.testcommons/Frame.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.maniramezan.testcommons/Frame.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.maniramezan.testcommons/Frame.toString|toString(){}[0]
+
+    final object Companion { // io.github.maniramezan.testcommons/Frame.Companion|null[0]
+        final fun fromSize(kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float): io.github.maniramezan.testcommons/Frame // io.github.maniramezan.testcommons/Frame.Companion.fromSize|fromSize(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+    }
+}
+
+final class io.github.maniramezan.testcommons/ManualClock : kotlin.time/Clock, kotlin.time/TimeSource.WithComparableMarks { // io.github.maniramezan.testcommons/ManualClock|null[0]
+    constructor <init>(kotlin.time/Instant = ...) // io.github.maniramezan.testcommons/ManualClock.<init>|<init>(kotlin.time.Instant){}[0]
+
+    final val elapsed // io.github.maniramezan.testcommons/ManualClock.elapsed|{}elapsed[0]
+        final fun <get-elapsed>(): kotlin.time/Duration // io.github.maniramezan.testcommons/ManualClock.elapsed.<get-elapsed>|<get-elapsed>(){}[0]
+    final val sleeperCount // io.github.maniramezan.testcommons/ManualClock.sleeperCount|{}sleeperCount[0]
+        final fun <get-sleeperCount>(): kotlin/Int // io.github.maniramezan.testcommons/ManualClock.sleeperCount.<get-sleeperCount>|<get-sleeperCount>(){}[0]
+    final val start // io.github.maniramezan.testcommons/ManualClock.start|{}start[0]
+        final fun <get-start>(): kotlin.time/Instant // io.github.maniramezan.testcommons/ManualClock.start.<get-start>|<get-start>(){}[0]
+
+    final fun advanceBy(kotlin.time/Duration) // io.github.maniramezan.testcommons/ManualClock.advanceBy|advanceBy(kotlin.time.Duration){}[0]
+    final fun advanceTo(kotlin.time/Duration) // io.github.maniramezan.testcommons/ManualClock.advanceTo|advanceTo(kotlin.time.Duration){}[0]
+    final fun currentTimeMillis(): kotlin/Long // io.github.maniramezan.testcommons/ManualClock.currentTimeMillis|currentTimeMillis(){}[0]
+    final fun markNow(): kotlin.time/ComparableTimeMark // io.github.maniramezan.testcommons/ManualClock.markNow|markNow(){}[0]
+    final fun now(): kotlin.time/Instant // io.github.maniramezan.testcommons/ManualClock.now|now(){}[0]
+    final suspend fun sleep(kotlin.time/Duration) // io.github.maniramezan.testcommons/ManualClock.sleep|sleep(kotlin.time.Duration){}[0]
+    final suspend fun sleepUntil(kotlin.time/Duration) // io.github.maniramezan.testcommons/ManualClock.sleepUntil|sleepUntil(kotlin.time.Duration){}[0]
+    final suspend fun waitForSleepers(kotlin/Int, kotlin.time/Duration = ...) // io.github.maniramezan.testcommons/ManualClock.waitForSleepers|waitForSleepers(kotlin.Int;kotlin.time.Duration){}[0]
+}
+
+final class io.github.maniramezan.testcommons/ObservationTimeout : kotlin/Exception { // io.github.maniramezan.testcommons/ObservationTimeout|null[0]
+    constructor <init>(kotlin/Any?) // io.github.maniramezan.testcommons/ObservationTimeout.<init>|<init>(kotlin.Any?){}[0]
+
+    final val lastObservation // io.github.maniramezan.testcommons/ObservationTimeout.lastObservation|{}lastObservation[0]
+        final fun <get-lastObservation>(): kotlin/Any? // io.github.maniramezan.testcommons/ObservationTimeout.lastObservation.<get-lastObservation>|<get-lastObservation>(){}[0]
+}
+
+final class io.github.maniramezan.testcommons/TestError : kotlin/Exception { // io.github.maniramezan.testcommons/TestError|null[0]
+    constructor <init>() // io.github.maniramezan.testcommons/TestError.<init>|<init>(){}[0]
+
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.maniramezan.testcommons/TestError.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.maniramezan.testcommons/TestError.hashCode|hashCode(){}[0]
+}
+
+final object io.github.maniramezan.testcommons/FrameGeometry { // io.github.maniramezan.testcommons/FrameGeometry|null[0]
+    final fun contains(io.github.maniramezan.testcommons/Frame, io.github.maniramezan.testcommons/Frame, kotlin/Float = ...): kotlin/Boolean // io.github.maniramezan.testcommons/FrameGeometry.contains|contains(io.github.maniramezan.testcommons.Frame;io.github.maniramezan.testcommons.Frame;kotlin.Float){}[0]
+    final fun horizontalGap(io.github.maniramezan.testcommons/Frame, io.github.maniramezan.testcommons/Frame): kotlin/Float? // io.github.maniramezan.testcommons/FrameGeometry.horizontalGap|horizontalGap(io.github.maniramezan.testcommons.Frame;io.github.maniramezan.testcommons.Frame){}[0]
+    final fun horizontallyAligned(io.github.maniramezan.testcommons/Frame, io.github.maniramezan.testcommons/Frame, kotlin/Float = ...): kotlin/Boolean // io.github.maniramezan.testcommons/FrameGeometry.horizontallyAligned|horizontallyAligned(io.github.maniramezan.testcommons.Frame;io.github.maniramezan.testcommons.Frame;kotlin.Float){}[0]
+    final fun isUsable(io.github.maniramezan.testcommons/Frame): kotlin/Boolean // io.github.maniramezan.testcommons/FrameGeometry.isUsable|isUsable(io.github.maniramezan.testcommons.Frame){}[0]
+    final fun overlaps(io.github.maniramezan.testcommons/Frame, io.github.maniramezan.testcommons/Frame): kotlin/Boolean // io.github.maniramezan.testcommons/FrameGeometry.overlaps|overlaps(io.github.maniramezan.testcommons.Frame;io.github.maniramezan.testcommons.Frame){}[0]
+}
+
+final object io.github.maniramezan.testcommons/ReadingOrder { // io.github.maniramezan.testcommons/ReadingOrder|null[0]
+    final const val DEFAULT_ROW_TOLERANCE // io.github.maniramezan.testcommons/ReadingOrder.DEFAULT_ROW_TOLERANCE|{}DEFAULT_ROW_TOLERANCE[0]
+        final fun <get-DEFAULT_ROW_TOLERANCE>(): kotlin/Float // io.github.maniramezan.testcommons/ReadingOrder.DEFAULT_ROW_TOLERANCE.<get-DEFAULT_ROW_TOLERANCE>|<get-DEFAULT_ROW_TOLERANCE>(){}[0]
+
+    final fun <#A1: kotlin/Comparable<#A1>> firstAdjacentPair(kotlin.collections/Map<#A1, io.github.maniramezan.testcommons/Frame>, kotlin/Function1<#A1, #A1>, kotlin/Float = ...): kotlin/Pair<io.github.maniramezan.testcommons/Frame, io.github.maniramezan.testcommons/Frame>? // io.github.maniramezan.testcommons/ReadingOrder.firstAdjacentPair|firstAdjacentPair(kotlin.collections.Map<0:0,io.github.maniramezan.testcommons.Frame>;kotlin.Function1<0:0,0:0>;kotlin.Float){0§<kotlin.Comparable<0:0>>}[0]
+    final fun follows(io.github.maniramezan.testcommons/Frame, io.github.maniramezan.testcommons/Frame, io.github.maniramezan.testcommons/ReadingDirection, kotlin/Float = ...): kotlin/Boolean // io.github.maniramezan.testcommons/ReadingOrder.follows|follows(io.github.maniramezan.testcommons.Frame;io.github.maniramezan.testcommons.Frame;io.github.maniramezan.testcommons.ReadingDirection;kotlin.Float){}[0]
+    final fun sharesRow(io.github.maniramezan.testcommons/Frame, io.github.maniramezan.testcommons/Frame, kotlin/Float = ...): kotlin/Boolean // io.github.maniramezan.testcommons/ReadingOrder.sharesRow|sharesRow(io.github.maniramezan.testcommons.Frame;io.github.maniramezan.testcommons.Frame;kotlin.Float){}[0]
+}
+
+final fun io.github.maniramezan.testcommons/fixtureEnvironment(kotlin.collections/Map<kotlin/String, kotlin/String> = ..., kotlin.collections/Map<kotlin/String, kotlin/String?>): kotlin.collections/Map<kotlin/String, kotlin/String> // io.github.maniramezan.testcommons/fixtureEnvironment|fixtureEnvironment(kotlin.collections.Map<kotlin.String,kotlin.String>;kotlin.collections.Map<kotlin.String,kotlin.String?>){}[0]
+final inline fun <#A: kotlin/Any?, #B: kotlin/Any?> io.github.maniramezan.testcommons/roundTrip(#A, kotlin/Function1<#A, #B>, kotlin/Function1<#B, #A>): #A // io.github.maniramezan.testcommons/roundTrip|roundTrip(0:0;kotlin.Function1<0:0,0:1>;kotlin.Function1<0:1,0:0>){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
+final suspend fun <#A: kotlin/Any?> io.github.maniramezan.testcommons/observeFlow(kotlinx.coroutines.flow/Flow<#A>, kotlin/Int, kotlin.time/Duration, kotlin/Function1<#A, kotlin/Boolean> = ...): io.github.maniramezan.testcommons/FlowObservation<#A> // io.github.maniramezan.testcommons/observeFlow|observeFlow(kotlinx.coroutines.flow.Flow<0:0>;kotlin.Int;kotlin.time.Duration;kotlin.Function1<0:0,kotlin.Boolean>){0§<kotlin.Any?>}[0]
+final suspend fun <#A: kotlin/Any?> io.github.maniramezan.testcommons/waitUntil(kotlin.time/Duration, kotlin.time/Duration = ..., kotlin.coroutines/SuspendFunction0<#A>, kotlin/Function1<#A, kotlin/Boolean>): #A // io.github.maniramezan.testcommons/waitUntil|waitUntil(kotlin.time.Duration;kotlin.time.Duration;kotlin.coroutines.SuspendFunction0<0:0>;kotlin.Function1<0:0,kotlin.Boolean>){0§<kotlin.Any?>}[0]

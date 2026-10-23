@@ -1,0 +1,16 @@
+public final class io/github/maniramezan/testcommons/junit/MainDispatcherExtension : org/junit/jupiter/api/extension/AfterEachCallback, org/junit/jupiter/api/extension/BeforeEachCallback {
+	public fun <init> ()V
+	public fun <init> (Lkotlinx/coroutines/test/TestDispatcher;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/test/TestDispatcher;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun afterEach (Lorg/junit/jupiter/api/extension/ExtensionContext;)V
+	public fun beforeEach (Lorg/junit/jupiter/api/extension/ExtensionContext;)V
+	public final fun getDispatcher ()Lkotlinx/coroutines/test/TestDispatcher;
+}
+
+public final class io/github/maniramezan/testcommons/junit/MainDispatcherRule : org/junit/rules/TestWatcher {
+	public fun <init> ()V
+	public fun <init> (Lkotlinx/coroutines/test/TestDispatcher;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/test/TestDispatcher;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getDispatcher ()Lkotlinx/coroutines/test/TestDispatcher;
+}
+

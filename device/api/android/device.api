@@ -1,0 +1,121 @@
+public final class io/github/maniramezan/testcommons/device/AccessibilityElement {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/maniramezan/testcommons/Frame;ZZZZZZZZZILio/github/maniramezan/testcommons/device/AccessibilityElement;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10 ()Z
+	public final fun component11 ()Z
+	public final fun component12 ()Z
+	public final fun component13 ()Z
+	public final fun component14 ()Z
+	public final fun component15 ()Z
+	public final fun component16 ()Z
+	public final fun component17 ()I
+	public final fun component18 ()Lio/github/maniramezan/testcommons/device/AccessibilityElement;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Lio/github/maniramezan/testcommons/Frame;
+	public final fun component8 ()Z
+	public final fun component9 ()Z
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/maniramezan/testcommons/Frame;ZZZZZZZZZILio/github/maniramezan/testcommons/device/AccessibilityElement;)Lio/github/maniramezan/testcommons/device/AccessibilityElement;
+	public static synthetic fun copy$default (Lio/github/maniramezan/testcommons/device/AccessibilityElement;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/maniramezan/testcommons/Frame;ZZZZZZZZZILio/github/maniramezan/testcommons/device/AccessibilityElement;ILjava/lang/Object;)Lio/github/maniramezan/testcommons/device/AccessibilityElement;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getClassName ()Ljava/lang/String;
+	public final fun getClickableAncestor ()Lio/github/maniramezan/testcommons/device/AccessibilityElement;
+	public final fun getContentDescription ()Ljava/lang/String;
+	public final fun getDepth ()I
+	public final fun getFrame ()Lio/github/maniramezan/testcommons/Frame;
+	public final fun getHintText ()Ljava/lang/String;
+	public final fun getLabel ()Ljava/lang/String;
+	public final fun getPackageName ()Ljava/lang/String;
+	public final fun getResourceEntryName ()Ljava/lang/String;
+	public final fun getResourceName ()Ljava/lang/String;
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun isChecked ()Z
+	public final fun isClickable ()Z
+	public final fun isEnabled ()Z
+	public final fun isFocused ()Z
+	public final fun isLongClickable ()Z
+	public final fun isPassword ()Z
+	public final fun isScrollable ()Z
+	public final fun isSelected ()Z
+	public final fun isVisibleToUser ()Z
+	public final fun matches (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z
+	public static synthetic fun matches$default (Lio/github/maniramezan/testcommons/device/AccessibilityElement;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/maniramezan/testcommons/device/AccessibilitySnapshot {
+	public static final field DEFAULT_MAX_DEPTH I
+	public static final field INSTANCE Lio/github/maniramezan/testcommons/device/AccessibilitySnapshot;
+	public final fun capture (Ljava/lang/String;ILandroid/app/UiAutomation;)Ljava/util/List;
+	public static synthetic fun capture$default (Lio/github/maniramezan/testcommons/device/AccessibilitySnapshot;Ljava/lang/String;ILandroid/app/UiAutomation;ILjava/lang/Object;)Ljava/util/List;
+}
+
+public final class io/github/maniramezan/testcommons/device/DeviceSettingsKt {
+	public static final fun setAnimationsEnabled (Landroidx/test/uiautomator/UiDevice;Z)V
+	public static final fun setAppLocales (Landroidx/test/uiautomator/UiDevice;Ljava/lang/String;Ljava/util/List;)V
+}
+
+public final class io/github/maniramezan/testcommons/device/DiagnosticsOnFailureRule : org/junit/rules/TestWatcher {
+	public fun <init> ()V
+	public fun <init> (Ljava/io/File;)V
+	public synthetic fun <init> (Ljava/io/File;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getDirectory ()Ljava/io/File;
+}
+
+public final class io/github/maniramezan/testcommons/device/GesturesKt {
+	public static final fun dragWithHold (Landroidx/test/uiautomator/UiDevice;IIIIJJLandroid/app/UiAutomation;)Z
+	public static synthetic fun dragWithHold$default (Landroidx/test/uiautomator/UiDevice;IIIIJJLandroid/app/UiAutomation;ILjava/lang/Object;)Z
+	public static final fun isKeyboardVisible (Landroidx/test/uiautomator/UiDevice;)Z
+	public static final fun pressBackReliably (Landroidx/test/uiautomator/UiDevice;Landroid/app/UiAutomation;)Z
+	public static synthetic fun pressBackReliably$default (Landroidx/test/uiautomator/UiDevice;Landroid/app/UiAutomation;ILjava/lang/Object;)Z
+}
+
+public class io/github/maniramezan/testcommons/device/InstrumentationArgsRunner : androidx/test/runner/AndroidJUnitRunner {
+	public fun <init> (Ljava/util/Set;)V
+	public fun onCreate (Landroid/os/Bundle;)V
+}
+
+public final class io/github/maniramezan/testcommons/device/InstrumentationArgumentsKt {
+	public static final fun instrumentationArgument (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class io/github/maniramezan/testcommons/device/LaunchKt {
+	public static final fun launchPackage (Landroidx/test/uiautomator/UiDevice;Ljava/lang/String;J)V
+	public static synthetic fun launchPackage$default (Landroidx/test/uiautomator/UiDevice;Ljava/lang/String;JILjava/lang/Object;)V
+	public static final fun launchTargetApp ()Landroidx/test/core/app/ActivityScenario;
+}
+
+public final class io/github/maniramezan/testcommons/device/ObjectQueriesKt {
+	public static final field DEFAULT_DEVICE_TIMEOUT_MILLIS J
+	public static final fun scrollUntilVisible (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;Landroidx/test/uiautomator/BySelector;Landroidx/test/uiautomator/Direction;I)Landroidx/test/uiautomator/UiObject2;
+	public static synthetic fun scrollUntilVisible$default (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;Landroidx/test/uiautomator/BySelector;Landroidx/test/uiautomator/Direction;IILjava/lang/Object;)Landroidx/test/uiautomator/UiObject2;
+	public static final fun setTextVerified (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;Ljava/lang/String;J)V
+	public static synthetic fun setTextVerified$default (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;Ljava/lang/String;JILjava/lang/Object;)V
+	public static final fun uniqueObject (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;J)Landroidx/test/uiautomator/UiObject2;
+	public static synthetic fun uniqueObject$default (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;JILjava/lang/Object;)Landroidx/test/uiautomator/UiObject2;
+}
+
+public final class io/github/maniramezan/testcommons/device/TapTargetKt {
+	public static final fun findTapTarget (Ljava/util/List;Lkotlin/jvm/functions/Function1;)Lio/github/maniramezan/testcommons/device/AccessibilityElement;
+}
+
+public final class io/github/maniramezan/testcommons/device/ViewMatchersKt {
+	public static final fun containsText (Landroid/view/View;Ljava/lang/String;Z)Z
+	public static synthetic fun containsText$default (Landroid/view/View;Ljava/lang/String;ZILjava/lang/Object;)Z
+	public static final fun hasResourceEntryName (Ljava/lang/String;)Lorg/hamcrest/Matcher;
+	public static final fun withIndex (Lorg/hamcrest/Matcher;I)Lorg/hamcrest/Matcher;
+}
+
+public final class io/github/maniramezan/testcommons/device/ViewWaitsKt {
+	public static final fun waitForView (Lorg/hamcrest/Matcher;JZ)Landroidx/test/espresso/ViewAction;
+	public static synthetic fun waitForView$default (Lorg/hamcrest/Matcher;JZILjava/lang/Object;)Landroidx/test/espresso/ViewAction;
+	public static final fun waitUntilDisplayed (Lorg/hamcrest/Matcher;J)V
+	public static synthetic fun waitUntilDisplayed$default (Lorg/hamcrest/Matcher;JILjava/lang/Object;)V
+	public static final fun waitUntilNotDisplayed (Lorg/hamcrest/Matcher;J)V
+	public static synthetic fun waitUntilNotDisplayed$default (Lorg/hamcrest/Matcher;JILjava/lang/Object;)V
+}
+

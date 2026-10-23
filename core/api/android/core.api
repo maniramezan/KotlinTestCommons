@@ -1,0 +1,248 @@
+public final class io/github/maniramezan/testcommons/AsyncGate {
+	public fun <init> ()V
+	public final fun await (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun getWaiterCount ()I
+	public final fun isOpen ()Z
+	public final fun open ()V
+}
+
+public final class io/github/maniramezan/testcommons/AutomationId {
+	public static final field Companion Lio/github/maniramezan/testcommons/AutomationId$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun make (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static synthetic fun make$default (Lio/github/maniramezan/testcommons/AutomationId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
+}
+
+public final class io/github/maniramezan/testcommons/AutomationId$Companion {
+	public final fun encodeKey (Ljava/lang/String;)Ljava/lang/String;
+	public final fun isSegment (Ljava/lang/String;)Z
+}
+
+public final class io/github/maniramezan/testcommons/CallRecorder {
+	public fun <init> ()V
+	public final fun getCount ()I
+	public final fun lastValue ()Ljava/lang/Object;
+	public final fun record (Ljava/lang/Object;)V
+	public final fun reset ()V
+	public final fun values ()Ljava/util/List;
+	public final fun waitForCalls-8Mi8wO0 (IJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun waitForCalls-8Mi8wO0$default (Lio/github/maniramezan/testcommons/CallRecorder;IJLkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class io/github/maniramezan/testcommons/FixtureDirectory {
+	public static final field Companion Lio/github/maniramezan/testcommons/FixtureDirectory$Companion;
+	public fun <init> (Ljava/io/File;)V
+	public final fun bytes (Ljava/lang/String;)[B
+	public final fun getRoot ()Ljava/io/File;
+	public final fun text (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class io/github/maniramezan/testcommons/FixtureDirectory$Companion {
+	public final fun fromResources (Ljava/lang/Class;Ljava/lang/String;)Lio/github/maniramezan/testcommons/FixtureDirectory;
+	public static synthetic fun fromResources$default (Lio/github/maniramezan/testcommons/FixtureDirectory$Companion;Ljava/lang/Class;Ljava/lang/String;ILjava/lang/Object;)Lio/github/maniramezan/testcommons/FixtureDirectory;
+}
+
+public final class io/github/maniramezan/testcommons/FixtureEnvironmentKt {
+	public static final fun fixtureEnvironment (Ljava/util/Map;Ljava/util/Map;)Ljava/util/Map;
+	public static synthetic fun fixtureEnvironment$default (Ljava/util/Map;Ljava/util/Map;ILjava/lang/Object;)Ljava/util/Map;
+}
+
+public final class io/github/maniramezan/testcommons/FlowObservation {
+	public fun <init> (Ljava/util/List;Lio/github/maniramezan/testcommons/FlowObservation$End;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Lio/github/maniramezan/testcommons/FlowObservation$End;
+	public final fun copy (Ljava/util/List;Lio/github/maniramezan/testcommons/FlowObservation$End;)Lio/github/maniramezan/testcommons/FlowObservation;
+	public static synthetic fun copy$default (Lio/github/maniramezan/testcommons/FlowObservation;Ljava/util/List;Lio/github/maniramezan/testcommons/FlowObservation$End;ILjava/lang/Object;)Lio/github/maniramezan/testcommons/FlowObservation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEnd ()Lio/github/maniramezan/testcommons/FlowObservation$End;
+	public final fun getValues ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/maniramezan/testcommons/FlowObservation$End : java/lang/Enum {
+	public static final field Finished Lio/github/maniramezan/testcommons/FlowObservation$End;
+	public static final field LimitReached Lio/github/maniramezan/testcommons/FlowObservation$End;
+	public static final field Matched Lio/github/maniramezan/testcommons/FlowObservation$End;
+	public static final field TimedOut Lio/github/maniramezan/testcommons/FlowObservation$End;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/maniramezan/testcommons/FlowObservation$End;
+	public static fun values ()[Lio/github/maniramezan/testcommons/FlowObservation$End;
+}
+
+public final class io/github/maniramezan/testcommons/Frame {
+	public static final field Companion Lio/github/maniramezan/testcommons/Frame$Companion;
+	public fun <init> (FFFF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun copy (FFFF)Lio/github/maniramezan/testcommons/Frame;
+	public static synthetic fun copy$default (Lio/github/maniramezan/testcommons/Frame;FFFFILjava/lang/Object;)Lio/github/maniramezan/testcommons/Frame;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBottom ()F
+	public final fun getCenterX ()F
+	public final fun getCenterY ()F
+	public final fun getHeight ()F
+	public final fun getLeft ()F
+	public final fun getRight ()F
+	public final fun getTop ()F
+	public final fun getWidth ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/maniramezan/testcommons/Frame$Companion {
+	public final fun fromSize (FFFF)Lio/github/maniramezan/testcommons/Frame;
+}
+
+public final class io/github/maniramezan/testcommons/FrameGeometry {
+	public static final field INSTANCE Lio/github/maniramezan/testcommons/FrameGeometry;
+	public final fun contains (Lio/github/maniramezan/testcommons/Frame;Lio/github/maniramezan/testcommons/Frame;F)Z
+	public static synthetic fun contains$default (Lio/github/maniramezan/testcommons/FrameGeometry;Lio/github/maniramezan/testcommons/Frame;Lio/github/maniramezan/testcommons/Frame;FILjava/lang/Object;)Z
+	public final fun horizontalGap (Lio/github/maniramezan/testcommons/Frame;Lio/github/maniramezan/testcommons/Frame;)Ljava/lang/Float;
+	public final fun horizontallyAligned (Lio/github/maniramezan/testcommons/Frame;Lio/github/maniramezan/testcommons/Frame;F)Z
+	public static synthetic fun horizontallyAligned$default (Lio/github/maniramezan/testcommons/FrameGeometry;Lio/github/maniramezan/testcommons/Frame;Lio/github/maniramezan/testcommons/Frame;FILjava/lang/Object;)Z
+	public final fun isUsable (Lio/github/maniramezan/testcommons/Frame;)Z
+	public final fun overlaps (Lio/github/maniramezan/testcommons/Frame;Lio/github/maniramezan/testcommons/Frame;)Z
+}
+
+public final class io/github/maniramezan/testcommons/ManualClock : kotlin/time/Clock, kotlin/time/TimeSource$WithComparableMarks {
+	public fun <init> ()V
+	public fun <init> (Lkotlin/time/Instant;)V
+	public synthetic fun <init> (Lkotlin/time/Instant;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun advanceBy-LRDsOJo (J)V
+	public final fun advanceTo-LRDsOJo (J)V
+	public final fun currentTimeMillis ()J
+	public final fun getElapsed-UwyO8pc ()J
+	public final fun getSleeperCount ()I
+	public final fun getStart ()Lkotlin/time/Instant;
+	public fun markNow ()Lkotlin/time/ComparableTimeMark;
+	public synthetic fun markNow ()Lkotlin/time/TimeMark;
+	public fun now ()Lkotlin/time/Instant;
+	public final fun sleep-VtjQ1oo (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun sleepUntil-VtjQ1oo (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun waitForSleepers-8Mi8wO0 (IJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun waitForSleepers-8Mi8wO0$default (Lio/github/maniramezan/testcommons/ManualClock;IJLkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class io/github/maniramezan/testcommons/ObservationTimeout : java/lang/Exception {
+	public fun <init> (Ljava/lang/Object;)V
+	public final fun getLastObservation ()Ljava/lang/Object;
+}
+
+public final class io/github/maniramezan/testcommons/ObserveFlowKt {
+	public static final fun observeFlow-1Y68eR8 (Lkotlinx/coroutines/flow/Flow;IJLkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun observeFlow-1Y68eR8$default (Lkotlinx/coroutines/flow/Flow;IJLkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class io/github/maniramezan/testcommons/ReadingDirection : java/lang/Enum {
+	public static final field LeftToRight Lio/github/maniramezan/testcommons/ReadingDirection;
+	public static final field RightToLeft Lio/github/maniramezan/testcommons/ReadingDirection;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/maniramezan/testcommons/ReadingDirection;
+	public static fun values ()[Lio/github/maniramezan/testcommons/ReadingDirection;
+}
+
+public final class io/github/maniramezan/testcommons/ReadingOrder {
+	public static final field DEFAULT_ROW_TOLERANCE F
+	public static final field INSTANCE Lio/github/maniramezan/testcommons/ReadingOrder;
+	public final fun firstAdjacentPair (Ljava/util/Map;Lkotlin/jvm/functions/Function1;F)Lkotlin/Pair;
+	public static synthetic fun firstAdjacentPair$default (Lio/github/maniramezan/testcommons/ReadingOrder;Ljava/util/Map;Lkotlin/jvm/functions/Function1;FILjava/lang/Object;)Lkotlin/Pair;
+	public final fun follows (Lio/github/maniramezan/testcommons/Frame;Lio/github/maniramezan/testcommons/Frame;Lio/github/maniramezan/testcommons/ReadingDirection;F)Z
+	public static synthetic fun follows$default (Lio/github/maniramezan/testcommons/ReadingOrder;Lio/github/maniramezan/testcommons/Frame;Lio/github/maniramezan/testcommons/Frame;Lio/github/maniramezan/testcommons/ReadingDirection;FILjava/lang/Object;)Z
+	public final fun sharesRow (Lio/github/maniramezan/testcommons/Frame;Lio/github/maniramezan/testcommons/Frame;F)Z
+	public static synthetic fun sharesRow$default (Lio/github/maniramezan/testcommons/ReadingOrder;Lio/github/maniramezan/testcommons/Frame;Lio/github/maniramezan/testcommons/Frame;FILjava/lang/Object;)Z
+}
+
+public final class io/github/maniramezan/testcommons/RoundTripKt {
+	public static final fun roundTrip (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+}
+
+public final class io/github/maniramezan/testcommons/ScriptedResponder {
+	public fun <init> (Ljava/util/List;Lkotlin/Result;)V
+	public synthetic fun <init> (Ljava/util/List;Lkotlin/Result;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getCallCount ()I
+	public final fun getRequests ()Ljava/util/List;
+	public final fun hold (I)Lio/github/maniramezan/testcommons/AsyncGate;
+	public final fun respond (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun waitForCalls-8Mi8wO0 (IJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun waitForCalls-8Mi8wO0$default (Lio/github/maniramezan/testcommons/ScriptedResponder;IJLkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class io/github/maniramezan/testcommons/ScriptedResponder$Exhausted : java/lang/IllegalStateException {
+	public fun <init> (I)V
+	public final fun getCallIndex ()I
+}
+
+public final class io/github/maniramezan/testcommons/ScriptedValues {
+	public fun <init> (Ljava/util/List;Lio/github/maniramezan/testcommons/ScriptedValues$Exhaustion;)V
+	public synthetic fun <init> (Ljava/util/List;Lio/github/maniramezan/testcommons/ScriptedValues$Exhaustion;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getRemainingCount ()I
+	public final fun next ()Ljava/lang/Object;
+}
+
+public final class io/github/maniramezan/testcommons/ScriptedValues$Exhausted : java/lang/IllegalStateException {
+	public fun <init> (I)V
+	public final fun getConsumedCount ()I
+}
+
+public abstract interface class io/github/maniramezan/testcommons/ScriptedValues$Exhaustion {
+}
+
+public final class io/github/maniramezan/testcommons/ScriptedValues$Exhaustion$Fail : io/github/maniramezan/testcommons/ScriptedValues$Exhaustion {
+	public static final field INSTANCE Lio/github/maniramezan/testcommons/ScriptedValues$Exhaustion$Fail;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/maniramezan/testcommons/ScriptedValues$Exhaustion$Fallback : io/github/maniramezan/testcommons/ScriptedValues$Exhaustion {
+	public fun <init> (Ljava/lang/Object;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun copy (Ljava/lang/Object;)Lio/github/maniramezan/testcommons/ScriptedValues$Exhaustion$Fallback;
+	public static synthetic fun copy$default (Lio/github/maniramezan/testcommons/ScriptedValues$Exhaustion$Fallback;Ljava/lang/Object;ILjava/lang/Object;)Lio/github/maniramezan/testcommons/ScriptedValues$Exhaustion$Fallback;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()Ljava/lang/Object;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/maniramezan/testcommons/ScriptedValues$Exhaustion$RepeatLast : io/github/maniramezan/testcommons/ScriptedValues$Exhaustion {
+	public static final field INSTANCE Lio/github/maniramezan/testcommons/ScriptedValues$Exhaustion$RepeatLast;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/maniramezan/testcommons/SnapshotReferenceDirectory {
+	public static final field DEFAULT_DIRECTORY_NAME Ljava/lang/String;
+	public static final field INSTANCE Lio/github/maniramezan/testcommons/SnapshotReferenceDirectory;
+	public final fun resolve (Ljava/lang/Class;Ljava/util/List;Ljava/lang/String;)Ljava/io/File;
+	public final fun resolve (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)Ljava/io/File;
+	public static synthetic fun resolve$default (Lio/github/maniramezan/testcommons/SnapshotReferenceDirectory;Ljava/lang/Class;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Ljava/io/File;
+	public static synthetic fun resolve$default (Lio/github/maniramezan/testcommons/SnapshotReferenceDirectory;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Ljava/io/File;
+}
+
+public final class io/github/maniramezan/testcommons/TemporaryDirectory {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/io/File;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/io/File;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getFile ()Ljava/io/File;
+	public final fun remove ()V
+	public final fun write (Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;
+	public final fun write ([BLjava/lang/String;)Ljava/io/File;
+}
+
+public final class io/github/maniramezan/testcommons/TestError : java/lang/Exception {
+	public fun <init> ()V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+}
+
+public final class io/github/maniramezan/testcommons/WaitUntilKt {
+	public static final fun waitUntil-ePrTys8 (JJLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun waitUntil-ePrTys8$default (JJLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
