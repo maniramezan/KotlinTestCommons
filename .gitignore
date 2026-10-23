@@ -1,0 +1,13 @@
+.gradle/
+build/
+**/build/
+local.properties
+.idea/
+*.iml
+.DS_Store
+captures/
+.kotlin/
+*.profraw
+
+# Claude Code local settings (never commit)
+.claude/settings.local.json

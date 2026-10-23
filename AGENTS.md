@@ -1,0 +1,21 @@
+# Repository Guidelines
+
+- Make changes on a feature branch and merge through a pull request. Never push directly to `main`, including force pushes or deletions.
+- Enable the repository push guard in each checkout with `git config --local core.hooksPath .githooks`.
+- Kotlin 2.4, AGP 9, JDK 17 bytecode, Android minSdk 26. Verify current stable versions online before adding or bumping a dependency, plugin, or GitHub Action, and pin exact versions.
+- Module rules:
+  - `core` (KMP: JVM, Android, iOS) must stay free of JUnit, kotlin-test, coroutines-test, Compose, and AndroidX Test so tools and apps can ship it. Its only dependency is `kotlinx-coroutines-core`. Java file helpers go in `jvmSharedMain`.
+  - `junit` (JVM) holds JUnit 4 rules and JUnit 5 extensions. Jupiter stays `compileOnly`.
+  - `compose` (KMP) holds Compose UI test helpers. Common helpers target `ComposeUiTest`/`SemanticsNodeInteractionsProvider`; JUnit 4 `ComposeTestRule` helpers go in `jvmSharedMain`; `DeviceConfigurationOverride` helpers are Android-only.
+  - `device` (Android-only KMP) holds Espresso and UiAutomator helpers. Move device-free logic into internal functions with host tests.
+- Helpers are generic: no app, product, or design-system identifiers. Take app-specific details, such as a theme or an ID namespace, as parameters.
+- `explicitApi()` everywhere: every public declaration has KDoc with `@param`, `@return`, and `@throws` where they apply. One public type per file, named after the type; extension and top-level functions live in a file named for the feature. Tests mirror sources.
+- Comments go on their own line above the code they describe, never at the end of a line.
+- Before every PR, run:
+  - `./gradlew check` (tests on every target, ktlint, `checkKotlinAbi`, and Kover floors)
+  - `./gradlew koverXmlReport && python3 Scripts/check-coverage.py --diff-base origin/main`
+  - `./gradlew :device:connectedAndroidDeviceTest` with an emulator attached when `device` changes
+- After an intended public API change, run `./gradlew updateApi` and commit the `*/api/` dumps.
+- Coverage floors (`minBound` in each module's `build.gradle.kts`) only go up; never lower them to pass a PR. At least 90% of changed lines must be covered, except in `device`.
+- Conventional Commits drive releases: `feat` → minor, `fix`/`perf` → patch while pre-1.0; other types do not release. Tags are bare SemVer (`0.1.0`), never `v0.1.0`.
+- Never add a `Co-Authored-By` trailer. Never add a `CHANGELOG.md`; release notes live on GitHub Releases.
