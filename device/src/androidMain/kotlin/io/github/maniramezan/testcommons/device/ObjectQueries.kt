@@ -84,9 +84,10 @@ public fun UiDevice.scrollUntilVisible(
             ?: findObjects(By.scrollable(true))
                 .maxByOrNull { it.visibleBounds.width() * it.visibleBounds.height() }
             ?: return null
-        val moved = runCatching { scroller.scroll(direction, 0.8f) }.getOrDefault(false)
+        // `scroll` reports `false` whenever it sees no scroll event in time, which slow devices
+        // can report mid-list, so only the budget ends the search.
+        runCatching { scroller.scroll(direction, 0.8f) }
         waitForIdle()
-        if (!moved) return findObject(target)
     }
     return null
 }
