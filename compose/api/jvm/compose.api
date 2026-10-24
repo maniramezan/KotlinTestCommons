@@ -33,6 +33,8 @@ public final class io/github/maniramezan/testcommons/compose/RuleWaitsKt {
 	public static synthetic fun waitForAnyTag$default (Landroidx/compose/ui/test/junit4/ComposeTestRule;[Ljava/lang/String;JILjava/lang/Object;)Ljava/lang/String;
 	public static final fun waitForContentDescription (Landroidx/compose/ui/test/junit4/ComposeTestRule;Ljava/lang/String;J)Landroidx/compose/ui/test/SemanticsNodeInteraction;
 	public static synthetic fun waitForContentDescription$default (Landroidx/compose/ui/test/junit4/ComposeTestRule;Ljava/lang/String;JILjava/lang/Object;)Landroidx/compose/ui/test/SemanticsNodeInteraction;
+	public static final fun waitForTag (Landroidx/compose/ui/test/junit4/ComposeTestRule;Ljava/lang/String;JZ)Landroidx/compose/ui/test/SemanticsNodeInteraction;
+	public static synthetic fun waitForTag$default (Landroidx/compose/ui/test/junit4/ComposeTestRule;Ljava/lang/String;JZILjava/lang/Object;)Landroidx/compose/ui/test/SemanticsNodeInteraction;
 	public static final fun waitForText (Landroidx/compose/ui/test/junit4/ComposeTestRule;Ljava/lang/String;ZJ)Landroidx/compose/ui/test/SemanticsNodeInteraction;
 	public static synthetic fun waitForText$default (Landroidx/compose/ui/test/junit4/ComposeTestRule;Ljava/lang/String;ZJILjava/lang/Object;)Landroidx/compose/ui/test/SemanticsNodeInteraction;
 	public static final fun waitUntilDisplayed (Landroidx/compose/ui/test/junit4/ComposeTestRule;Landroidx/compose/ui/test/SemanticsMatcher;JZ)Landroidx/compose/ui/test/SemanticsNodeInteraction;
@@ -83,6 +85,8 @@ public final class io/github/maniramezan/testcommons/compose/WaitsKt {
 	public static synthetic fun waitForAnyTag$default (Landroidx/compose/ui/test/ComposeUiTest;[Ljava/lang/String;JILjava/lang/Object;)Ljava/lang/String;
 	public static final fun waitForContentDescription (Landroidx/compose/ui/test/ComposeUiTest;Ljava/lang/String;J)Landroidx/compose/ui/test/SemanticsNodeInteraction;
 	public static synthetic fun waitForContentDescription$default (Landroidx/compose/ui/test/ComposeUiTest;Ljava/lang/String;JILjava/lang/Object;)Landroidx/compose/ui/test/SemanticsNodeInteraction;
+	public static final fun waitForTag (Landroidx/compose/ui/test/ComposeUiTest;Ljava/lang/String;JZ)Landroidx/compose/ui/test/SemanticsNodeInteraction;
+	public static synthetic fun waitForTag$default (Landroidx/compose/ui/test/ComposeUiTest;Ljava/lang/String;JZILjava/lang/Object;)Landroidx/compose/ui/test/SemanticsNodeInteraction;
 	public static final fun waitForText (Landroidx/compose/ui/test/ComposeUiTest;Ljava/lang/String;ZJ)Landroidx/compose/ui/test/SemanticsNodeInteraction;
 	public static synthetic fun waitForText$default (Landroidx/compose/ui/test/ComposeUiTest;Ljava/lang/String;ZJILjava/lang/Object;)Landroidx/compose/ui/test/SemanticsNodeInteraction;
 	public static final fun waitUntilDisplayed (Landroidx/compose/ui/test/ComposeUiTest;Landroidx/compose/ui/test/SemanticsMatcher;JZ)Landroidx/compose/ui/test/SemanticsNodeInteraction;

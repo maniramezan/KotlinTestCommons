@@ -45,6 +45,8 @@ class WaitsTest {
                 }
             }
             waitForText("Ready").assertIsDisplayed()
+            waitForTag("ready").assertIsDisplayed()
+            waitForTag("ready", useUnmergedTree = true).assertIsDisplayed()
             waitForText("Rea", substring = true)
             waitForContentDescription("Close")
             assertEquals("ready", waitForAnyTag("missing", "ready"))
@@ -55,10 +57,11 @@ class WaitsTest {
     fun offScreenNodesAreNotDisplayed() =
         runComposeUiTest {
             setContent {
-                BasicText("Hidden", Modifier.offset(x = 10_000.dp))
+                BasicText("Hidden", Modifier.offset(x = 10_000.dp).testTag("hidden"))
             }
             assertFailsWith<ComposeTimeoutException> { waitUntilDisplayed(hasText("Hidden"), timeoutMillis = 100) }
             waitUntilGone(hasText("Hidden"), timeoutMillis = 100)
+            assertFailsWith<ComposeTimeoutException> { waitForTag("hidden", timeoutMillis = 100) }
             assertFailsWith<ComposeTimeoutException> { waitForAnyTag("absent", timeoutMillis = 100) }
             assertFailsWith<IllegalArgumentException> { waitForAnyTag() }
         }

@@ -69,15 +69,24 @@ class DeviceHelpersTest {
         assertFailsWith<AssertionError> { device.uniqueObject(By.text("Missing"), timeoutMillis = 100) }
         device.setTextVerified(By.res("android:id/edit"), "Ada")
         device.setTextVerified(By.res("android:id/input"), "secret")
-        assertTrue(device.isKeyboardVisible() || !device.isKeyboardVisible())
     }
 
     @Test
     fun scrollsUntilVisibleWithinItsBudget() {
+        assertNotNull(device.scrollUntilVisible(By.text("Save"), maxScrolls = 0))
         assertNull(device.scrollUntilVisible(By.text("Item 59"), maxScrolls = 0))
+        assertNull(
+            device.scrollUntilVisible(By.text("Item 59"), container = By.res("missing-container"), maxScrolls = 1),
+        )
+        assertNotNull(device.findObject(By.text("Save")))
         assertNotNull(device.scrollUntilVisible(By.text("Item 59"), direction = Direction.DOWN, maxScrolls = 20))
         assertNotNull(
-            device.scrollUntilVisible(By.text("Save"), container = By.scrollable(true), direction = Direction.UP),
+            device.scrollUntilVisible(
+                By.text("Save"),
+                container = By.scrollable(true),
+                direction = Direction.UP,
+                maxScrolls = 20,
+            ),
         )
     }
 

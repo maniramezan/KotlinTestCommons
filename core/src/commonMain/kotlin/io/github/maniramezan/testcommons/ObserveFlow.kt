@@ -20,6 +20,8 @@ import kotlin.time.Duration
  * completes, or when [timeout] passes, and reports which one happened. The timeout runs on
  * [Dispatchers.Default], so it measures real time even inside `runTest`; collection stays
  * on the caller's dispatcher. Zero budgets collect nothing.
+ * The budget starts before collection, including synchronous upstream work. Collection must
+ * cooperate with cancellation; a timeout cannot interrupt blocking or non-cooperative code.
  *
  * ```kotlin
  * val observation = observeFlow(viewModel.state, maxCount = 5, timeout = 2.seconds) { it.isLoaded }
@@ -47,7 +49,7 @@ public suspend fun <T> observeFlow(
     val values = mutableListOf<T>()
     val timedOut = AtomicBoolean(false)
     return coroutineScope {
-        val collector = async(start = CoroutineStart.UNDISPATCHED) {
+        val collector = async(start = CoroutineStart.LAZY) {
             try {
                 flow.collect { value ->
                     values += value
@@ -59,7 +61,7 @@ public suspend fun <T> observeFlow(
                 stop.end
             }
         }
-        val timer = launch(Dispatchers.Default) {
+        val timer = launch(Dispatchers.Default, start = CoroutineStart.UNDISPATCHED) {
             delay(timeout)
             timedOut.store(true)
             collector.cancel()

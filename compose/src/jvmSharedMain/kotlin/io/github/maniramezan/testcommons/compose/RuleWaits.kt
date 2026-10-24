@@ -3,6 +3,7 @@ package io.github.maniramezan.testcommons.compose
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeTestRule
 
@@ -52,6 +53,21 @@ public fun ComposeTestRule.waitForText(
     substring: Boolean = false,
     timeoutMillis: Long = DEFAULT_UI_TIMEOUT_MILLIS,
 ): SemanticsNodeInteraction = waitUntilDisplayed(hasText(text, substring = substring), timeoutMillis)
+
+/**
+ * Waits until a node with [tag] is displayed and returns it.
+ *
+ * @param tag The exact test tag.
+ * @param timeoutMillis The wait budget.
+ * @param useUnmergedTree Whether to search the unmerged semantics tree.
+ * @return The first displayed node with the tag.
+ * @throws androidx.compose.ui.test.ComposeTimeoutException when no matching node is displayed in time.
+ */
+public fun ComposeTestRule.waitForTag(
+    tag: String,
+    timeoutMillis: Long = DEFAULT_UI_TIMEOUT_MILLIS,
+    useUnmergedTree: Boolean = false,
+): SemanticsNodeInteraction = waitUntilDisplayed(hasTestTag(tag), timeoutMillis, useUnmergedTree)
 
 /**
  * Waits until a node with content description [description] is displayed and returns it.
