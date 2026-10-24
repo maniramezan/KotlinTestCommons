@@ -38,7 +38,8 @@ public fun UiDevice.uniqueObject(selector: BySelector, timeout: Duration = Defau
 /**
  * Replaces the text of the single field matching [selector] and verifies the result.
  *
- * Password fields report masked text, so for them this only verifies that the text changed.
+ * Password fields report masked text, so for them this only verifies that the text changed. The
+ * accessibility tree is read to detect a password field only when the text doesn't already match.
  *
  * @param selector Selects one editable field.
  * @param text The new contents.
@@ -52,12 +53,12 @@ public fun UiDevice.setTextVerified(
 ) {
     val field = uniqueObject(selector, timeout)
     val before = field.text.orEmpty()
-    val isPassword = field.isPassword()
     field.click()
     field.text = text
     waitForIdle()
     val after = field.text.orEmpty()
-    if (!textReplaced(before, after, text, isPassword)) {
+    val isPassword by lazy(LazyThreadSafetyMode.NONE) { field.isPassword() }
+    if (!textReplaced(before, after, text) { isPassword }) {
         throw AssertionError("Expected $selector to contain '${if (isPassword) "•".repeat(text.length) else text}'")
     }
 }
@@ -122,10 +123,12 @@ internal fun <T> scrollWithinBudget(maxScrolls: Int, findTarget: () -> T?, scrol
 
 /**
  * Returns whether a text replacement succeeded: exact text for plain fields; for password fields,
- * which report masks, any change to nonempty content.
+ * which report masks, any change to nonempty content. [isPassword] is read only when the text
+ * differs from [expected] and the content changed.
  */
-internal fun textReplaced(before: String, after: String, expected: String, isPassword: Boolean): Boolean =
-    after == expected || (isPassword && expected.isNotEmpty() && after.isNotEmpty() && after != before)
+internal fun textReplaced(before: String, after: String, expected: String, isPassword: () -> Boolean): Boolean =
+    after == expected ||
+        (expected.isNotEmpty() && after.isNotEmpty() && after != before && isPassword())
 
 private fun UiObject2.isPassword(): Boolean {
     val bounds = runCatching { visibleBounds }.getOrNull() ?: return false

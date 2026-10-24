@@ -1,0 +1,14 @@
+public final class io/github/maniramezan/testcommons/coroutines/MainDispatcherFixture {
+	public fun <init> ()V
+	public fun <init> (Lkotlinx/coroutines/test/TestDispatcher;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/test/TestDispatcher;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getDispatcher ()Lkotlinx/coroutines/test/TestDispatcher;
+	public final fun install ()V
+	public final fun reset ()V
+}
+
+public final class io/github/maniramezan/testcommons/coroutines/RunTestWithMainKt {
+	public static final fun runTestWithMain-Kx4hsE0 (Lkotlinx/coroutines/test/TestDispatcher;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun runTestWithMain-Kx4hsE0$default (Lkotlinx/coroutines/test/TestDispatcher;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+}
+

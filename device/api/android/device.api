@@ -69,7 +69,8 @@ public final class io/github/maniramezan/testcommons/device/DiagnosticsOnFailure
 public final class io/github/maniramezan/testcommons/device/GesturesKt {
 	public static final fun dragWithHold (Landroidx/test/uiautomator/UiDevice;IIIIJJLandroid/app/UiAutomation;)Z
 	public static synthetic fun dragWithHold$default (Landroidx/test/uiautomator/UiDevice;IIIIJJLandroid/app/UiAutomation;ILjava/lang/Object;)Z
-	public static final fun isKeyboardVisible (Landroidx/test/uiautomator/UiDevice;)Z
+	public static final fun isKeyboardVisible (Landroidx/test/uiautomator/UiDevice;Landroid/app/UiAutomation;)Z
+	public static synthetic fun isKeyboardVisible$default (Landroidx/test/uiautomator/UiDevice;Landroid/app/UiAutomation;ILjava/lang/Object;)Z
 	public static final fun pressBackReliably (Landroidx/test/uiautomator/UiDevice;Landroid/app/UiAutomation;)Z
 	public static synthetic fun pressBackReliably$default (Landroidx/test/uiautomator/UiDevice;Landroid/app/UiAutomation;ILjava/lang/Object;)Z
 }

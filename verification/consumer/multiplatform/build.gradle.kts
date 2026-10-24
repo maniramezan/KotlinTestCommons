@@ -32,6 +32,7 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation("io.github.maniramezan.testcommons:coroutines:$testCommonsVersion")
         }
         androidMain.dependencies {
             implementation("io.github.maniramezan.testcommons:device:$testCommonsVersion")

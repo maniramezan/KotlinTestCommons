@@ -23,7 +23,7 @@ public object AccessibilitySnapshot {
      *
      * Clears the accessibility cache first on API 34+, so a navigation is never answered with the
      * previous screen. Enables interactive-window retrieval so windows of apps other than the
-     * instrumentation target are included.
+     * instrumentation target are included. That setting stays on for the rest of the test process.
      *
      * @param packageName When set, keeps only elements from this package.
      * @param maxDepth The maximum depth to walk from each window root.
@@ -52,14 +52,20 @@ public object AccessibilitySnapshot {
         }
         return if (packageName.isNullOrBlank()) elements else elements.filter { it.packageName == packageName }
     }
+}
 
-    private fun enableInteractiveWindows(uiAutomation: UiAutomation) {
-        runCatching {
-            val info = uiAutomation.serviceInfo ?: return
-            if (info.flags and AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS == 0) {
-                info.flags = info.flags or AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
-                uiAutomation.serviceInfo = info
-            }
+/**
+ * Turns on interactive-window retrieval so [UiAutomation.getWindows] includes windows of apps
+ * other than the instrumentation target.
+ *
+ * This changes the automation connection's service info for the rest of the test process.
+ */
+internal fun enableInteractiveWindows(uiAutomation: UiAutomation) {
+    runCatching {
+        val info = uiAutomation.serviceInfo ?: return
+        if (info.flags and AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS == 0) {
+            info.flags = info.flags or AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
+            uiAutomation.serviceInfo = info
         }
     }
 }

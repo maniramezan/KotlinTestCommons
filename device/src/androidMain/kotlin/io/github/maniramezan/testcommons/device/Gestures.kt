@@ -6,6 +6,7 @@ import android.os.SystemClock
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
+import android.view.accessibility.AccessibilityWindowInfo
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 
@@ -78,12 +79,29 @@ public fun UiDevice.pressBackReliably(
 }
 
 /**
- * Returns whether the on-screen keyboard is shown, from the input method service's state.
+ * Returns whether the on-screen keyboard is shown, from the window list rather than shell output.
  *
- * @return `true` when the input method reports its window as shown.
+ * Enables interactive-window retrieval, which stays on for the rest of the test process.
+ *
+ * @param uiAutomation The automation connection that lists the windows.
+ * @return `true` when an input method window is on screen.
  */
-public fun UiDevice.isKeyboardVisible(): Boolean =
-    executeShellCommand("dumpsys input_method").lineSequence().any { "mInputShown=true" in it }
+public fun UiDevice.isKeyboardVisible(
+    uiAutomation: UiAutomation = InstrumentationRegistry.getInstrumentation().uiAutomation,
+): Boolean {
+    enableInteractiveWindows(uiAutomation)
+    val windows = runCatching { uiAutomation.windows }.getOrNull().orEmpty()
+    try {
+        return hasInputMethodWindow(windows.map { it.type })
+    } finally {
+        @Suppress("DEPRECATION")
+        for (window in windows) runCatching { window.recycle() }
+    }
+}
+
+/** Returns whether any of the [windowTypes] is an input method window. */
+internal fun hasInputMethodWindow(windowTypes: List<Int>): Boolean =
+    windowTypes.any { it == AccessibilityWindowInfo.TYPE_INPUT_METHOD }
 
 /** Returns the number of move events for a drag lasting [durationMillis]; at least one. */
 internal fun moveSteps(durationMillis: Long): Int = (durationMillis / MOVE_INTERVAL_MILLIS).toInt().coerceAtLeast(1)
