@@ -67,6 +67,7 @@ public fun UiDevice.setTextVerified(
  * before the first scroll and after the last one, and makes no scrolls for a nonpositive budget.
  * A missing explicit container ends the search. A scroll's event result does not end the search;
  * transiently stale containers are looked up again on the next attempt.
+ * Gestures stay 20% inside each container edge to avoid system bars and app chrome.
  *
  * @param target Selects the object to reveal.
  * @param container Selects the object to scroll, or `null` to pick one.
@@ -93,6 +94,7 @@ public fun UiDevice.scrollUntilVisible(
             false
         } else {
             try {
+                scroller.setGestureMarginPercentage(0.2f)
                 scroller.scroll(direction, 0.8f)
             } catch (_: StaleObjectException) {
             }

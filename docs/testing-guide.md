@@ -121,6 +121,8 @@ container when several lists could contain the target. UiAutomator's `scrollUnti
 before scrolling and after every attempt, including the final attempt. A false scroll result can mean
 no accessibility event arrived; the helper continues within its attempt budget. A nonpositive budget
 performs a lookup without scrolling. An explicit missing container ends the search.
+Gestures use a 20% inset from container edges so small screens do not send a return scroll into system
+bars or app chrome.
 
 `DiagnosticsOnFailureRule` saves a screenshot and hierarchy in the instrumentation package's external
 files directory, under `test-diagnostics/<TestClass>/`. Pull that directory before uninstalling the

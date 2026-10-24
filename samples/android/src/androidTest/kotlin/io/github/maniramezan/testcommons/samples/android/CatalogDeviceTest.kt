@@ -28,9 +28,9 @@ class CatalogDeviceTest {
         val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         launchTargetApp().use {
             device.setTextVerified(By.res(SampleIds.name), "Grace")
+            if (device.isKeyboardVisible()) device.pressBackReliably()
             device.uniqueObject(By.res(SampleIds.save)).click()
             device.uniqueObject(By.text("Hello, Grace!"))
-            if (device.isKeyboardVisible()) device.pressBackReliably()
             device.uniqueObject(By.res(SampleIds.list))
             assertNotNull(device.scrollUntilVisible(By.res(SampleIds.lesson(40)), maxScrolls = 30))
             val elements = AccessibilitySnapshot.capture(

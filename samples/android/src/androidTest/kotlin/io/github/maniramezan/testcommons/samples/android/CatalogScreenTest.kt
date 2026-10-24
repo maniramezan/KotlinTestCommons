@@ -29,8 +29,10 @@ class CatalogScreenTest {
         composeRule.setContent {
             CatalogScreen(CatalogState(isLoading = false, lessons = List(40) { "Lesson ${it + 1}" }), onReload = {})
         }
+        composeRule.scrollToNode(hasTestTag(SampleIds.name))
         composeRule.waitForTag(SampleIds.name).replaceTextVerified("Ada")
-        composeRule.waitForTag(SampleIds.save).assertMinimumTouchTarget().performClick()
+        composeRule.scrollToNode(hasTestTag(SampleIds.save)).assertMinimumTouchTarget().performClick()
+        composeRule.scrollToNode(hasTestTag(SampleIds.greeting))
         composeRule.waitForText("Hello, Ada!").assertIsDisplayed()
         composeRule.scrollToNode(hasTestTag(SampleIds.lesson(40))).assertIsDisplayed()
         composeRule.waitUntilGone(hasTestTag(SampleIds.loading))
