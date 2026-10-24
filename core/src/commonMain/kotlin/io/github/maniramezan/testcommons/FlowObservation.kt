@@ -10,15 +10,15 @@ public data class FlowObservation<T>(val values: List<T>, val end: End) {
     /** Why observation stopped. */
     public enum class End {
         /** The predicate accepted an event. */
-        Matched,
+        MATCHED,
 
         /** The event budget was consumed. */
-        LimitReached,
+        LIMIT_REACHED,
 
         /** The flow completed before matching or reaching the limit. */
-        Finished,
+        FINISHED,
 
         /** The real-time deadline passed. */
-        TimedOut,
+        TIMED_OUT,
     }
 }

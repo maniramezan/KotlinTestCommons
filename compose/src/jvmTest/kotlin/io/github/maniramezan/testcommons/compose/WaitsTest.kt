@@ -24,6 +24,7 @@ import kotlinx.coroutines.delay
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.time.Duration.Companion.milliseconds
 
 class WaitsTest {
     @Test
@@ -48,9 +49,20 @@ class WaitsTest {
             waitForTag("ready").assertIsDisplayed()
             waitForTag("ready", useUnmergedTree = true).assertIsDisplayed()
             waitForText("Rea", substring = true)
+            waitForText("Ready", useUnmergedTree = true).assertIsDisplayed()
             waitForContentDescription("Close")
+            waitForContentDescription("Close", useUnmergedTree = true).assertIsDisplayed()
             assertEquals("ready", waitForAnyTag("missing", "ready"))
             waitUntilGone(hasText("Loading"))
+        }
+
+    @Test
+    fun rejectsNegativeTimeouts() =
+        runComposeUiTest {
+            setContent { BasicText("Ready") }
+            assertFailsWith<IllegalArgumentException> { waitForText("Ready", timeout = (-1).milliseconds) }
+            assertFailsWith<IllegalArgumentException> { waitUntilGone(hasText("Ready"), timeout = (-1).milliseconds) }
+            assertFailsWith<IllegalArgumentException> { waitForAnyTag("ready", timeout = (-1).milliseconds) }
         }
 
     @Test
@@ -59,10 +71,12 @@ class WaitsTest {
             setContent {
                 BasicText("Hidden", Modifier.offset(x = 10_000.dp).testTag("hidden"))
             }
-            assertFailsWith<ComposeTimeoutException> { waitUntilDisplayed(hasText("Hidden"), timeoutMillis = 100) }
-            waitUntilGone(hasText("Hidden"), timeoutMillis = 100)
-            assertFailsWith<ComposeTimeoutException> { waitForTag("hidden", timeoutMillis = 100) }
-            assertFailsWith<ComposeTimeoutException> { waitForAnyTag("absent", timeoutMillis = 100) }
+            assertFailsWith<ComposeTimeoutException> {
+                waitUntilDisplayed(hasText("Hidden"), timeout = 100.milliseconds)
+            }
+            waitUntilGone(hasText("Hidden"), timeout = 100.milliseconds)
+            assertFailsWith<ComposeTimeoutException> { waitForTag("hidden", timeout = 100.milliseconds) }
+            assertFailsWith<ComposeTimeoutException> { waitForAnyTag("absent", timeout = 100.milliseconds) }
             assertFailsWith<IllegalArgumentException> { waitForAnyTag() }
         }
 

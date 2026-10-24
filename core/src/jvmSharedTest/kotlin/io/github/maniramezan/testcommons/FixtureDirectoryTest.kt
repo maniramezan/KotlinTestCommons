@@ -36,4 +36,14 @@ class FixtureDirectoryTest {
             FixtureDirectory.fromResources(Test::class.java, "org/junit")
         }
     }
+
+    @Test
+    fun rejectsTheClassPathRoot() {
+        assertFailsWith<IllegalArgumentException> {
+            FixtureDirectory.fromResources(FixtureDirectoryTest::class.java, "")
+        }
+        assertFailsWith<IllegalArgumentException> {
+            FixtureDirectory.fromResources(FixtureDirectoryTest::class.java, "/")
+        }
+    }
 }

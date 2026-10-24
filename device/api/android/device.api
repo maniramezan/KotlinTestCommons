@@ -84,19 +84,19 @@ public final class io/github/maniramezan/testcommons/device/InstrumentationArgum
 }
 
 public final class io/github/maniramezan/testcommons/device/LaunchKt {
-	public static final fun launchPackage (Landroidx/test/uiautomator/UiDevice;Ljava/lang/String;J)V
-	public static synthetic fun launchPackage$default (Landroidx/test/uiautomator/UiDevice;Ljava/lang/String;JILjava/lang/Object;)V
+	public static final fun launchPackage-SxA4cEA (Landroidx/test/uiautomator/UiDevice;Ljava/lang/String;J)V
+	public static synthetic fun launchPackage-SxA4cEA$default (Landroidx/test/uiautomator/UiDevice;Ljava/lang/String;JILjava/lang/Object;)V
 	public static final fun launchTargetApp ()Landroidx/test/core/app/ActivityScenario;
 }
 
 public final class io/github/maniramezan/testcommons/device/ObjectQueriesKt {
-	public static final field DEFAULT_DEVICE_TIMEOUT_MILLIS J
+	public static final fun getDefaultDeviceTimeout ()J
 	public static final fun scrollUntilVisible (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;Landroidx/test/uiautomator/BySelector;Landroidx/test/uiautomator/Direction;I)Landroidx/test/uiautomator/UiObject2;
 	public static synthetic fun scrollUntilVisible$default (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;Landroidx/test/uiautomator/BySelector;Landroidx/test/uiautomator/Direction;IILjava/lang/Object;)Landroidx/test/uiautomator/UiObject2;
-	public static final fun setTextVerified (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;Ljava/lang/String;J)V
-	public static synthetic fun setTextVerified$default (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;Ljava/lang/String;JILjava/lang/Object;)V
-	public static final fun uniqueObject (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;J)Landroidx/test/uiautomator/UiObject2;
-	public static synthetic fun uniqueObject$default (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;JILjava/lang/Object;)Landroidx/test/uiautomator/UiObject2;
+	public static final fun setTextVerified-Wn2Vu4Y (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;Ljava/lang/String;J)V
+	public static synthetic fun setTextVerified-Wn2Vu4Y$default (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;Ljava/lang/String;JILjava/lang/Object;)V
+	public static final fun uniqueObject-SxA4cEA (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;J)Landroidx/test/uiautomator/UiObject2;
+	public static synthetic fun uniqueObject-SxA4cEA$default (Landroidx/test/uiautomator/UiDevice;Landroidx/test/uiautomator/BySelector;JILjava/lang/Object;)Landroidx/test/uiautomator/UiObject2;
 }
 
 public final class io/github/maniramezan/testcommons/device/TapTargetKt {
@@ -111,11 +111,11 @@ public final class io/github/maniramezan/testcommons/device/ViewMatchersKt {
 }
 
 public final class io/github/maniramezan/testcommons/device/ViewWaitsKt {
-	public static final fun waitForView (Lorg/hamcrest/Matcher;JZ)Landroidx/test/espresso/ViewAction;
-	public static synthetic fun waitForView$default (Lorg/hamcrest/Matcher;JZILjava/lang/Object;)Landroidx/test/espresso/ViewAction;
-	public static final fun waitUntilDisplayed (Lorg/hamcrest/Matcher;J)V
-	public static synthetic fun waitUntilDisplayed$default (Lorg/hamcrest/Matcher;JILjava/lang/Object;)V
-	public static final fun waitUntilNotDisplayed (Lorg/hamcrest/Matcher;J)V
-	public static synthetic fun waitUntilNotDisplayed$default (Lorg/hamcrest/Matcher;JILjava/lang/Object;)V
+	public static final fun waitForView-8Mi8wO0 (Lorg/hamcrest/Matcher;JZ)Landroidx/test/espresso/ViewAction;
+	public static synthetic fun waitForView-8Mi8wO0$default (Lorg/hamcrest/Matcher;JZILjava/lang/Object;)Landroidx/test/espresso/ViewAction;
+	public static final fun waitUntilDisplayed-HG0u8IE (Lorg/hamcrest/Matcher;J)V
+	public static synthetic fun waitUntilDisplayed-HG0u8IE$default (Lorg/hamcrest/Matcher;JILjava/lang/Object;)V
+	public static final fun waitUntilNotDisplayed-HG0u8IE (Lorg/hamcrest/Matcher;J)V
+	public static synthetic fun waitUntilNotDisplayed-HG0u8IE$default (Lorg/hamcrest/Matcher;JILjava/lang/Object;)V
 }
 

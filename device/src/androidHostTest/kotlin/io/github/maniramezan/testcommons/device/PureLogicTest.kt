@@ -1,6 +1,7 @@
 package io.github.maniramezan.testcommons.device
 
 import android.os.Bundle
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -9,6 +10,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [35])
@@ -18,6 +21,14 @@ class PureLogicTest {
         assertEquals(1, moveSteps(0))
         assertEquals(50, moveSteps(500))
         assertEquals(listOf(5f to 10f, 10f to 20f), dragPath(0, 0, 10, 20, 2))
+    }
+
+    @Test
+    fun timeoutsConvertToNonnegativeMillis() {
+        assertEquals(5_000L, waitMillis(DefaultDeviceTimeout))
+        assertEquals(0L, waitMillis(Duration.ZERO))
+        assertFailsWith<IllegalArgumentException> { waitMillis((-1).milliseconds) }
+        assertFailsWith<IllegalArgumentException> { waitForView(isRoot(), (-1).milliseconds) }
     }
 
     @Test

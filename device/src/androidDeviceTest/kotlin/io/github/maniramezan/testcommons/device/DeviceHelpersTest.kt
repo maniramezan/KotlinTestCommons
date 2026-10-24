@@ -20,6 +20,7 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.milliseconds
 
 @RunWith(AndroidJUnit4::class)
 class DeviceHelpersTest {
@@ -56,9 +57,9 @@ class DeviceHelpersTest {
     @Test
     fun espressoWaitsForDelayedViews() {
         waitUntilDisplayed(withText("Loaded"))
-        waitUntilNotDisplayed(withText("Missing"), timeoutMillis = 100)
+        waitUntilNotDisplayed(withText("Missing"), timeout = 100.milliseconds)
         assertFailsWith<androidx.test.espresso.PerformException> {
-            waitUntilDisplayed(withText("Missing"), timeoutMillis = 200)
+            waitUntilDisplayed(withText("Missing"), timeout = 200.milliseconds)
         }
     }
 
@@ -66,7 +67,7 @@ class DeviceHelpersTest {
     fun objectQueriesRejectAmbiguityAndVerifyText() {
         assertEquals("Save", device.uniqueObject(By.text("Save")).text)
         assertFailsWith<AssertionError> { device.uniqueObject(By.clazz("android.widget.EditText")) }
-        assertFailsWith<AssertionError> { device.uniqueObject(By.text("Missing"), timeoutMillis = 100) }
+        assertFailsWith<AssertionError> { device.uniqueObject(By.text("Missing"), timeout = 100.milliseconds) }
         device.setTextVerified(By.res("android:id/edit"), "Ada")
         device.setTextVerified(By.res("android:id/input"), "secret")
     }

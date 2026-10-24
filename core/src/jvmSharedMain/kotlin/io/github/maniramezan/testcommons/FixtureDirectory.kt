@@ -43,16 +43,20 @@ public class FixtureDirectory(public val root: File) {
          * Returns a reader for a directory on [owner]'s class path, such as `src/test/resources/fixtures`.
          *
          * Pass a class from the owning test source set so another module's resources with the
-         * same name cannot be selected. Resources packed in a JAR are not supported.
+         * same name cannot be selected. Resources packed in a JAR are not supported. The class
+         * path root itself is rejected: it resolves to the first entry, usually compiled classes
+         * rather than resources, so keep fixtures in a named folder.
          *
          * @param owner A class loaded from the test resources' class path entry.
-         * @param directory The resource directory, relative to the class path root.
+         * @param directory The nonempty resource directory, relative to the class path root.
          * @return The reader.
+         * @throws IllegalArgumentException when [directory] names the class path root.
          * @throws FileNotFoundException when the directory is not on the class path as a folder.
          */
-        public fun fromResources(owner: Class<*>, directory: String = ""): FixtureDirectory {
+        public fun fromResources(owner: Class<*>, directory: String): FixtureDirectory {
             val path = directory.trim('/')
-            val url = owner.classLoader?.getResource(path.ifEmpty { "." })
+            require(path.isNotEmpty()) { "directory must name a resource folder, not the class path root" }
+            val url = owner.classLoader?.getResource(path)
                 ?: throw FileNotFoundException("Resource directory '$path' is not on the class path")
             if (url.protocol != "file") throw FileNotFoundException("Resource directory '$path' is not a folder: $url")
             return FixtureDirectory(File(url.toURI()))

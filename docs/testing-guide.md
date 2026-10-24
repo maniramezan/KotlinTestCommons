@@ -106,7 +106,7 @@ val observation = observeFlow(flowOf("Loading", "Ready"), maxCount = 5, timeout 
     it == "Ready"
 }
 assertEquals(listOf("Loading", "Ready"), observation.values)
-assertEquals(FlowObservation.End.Matched, observation.end)
+assertEquals(FlowObservation.End.MATCHED, observation.end)
 ```
 
 The budget uses cooperative cancellation; it cannot interrupt arbitrary blocking code. An event

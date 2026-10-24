@@ -22,18 +22,18 @@ class ObserveFlowTest {
     fun stopsWhenThePredicateMatches() =
         runTest {
             val observation = observeFlow(flowOf(1, 2, 3, 4), maxCount = 10, timeout = 1.seconds) { it == 2 }
-            assertEquals(FlowObservation(listOf(1, 2), FlowObservation.End.Matched), observation)
+            assertEquals(FlowObservation(listOf(1, 2), FlowObservation.End.MATCHED), observation)
         }
 
     @Test
     fun stopsAtTheLimitOrWhenTheFlowFinishes() =
         runTest {
             assertEquals(
-                FlowObservation(listOf(1, 2), FlowObservation.End.LimitReached),
+                FlowObservation(listOf(1, 2), FlowObservation.End.LIMIT_REACHED),
                 observeFlow(flowOf(1, 2, 3), maxCount = 2, timeout = 1.seconds),
             )
             assertEquals(
-                FlowObservation(listOf(1), FlowObservation.End.Finished),
+                FlowObservation(listOf(1), FlowObservation.End.FINISHED),
                 observeFlow(flowOf(1), maxCount = 2, timeout = 1.seconds),
             )
         }
@@ -49,7 +49,7 @@ class ObserveFlowTest {
                 maxCount = 5,
                 timeout = 20.milliseconds,
             )
-            assertEquals(FlowObservation(listOf(1), FlowObservation.End.TimedOut), observation)
+            assertEquals(FlowObservation(listOf(1), FlowObservation.End.TIMED_OUT), observation)
         }
 
     @Test
@@ -67,14 +67,14 @@ class ObserveFlowTest {
                 maxCount = 5,
                 timeout = 20.milliseconds,
             )
-            assertEquals(FlowObservation(listOf(1), FlowObservation.End.TimedOut), observation)
+            assertEquals(FlowObservation(listOf(1), FlowObservation.End.TIMED_OUT), observation)
         }
 
     @Test
     fun zeroBudgetsCollectNothing() =
         runTest {
-            assertEquals(FlowObservation.End.LimitReached, observeFlow(flowOf(1), 0, 1.seconds).end)
-            assertEquals(FlowObservation.End.TimedOut, observeFlow(flowOf(1), 1, Duration.ZERO).end)
+            assertEquals(FlowObservation.End.LIMIT_REACHED, observeFlow(flowOf(1), 0, 1.seconds).end)
+            assertEquals(FlowObservation.End.TIMED_OUT, observeFlow(flowOf(1), 1, Duration.ZERO).end)
             assertFailsWith<IllegalArgumentException> { observeFlow(flowOf(1), -1, 1.seconds) }
             assertFailsWith<IllegalArgumentException> { observeFlow(flowOf(1), 1, -1.seconds) }
         }
