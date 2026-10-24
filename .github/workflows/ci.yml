@@ -78,4 +78,6 @@ jobs:
         if: always()
         with:
           name: device-reports
-          path: device/build/reports/**
+          path: |
+            device/build/reports/**
+            device/build/outputs/androidTest-results/**
