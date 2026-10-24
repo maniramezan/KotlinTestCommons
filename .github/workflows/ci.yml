@@ -33,6 +33,17 @@ jobs:
       - name: Check
         run: ./gradlew check koverXmlReport dokkaGenerate :samples:android:assembleDebug :samples:android:assembleDebugAndroidTest
 
+      - name: Test release verification
+        run: python3 -m unittest discover -s Scripts/tests -p 'test_*.py'
+
+      - name: Verify an independently resolved release candidate
+        env:
+          CANDIDATE_VERSION: 0.0.0-verification-${{ github.sha }}
+        run: |
+          ./gradlew stageRelease -PVERSION_NAME="$CANDIDATE_VERSION" -PRELEASE_SIGNING_ENABLED=false --no-configuration-cache
+          python3 Scripts/verify-release-artifacts.py --version "$CANDIDATE_VERSION" --staging-repository build/release-staging --manifest build/release-manifest.json
+          ./gradlew -p verification/consumer verifyConsumer -PtestCommonsVersion="$CANDIDATE_VERSION" -PtestCommonsRepository="$GITHUB_WORKSPACE/build/release-staging"
+
       - name: Changed-line coverage
         if: github.event_name == 'pull_request'
         run: python3 Scripts/check-coverage.py --diff-base origin/${{ github.base_ref }}

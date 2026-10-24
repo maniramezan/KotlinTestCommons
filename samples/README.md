@@ -2,6 +2,9 @@
 
 These apps use the library projects directly, so they work before a Maven Central release. They are
 included in the root build and have no publishing configuration. Run commands from the repository root.
+They demonstrate behavior using project dependencies. The separate
+[Maven consumer build](../verification/consumer/README.md) verifies published packaging; the
+[verification matrix](../docs/compatibility.md) describes the platform coverage.
 
 Use JDK 21 and install Android SDK platform 37. The Android app runs on API 26 or newer. Gradle keeps
 the library and sample bytecode at Java 17. For all checks, including iOS, use macOS with Xcode selected.
