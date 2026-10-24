@@ -60,6 +60,11 @@ Select a tag with `By.res(fullTag)`; use the single-argument overload because th
 complete resource name. Give interactive controls meaningful spoken labels independently of their
 tags. See the [sample device test](../samples/android/src/androidTest/kotlin/io/github/maniramezan/testcommons/samples/android/CatalogDeviceTest.kt).
 
+For app configuration supplied through instrumentation arguments, `instrumentationArgument(name)`
+reads a nonempty value directly. To expose selected arguments through `System.getProperty` before the
+app starts, subclass `InstrumentationArgsRunner` with the allowed names and configure that subclass as
+`testInstrumentationRunner`. The base runner requires this explicit selection.
+
 ## JUnit Jupiter
 
 `MainDispatcherExtension` uses Jupiter's extension API. That API is `compileOnly` in the library, so

@@ -184,8 +184,9 @@ UiAutomator:
 Launching and runners:
 
 - `launchTargetApp()` and `UiDevice.launchPackage(...)` start an app in a fresh task.
-- `InstrumentationArgsRunner` copies `-e` arguments to system properties; `instrumentationArgument(name)`
-  reads one.
+- Subclass `InstrumentationArgsRunner` with an explicit set of argument names to copy `-e` arguments
+  to system properties, then configure that subclass as the runner. `instrumentationArgument(name)`
+  reads an argument directly.
 - `DiagnosticsOnFailureRule` saves a screenshot and the window hierarchy when a test fails.
 
 ## Contributing
