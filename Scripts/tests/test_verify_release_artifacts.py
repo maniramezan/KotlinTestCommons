@@ -32,7 +32,7 @@ class PublicationManifestTest(unittest.TestCase):
 
     def test_records_all_variants_sources_and_documentation(self):
         manifest = RELEASE.collect_manifest(self.root, VERSION)
-        self.assertEqual(65, len(manifest["files"]))
+        self.assertEqual(90, len(manifest["files"]))
         self.assertEqual(VERSION, manifest["version"])
         self.assertEqual(
             manifest["files"], RELEASE.read_manifest(self.write_manifest(manifest), VERSION),
@@ -78,7 +78,7 @@ class PublicationManifestTest(unittest.TestCase):
         other.mkdir()
         (other / "junit-0.1.0.jar").write_bytes(b"old")
         manifest = RELEASE.collect_manifest(self.root, VERSION)
-        self.assertEqual(65, len(manifest["files"]))
+        self.assertEqual(90, len(manifest["files"]))
 
     def test_rejects_a_manifest_for_another_version(self):
         path = self.write_manifest({"version": "0.1.0", "files": ["anything"]})

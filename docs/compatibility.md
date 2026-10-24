@@ -33,6 +33,7 @@ Kotlin support.
 | `core` iOS device | Compilation and ABI validation | Compiles the device variant |
 | `junit` JVM | JUnit 4 and Jupiter adapter tests | Runs both frameworks in separate consumers; Jupiter is absent from the JUnit 4 consumer |
 | `junit` Android | Used by sample host tests | Runs the rule in Android host tests |
+| `coroutines` JVM, Android, iOS | Common tests on every target, including the iOS simulator | Runs `runTestWithMain` from common tests on every consumer target |
 | `compose` JVM/desktop | UI tests with the host renderer | Loads core/matcher APIs from the published JVM variant |
 | `compose` Android | Robolectric helpers and sample instrumented UI tests | Compiles the Android variant and loads matcher APIs in host tests |
 | `compose` iOS | Compilation and ABI validation | Compiles both native variants |
@@ -48,7 +49,7 @@ also exercises a short window with 200% font scale. This does not constitute a f
 
 ## Using the library
 
-Use the base Gradle coordinates (`core`, `junit`, `compose`, `device`); Gradle selects the appropriate
+Use the base Gradle coordinates (`core`, `junit`, `coroutines`, `compose`, `device`); Gradle selects the appropriate
 published variant. Install helpers in test configurations except when deliberately shipping `core`
 in a tool. See the [testing guide](testing-guide.md) for KMP source sets and runner configuration.
 

@@ -56,10 +56,12 @@ subprojects {
 dependencies {
     dokka(project(":core"))
     dokka(project(":junit"))
+    dokka(project(":coroutines"))
     dokka(project(":compose"))
     dokka(project(":device"))
     kover(project(":core"))
     kover(project(":junit"))
+    kover(project(":coroutines"))
     kover(project(":compose"))
     kover(project(":device"))
 }
@@ -68,5 +70,5 @@ dependencies {
 tasks.register("updateApi") {
     group = "verification"
     description = "Updates the public API dumps of all published modules."
-    dependsOn(":core:updateKotlinAbi", ":junit:updateKotlinAbi", ":compose:updateKotlinAbi", ":device:updateKotlinAbi")
+    dependsOn(":core:updateKotlinAbi", ":junit:updateKotlinAbi", ":coroutines:updateKotlinAbi", ":compose:updateKotlinAbi", ":device:updateKotlinAbi")
 }

@@ -7,6 +7,7 @@ Shared test helpers for Kotlin, Android, and Compose Multiplatform. This is the 
 |---|---|---|---|
 | `core` | JVM, Android, iOS | Spies, scripted fakes, a manual clock, async waits, flow observation, layout geometry, automation IDs, temporary files and fixtures. No test-framework imports. | Any test source set; can also ship in tools and apps |
 | `junit` | JVM | `MainDispatcherRule` (JUnit 4) and `MainDispatcherExtension` (JUnit 5). | JVM and Android unit tests |
+| `coroutines` | JVM, Android, iOS | `MainDispatcherFixture` and `runTestWithMain`: swap `Dispatchers.Main` for a test dispatcher from shared `commonTest` code. | Shared `commonTest` and any coroutine tests |
 | `compose` | Android, desktop, iOS | Compose UI test waits, matchers, scrolling, assertions, geometry, a themed rule, device configuration overrides. | Compose UI tests |
 | `device` | Android | Espresso waits and matchers, UiAutomator snapshots, gestures, verified text entry, launch, diagnostics, device settings. | Instrumented tests |
 
@@ -26,6 +27,7 @@ Android dependencies below use a regular Android application's source-set names.
 dependencies {
     testImplementation("io.github.maniramezan.testcommons:core:0.1.0")
     testImplementation("io.github.maniramezan.testcommons:junit:0.1.0")
+    testImplementation("io.github.maniramezan.testcommons:coroutines:0.1.0")
     androidTestImplementation("io.github.maniramezan.testcommons:compose:0.1.0")
     androidTestImplementation("io.github.maniramezan.testcommons:device:0.1.0")
 }
@@ -94,6 +96,18 @@ whether it matched, reached the limit, finished, or timed out. `AsyncGate` is a 
 
 @Test fun loads() = runTest(mainDispatcher.dispatcher) {
     assertEquals("Ready", repository.load())
+}
+```
+
+Shared `commonTest` code, which also runs on iOS, uses the `coroutines` artifact instead.
+`runTestWithMain` installs the dispatcher around one test; `MainDispatcherFixture` pairs `install()` and
+`reset()` with `@BeforeTest` and `@AfterTest`:
+
+```kotlin
+@Test fun loads() = runTestWithMain {
+    val model = ProfileModel()
+    advanceUntilIdle()
+    assertEquals("Ready", model.state)
 }
 ```
 

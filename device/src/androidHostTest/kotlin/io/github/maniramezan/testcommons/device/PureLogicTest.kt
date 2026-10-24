@@ -1,6 +1,7 @@
 package io.github.maniramezan.testcommons.device
 
 import android.os.Bundle
+import android.view.accessibility.AccessibilityWindowInfo
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,12 +34,31 @@ class PureLogicTest {
 
     @Test
     fun textReplacementVerification() {
-        assertTrue(textReplaced("", "abc", "abc", isPassword = false))
-        assertFalse(textReplaced("", "ab", "abc", isPassword = false))
-        assertTrue(textReplaced("", "•••", "abc", isPassword = true))
-        assertFalse(textReplaced("•••", "•••", "abc", isPassword = true))
-        assertFalse(textReplaced("x", "", "abc", isPassword = true))
-        assertTrue(textReplaced("x", "", "", isPassword = true))
+        assertTrue(textReplaced("", "abc", "abc") { false })
+        assertFalse(textReplaced("", "ab", "abc") { false })
+        assertTrue(textReplaced("", "•••", "abc") { true })
+        assertFalse(textReplaced("•••", "•••", "abc") { true })
+        assertFalse(textReplaced("x", "", "abc") { true })
+        assertTrue(textReplaced("x", "", "") { true })
+    }
+
+    @Test
+    fun passwordDetectionRunsOnlyWhenTheTextDiffers() {
+        var checks = 0
+        assertTrue(textReplaced("", "abc", "abc") { checks++ >= 0 })
+        assertFalse(textReplaced("same", "same", "abc") { checks++ >= 0 })
+        assertFalse(textReplaced("x", "", "abc") { checks++ >= 0 })
+        assertEquals(0, checks)
+        assertTrue(textReplaced("", "•••", "abc") { checks++ >= 0 })
+        assertEquals(1, checks)
+    }
+
+    @Test
+    fun keyboardIsVisibleOnlyWithAnInputMethodWindow() {
+        val application = AccessibilityWindowInfo.TYPE_APPLICATION
+        assertTrue(hasInputMethodWindow(listOf(application, AccessibilityWindowInfo.TYPE_INPUT_METHOD)))
+        assertFalse(hasInputMethodWindow(listOf(application)))
+        assertFalse(hasInputMethodWindow(emptyList()))
     }
 
     @Test

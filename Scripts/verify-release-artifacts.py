@@ -15,7 +15,8 @@ from urllib.parse import urlparse
 GROUP_PATH = "io/github/maniramezan/testcommons"
 ARTIFACTS = (
     "core", "core-jvm", "core-android", "core-iosarm64", "core-iossimulatorarm64",
-    "junit", "compose", "compose-jvm", "compose-android", "compose-iosarm64",
+    "junit", "coroutines", "coroutines-jvm", "coroutines-android", "coroutines-iosarm64",
+    "coroutines-iossimulatorarm64", "compose", "compose-jvm", "compose-android", "compose-iosarm64",
     "compose-iossimulatorarm64", "device", "device-android",
 )
 VERSION = re.compile(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?")

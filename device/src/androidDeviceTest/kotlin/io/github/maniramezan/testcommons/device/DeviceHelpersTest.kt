@@ -1,5 +1,8 @@
 package io.github.maniramezan.testcommons.device
 
+import android.os.SystemClock
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -17,6 +20,7 @@ import org.junit.runners.model.Statement
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -70,6 +74,27 @@ class DeviceHelpersTest {
         assertFailsWith<AssertionError> { device.uniqueObject(By.text("Missing"), timeout = 100.milliseconds) }
         device.setTextVerified(By.res("android:id/edit"), "Ada")
         device.setTextVerified(By.res("android:id/input"), "secret")
+    }
+
+    @Test
+    fun keyboardVisibilityFollowsFieldFocus() {
+        assertFalse(device.isKeyboardVisible())
+        scenario.onActivity { activity ->
+            val field = activity.findViewById<EditText>(android.R.id.edit)
+            field.requestFocus()
+            activity.getSystemService(InputMethodManager::class.java).showSoftInput(field, 0)
+        }
+        assertTrue(waitForKeyboard(visible = true), "keyboard never appeared")
+        device.pressBackReliably()
+        assertTrue(waitForKeyboard(visible = false), "keyboard never hid")
+    }
+
+    private fun waitForKeyboard(visible: Boolean): Boolean {
+        val deadline = SystemClock.uptimeMillis() + 5_000
+        while (device.isKeyboardVisible() != visible && SystemClock.uptimeMillis() < deadline) {
+            SystemClock.sleep(100)
+        }
+        return device.isKeyboardVisible() == visible
     }
 
     @Test

@@ -21,6 +21,7 @@ rootProject.name = "KotlinTestCommons"
 
 include(":core")
 include(":junit")
+include(":coroutines")
 include(":compose")
 include(":device")
 include(":samples:jvm")

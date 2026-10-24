@@ -1,0 +1,19 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.github.maniramezan.testcommons:coroutines>
+final class io.github.maniramezan.testcommons.coroutines/MainDispatcherFixture { // io.github.maniramezan.testcommons.coroutines/MainDispatcherFixture|null[0]
+    constructor <init>(kotlinx.coroutines.test/TestDispatcher = ...) // io.github.maniramezan.testcommons.coroutines/MainDispatcherFixture.<init>|<init>(kotlinx.coroutines.test.TestDispatcher){}[0]
+
+    final val dispatcher // io.github.maniramezan.testcommons.coroutines/MainDispatcherFixture.dispatcher|{}dispatcher[0]
+        final fun <get-dispatcher>(): kotlinx.coroutines.test/TestDispatcher // io.github.maniramezan.testcommons.coroutines/MainDispatcherFixture.dispatcher.<get-dispatcher>|<get-dispatcher>(){}[0]
+
+    final fun install() // io.github.maniramezan.testcommons.coroutines/MainDispatcherFixture.install|install(){}[0]
+    final fun reset() // io.github.maniramezan.testcommons.coroutines/MainDispatcherFixture.reset|reset(){}[0]
+}
+
+final fun io.github.maniramezan.testcommons.coroutines/runTestWithMain(kotlinx.coroutines.test/TestDispatcher = ..., kotlin.time/Duration? = ..., kotlin.coroutines/SuspendFunction1<kotlinx.coroutines.test/TestScope, kotlin/Unit>) // io.github.maniramezan.testcommons.coroutines/runTestWithMain|runTestWithMain(kotlinx.coroutines.test.TestDispatcher;kotlin.time.Duration?;kotlin.coroutines.SuspendFunction1<kotlinx.coroutines.test.TestScope,kotlin.Unit>){}[0]

@@ -19,7 +19,7 @@ import xml.etree.ElementTree as ElementTree
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-MODULES = ["core", "junit", "compose", "device"]
+MODULES = ["core", "junit", "coroutines", "compose", "device"]
 
 # Minimum coverage (percent) of executable lines changed relative to --diff-base.
 DIFF_THRESHOLD = 90.0

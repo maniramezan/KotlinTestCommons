@@ -18,6 +18,7 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
             implementation("io.github.maniramezan.testcommons:core:$testCommonsVersion")
+            implementation("io.github.maniramezan.testcommons:coroutines:$testCommonsVersion")
             implementation("io.github.maniramezan.testcommons:compose:$testCommonsVersion")
         }
         jvmTest.dependencies {
