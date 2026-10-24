@@ -23,6 +23,26 @@ allprojects {
 
 val ktlintVersion = libs.versions.ktlint.get()
 
+val stageRelease by tasks.registering {
+    group = "verification"
+    description = "Stages every published variant in a file Maven repository for independent consumer verification."
+}
+
+subprojects {
+    val publishedProjectPath = path
+    plugins.withId("maven-publish") {
+        extensions.configure<PublishingExtension> {
+            repositories.maven {
+                name = "ReleaseVerification"
+                url = rootProject.layout.buildDirectory.dir("release-staging").get().asFile.toURI()
+            }
+        }
+        stageRelease.configure {
+            dependsOn("$publishedProjectPath:publishAllPublicationsToReleaseVerificationRepository")
+        }
+    }
+}
+
 // House style lives in .editorconfig; `./gradlew ktlintCheck` enforces it and `ktlintFormat` fixes it.
 subprojects {
     pluginManager.apply("org.jlleitschuh.gradle.ktlint")

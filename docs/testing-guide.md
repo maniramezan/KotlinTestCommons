@@ -2,14 +2,17 @@
 
 Choose dependencies according to where tests run. `core` contains no test framework and can also be
 used in development tools. `junit`, `compose`, and `device` belong in test configurations.
+See the [compatibility and verification matrix](compatibility.md) for tested versions and platform limits.
 
 ## Kotlin Multiplatform
 
-With `mavenCentral()` configured, add the dependencies to the owning source sets. Replace
-`testCommonsVersion` with your chosen [release](https://github.com/maniramezan/KotlinTestCommons/releases).
+With `mavenCentral()` configured, add the dependencies to the owning source sets. Pin
+`testCommonsVersion` to your chosen [release](https://github.com/maniramezan/KotlinTestCommons/releases).
 This example assumes a project with a JVM target; omit `jvmTest` when that target is absent.
 
 ```kotlin
+val testCommonsVersion = "0.1.0"
+
 kotlin {
     sourceSets {
         commonTest.dependencies {
@@ -147,3 +150,7 @@ python3 Scripts/check-coverage.py --diff-base origin/main
 After an intentional public API change, run `./gradlew updateApi` and include the API dumps. Generate API
 docs with `./gradlew dokkaGenerate`. Samples are not published and do not affect the library coverage
 floors. Put migration notes in PR descriptions and release notes on GitHub Releases.
+
+The [independent consumer build](../verification/consumer/README.md) verifies staged publications through
+Maven coordinates before publishing and verifies public downloads afterward. For publishing credentials,
+release preparation, and safe retries, see the [release guide](releasing.md).

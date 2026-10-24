@@ -15,7 +15,7 @@ Multiplatform 1.12. Building this repository requires JDK 21 and Android SDK 37;
 macOS and Xcode.
 
 Start with the [runnable sample apps](samples/README.md), the [testing guide](docs/testing-guide.md),
-or browse the [API documentation](https://maniramezan.github.io/KotlinTestCommons/).
+the [compatibility matrix](docs/compatibility.md), or browse the [API documentation](https://maniramezan.github.io/KotlinTestCommons/).
 
 ## Installation
 
@@ -24,14 +24,14 @@ Android dependencies below use a regular Android application's source-set names.
 
 ```kotlin
 dependencies {
-    testImplementation("io.github.maniramezan.testcommons:core:<version>")
-    testImplementation("io.github.maniramezan.testcommons:junit:<version>")
-    androidTestImplementation("io.github.maniramezan.testcommons:compose:<version>")
-    androidTestImplementation("io.github.maniramezan.testcommons:device:<version>")
+    testImplementation("io.github.maniramezan.testcommons:core:0.1.0")
+    testImplementation("io.github.maniramezan.testcommons:junit:0.1.0")
+    androidTestImplementation("io.github.maniramezan.testcommons:compose:0.1.0")
+    androidTestImplementation("io.github.maniramezan.testcommons:device:0.1.0")
 }
 ```
 
-Use the latest [release](https://github.com/maniramezan/KotlinTestCommons/releases). Tags are bare SemVer
+The example pins `0.1.0`. Use a specific [release](https://github.com/maniramezan/KotlinTestCommons/releases). Tags are bare SemVer
 (`0.1.0`), never `v0.1.0`. Before 1.0, a minor release can contain breaking changes.
 For Kotlin Multiplatform source sets and JUnit Jupiter setup, see the [testing guide](docs/testing-guide.md).
 
@@ -205,8 +205,13 @@ Run these before opening a pull request (CI runs the same checks):
 and each module's coverage floor. After an intended API change, run `./gradlew updateApi`. API docs are
 built with `./gradlew dokkaGenerate`.
 
-Conventional Commits drive automated releases to Maven Central and GitHub Releases (see
-`.github/workflows/release.yml`). There is no `CHANGELOG.md`. See [AGENTS.md](AGENTS.md) for conventions.
+CI also stages Maven publications and runs the [independent consumer build](verification/consumer/README.md).
+This checks the packaging used by external applications, beyond the samples' local project dependencies.
+
+Conventional Commits determine release-candidate versions. Publishing requires an explicit manual
+Release run with the reviewed version and commit; tags follow successful public Maven Central verification. See the
+[release and secrets guide](docs/releasing.md). There is no `CHANGELOG.md`.
+See [AGENTS.md](AGENTS.md) for conventions.
 
 ## License
 
