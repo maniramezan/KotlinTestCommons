@@ -1,4 +1,7 @@
 version: 2
+# Every version update across ecosystems and directories lands in one weekly pull request.
+# Security updates stay disabled so they cannot open separate pull requests; Dependabot
+# alerts remain enabled in the repository settings.
 multi-ecosystem-groups:
   dependencies:
     schedule:
@@ -7,7 +10,10 @@ multi-ecosystem-groups:
     open-pull-requests-limit: 1
 updates:
   - package-ecosystem: gradle
-    directory: /
+    # The consumer build shares the root version catalog but pins its own settings plugins.
+    directories:
+      - /
+      - /verification/consumer
     patterns:
       - '*'
     multi-ecosystem-group: dependencies
