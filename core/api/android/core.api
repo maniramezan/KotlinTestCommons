@@ -40,7 +40,6 @@ public final class io/github/maniramezan/testcommons/FixtureDirectory {
 
 public final class io/github/maniramezan/testcommons/FixtureDirectory$Companion {
 	public final fun fromResources (Ljava/lang/Class;Ljava/lang/String;)Lio/github/maniramezan/testcommons/FixtureDirectory;
-	public static synthetic fun fromResources$default (Lio/github/maniramezan/testcommons/FixtureDirectory$Companion;Ljava/lang/Class;Ljava/lang/String;ILjava/lang/Object;)Lio/github/maniramezan/testcommons/FixtureDirectory;
 }
 
 public final class io/github/maniramezan/testcommons/FixtureEnvironmentKt {
@@ -62,10 +61,10 @@ public final class io/github/maniramezan/testcommons/FlowObservation {
 }
 
 public final class io/github/maniramezan/testcommons/FlowObservation$End : java/lang/Enum {
-	public static final field Finished Lio/github/maniramezan/testcommons/FlowObservation$End;
-	public static final field LimitReached Lio/github/maniramezan/testcommons/FlowObservation$End;
-	public static final field Matched Lio/github/maniramezan/testcommons/FlowObservation$End;
-	public static final field TimedOut Lio/github/maniramezan/testcommons/FlowObservation$End;
+	public static final field FINISHED Lio/github/maniramezan/testcommons/FlowObservation$End;
+	public static final field LIMIT_REACHED Lio/github/maniramezan/testcommons/FlowObservation$End;
+	public static final field MATCHED Lio/github/maniramezan/testcommons/FlowObservation$End;
+	public static final field TIMED_OUT Lio/github/maniramezan/testcommons/FlowObservation$End;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/maniramezan/testcommons/FlowObservation$End;
 	public static fun values ()[Lio/github/maniramezan/testcommons/FlowObservation$End;
@@ -138,8 +137,8 @@ public final class io/github/maniramezan/testcommons/ObserveFlowKt {
 }
 
 public final class io/github/maniramezan/testcommons/ReadingDirection : java/lang/Enum {
-	public static final field LeftToRight Lio/github/maniramezan/testcommons/ReadingDirection;
-	public static final field RightToLeft Lio/github/maniramezan/testcommons/ReadingDirection;
+	public static final field LEFT_TO_RIGHT Lio/github/maniramezan/testcommons/ReadingDirection;
+	public static final field RIGHT_TO_LEFT Lio/github/maniramezan/testcommons/ReadingDirection;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/maniramezan/testcommons/ReadingDirection;
 	public static fun values ()[Lio/github/maniramezan/testcommons/ReadingDirection;

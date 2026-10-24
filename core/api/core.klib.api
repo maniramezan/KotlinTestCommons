@@ -7,8 +7,8 @@
 
 // Library unique name: <io.github.maniramezan.testcommons:core>
 final enum class io.github.maniramezan.testcommons/ReadingDirection : kotlin/Enum<io.github.maniramezan.testcommons/ReadingDirection> { // io.github.maniramezan.testcommons/ReadingDirection|null[0]
-    enum entry LeftToRight // io.github.maniramezan.testcommons/ReadingDirection.LeftToRight|null[0]
-    enum entry RightToLeft // io.github.maniramezan.testcommons/ReadingDirection.RightToLeft|null[0]
+    enum entry LEFT_TO_RIGHT // io.github.maniramezan.testcommons/ReadingDirection.LEFT_TO_RIGHT|null[0]
+    enum entry RIGHT_TO_LEFT // io.github.maniramezan.testcommons/ReadingDirection.RIGHT_TO_LEFT|null[0]
 
     final val entries // io.github.maniramezan.testcommons/ReadingDirection.entries|#static{}entries[0]
         final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.maniramezan.testcommons/ReadingDirection> // io.github.maniramezan.testcommons/ReadingDirection.entries.<get-entries>|<get-entries>#static(){}[0]
@@ -66,10 +66,10 @@ final class <#A: kotlin/Any?> io.github.maniramezan.testcommons/FlowObservation 
     final fun toString(): kotlin/String // io.github.maniramezan.testcommons/FlowObservation.toString|toString(){}[0]
 
     final enum class End : kotlin/Enum<io.github.maniramezan.testcommons/FlowObservation.End> { // io.github.maniramezan.testcommons/FlowObservation.End|null[0]
-        enum entry Finished // io.github.maniramezan.testcommons/FlowObservation.End.Finished|null[0]
-        enum entry LimitReached // io.github.maniramezan.testcommons/FlowObservation.End.LimitReached|null[0]
-        enum entry Matched // io.github.maniramezan.testcommons/FlowObservation.End.Matched|null[0]
-        enum entry TimedOut // io.github.maniramezan.testcommons/FlowObservation.End.TimedOut|null[0]
+        enum entry FINISHED // io.github.maniramezan.testcommons/FlowObservation.End.FINISHED|null[0]
+        enum entry LIMIT_REACHED // io.github.maniramezan.testcommons/FlowObservation.End.LIMIT_REACHED|null[0]
+        enum entry MATCHED // io.github.maniramezan.testcommons/FlowObservation.End.MATCHED|null[0]
+        enum entry TIMED_OUT // io.github.maniramezan.testcommons/FlowObservation.End.TIMED_OUT|null[0]
 
         final val entries // io.github.maniramezan.testcommons/FlowObservation.End.entries|#static{}entries[0]
             final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.maniramezan.testcommons/FlowObservation.End> // io.github.maniramezan.testcommons/FlowObservation.End.entries.<get-entries>|<get-entries>#static(){}[0]

@@ -45,8 +45,8 @@ public object ReadingOrder {
     ): Boolean {
         if (!sharesRow(first, second, rowTolerance)) return false
         return when (direction) {
-            ReadingDirection.LeftToRight -> second.centerX > first.centerX
-            ReadingDirection.RightToLeft -> second.centerX < first.centerX
+            ReadingDirection.LEFT_TO_RIGHT -> second.centerX > first.centerX
+            ReadingDirection.RIGHT_TO_LEFT -> second.centerX < first.centerX
         }
     }
 

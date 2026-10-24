@@ -105,7 +105,7 @@ frames and tolerances never match. The `compose` and `device` artifacts build fr
 and accessibility nodes:
 
 ```kotlin
-assertReadingOrder(onNodeWithTag("day-1"), onNodeWithTag("day-2"), ReadingDirection.RightToLeft)
+assertReadingOrder(onNodeWithTag("day-1"), onNodeWithTag("day-2"), ReadingDirection.RIGHT_TO_LEFT)
 ```
 
 ## Automation identifiers

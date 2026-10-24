@@ -8,9 +8,11 @@ import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
 import androidx.test.uiautomator.Until
 import io.github.maniramezan.testcommons.Frame
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 /** The default wait budget for device helpers, in milliseconds. */
-public const val DEFAULT_DEVICE_TIMEOUT_MILLIS: Long = 5_000L
+public val DefaultDeviceTimeout: Duration = 5.seconds
 
 /**
  * Waits for exactly one object matching [selector] and returns it.
@@ -18,13 +20,13 @@ public const val DEFAULT_DEVICE_TIMEOUT_MILLIS: Long = 5_000L
  * Fails loudly when the selector is ambiguous, instead of acting on whichever match comes first.
  *
  * @param selector Selects the object.
- * @param timeoutMillis The wait budget for at least one match.
+ * @param timeout The nonnegative wait budget for at least one match.
  * @return The unique object.
  * @throws AssertionError when nothing matches in time or more than one object matches.
  */
-public fun UiDevice.uniqueObject(selector: BySelector, timeoutMillis: Long = DEFAULT_DEVICE_TIMEOUT_MILLIS): UiObject2 {
-    if (wait(Until.hasObject(selector), timeoutMillis) != true) {
-        throw AssertionError("No object matches $selector after $timeoutMillis ms")
+public fun UiDevice.uniqueObject(selector: BySelector, timeout: Duration = DefaultDeviceTimeout): UiObject2 {
+    if (wait(Until.hasObject(selector), waitMillis(timeout)) != true) {
+        throw AssertionError("No object matches $selector after $timeout")
     }
     val matches = findObjects(selector)
     return matches.singleOrNull() ?: throw AssertionError(
@@ -40,15 +42,15 @@ public fun UiDevice.uniqueObject(selector: BySelector, timeoutMillis: Long = DEF
  *
  * @param selector Selects one editable field.
  * @param text The new contents.
- * @param timeoutMillis The wait budget for the field to appear.
+ * @param timeout The nonnegative wait budget for the field to appear.
  * @throws AssertionError when the field is ambiguous, missing, or holds different text afterward.
  */
 public fun UiDevice.setTextVerified(
     selector: BySelector,
     text: String,
-    timeoutMillis: Long = DEFAULT_DEVICE_TIMEOUT_MILLIS,
+    timeout: Duration = DefaultDeviceTimeout,
 ) {
-    val field = uniqueObject(selector, timeoutMillis)
+    val field = uniqueObject(selector, timeout)
     val before = field.text.orEmpty()
     val isPassword = field.isPassword()
     field.click()
@@ -103,6 +105,11 @@ public fun UiDevice.scrollUntilVisible(
         }
     },
 )
+
+internal fun waitMillis(timeout: Duration): Long {
+    require(!timeout.isNegative()) { "timeout must be nonnegative" }
+    return timeout.inWholeMilliseconds
+}
 
 internal fun <T> scrollWithinBudget(maxScrolls: Int, findTarget: () -> T?, scroll: () -> Boolean): T? {
     findTarget()?.let { return it }

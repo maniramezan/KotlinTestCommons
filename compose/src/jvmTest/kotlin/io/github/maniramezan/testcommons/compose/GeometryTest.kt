@@ -77,8 +77,8 @@ class GeometryTest {
             val first = onNodeWithTag("first")
             val second = onNodeWithTag("second")
             assertEquals(Frame(160f, 0f, 200f, 40f), first.frameInRoot())
-            assertReadingOrder(first, second, ReadingDirection.RightToLeft)
-            assertFailsWith<AssertionError> { assertReadingOrder(first, second, ReadingDirection.LeftToRight) }
+            assertReadingOrder(first, second, ReadingDirection.RIGHT_TO_LEFT)
+            assertFailsWith<AssertionError> { assertReadingOrder(first, second, ReadingDirection.LEFT_TO_RIGHT) }
             assertNoOverlap(first, second)
             assertFailsWith<AssertionError> { assertNoOverlap(second, onNodeWithTag("overlapping")) }
             first.assertContainedIn(onNodeWithTag("container"))

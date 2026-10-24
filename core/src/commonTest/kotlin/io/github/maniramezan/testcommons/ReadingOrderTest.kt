@@ -13,20 +13,20 @@ class ReadingOrderTest {
 
     @Test
     fun aFrameToTheRightFollowsOnlyLeftToRight() {
-        assertTrue(ReadingOrder.follows(right, left, ReadingDirection.LeftToRight))
-        assertFalse(ReadingOrder.follows(right, left, ReadingDirection.RightToLeft))
+        assertTrue(ReadingOrder.follows(right, left, ReadingDirection.LEFT_TO_RIGHT))
+        assertFalse(ReadingOrder.follows(right, left, ReadingDirection.RIGHT_TO_LEFT))
     }
 
     @Test
     fun aFrameToTheLeftFollowsOnlyRightToLeft() {
-        assertTrue(ReadingOrder.follows(left, right, ReadingDirection.RightToLeft))
-        assertFalse(ReadingOrder.follows(left, right, ReadingDirection.LeftToRight))
+        assertTrue(ReadingOrder.follows(left, right, ReadingDirection.RIGHT_TO_LEFT))
+        assertFalse(ReadingOrder.follows(left, right, ReadingDirection.LEFT_TO_RIGHT))
     }
 
     @Test
     fun framesOnDifferentRowsNeverFollowEachOther() {
-        assertFalse(ReadingOrder.follows(below, left, ReadingDirection.LeftToRight))
-        assertFalse(ReadingOrder.follows(below, left, ReadingDirection.RightToLeft))
+        assertFalse(ReadingOrder.follows(below, left, ReadingDirection.LEFT_TO_RIGHT))
+        assertFalse(ReadingOrder.follows(below, left, ReadingDirection.RIGHT_TO_LEFT))
     }
 
     @Test
@@ -36,11 +36,11 @@ class ReadingOrderTest {
         val shifted = Frame.fromSize(20f, 1f, 10f, 10f)
         val nudged = Frame.fromSize(20f, 3f, 10f, 10f)
         assertTrue(ReadingOrder.sharesRow(left, taller))
-        assertTrue(ReadingOrder.follows(taller, left, ReadingDirection.LeftToRight))
+        assertTrue(ReadingOrder.follows(taller, left, ReadingDirection.LEFT_TO_RIGHT))
         assertFalse(ReadingOrder.sharesRow(left, sameTop))
         assertFalse(ReadingOrder.sharesRow(left, shifted))
         assertTrue(ReadingOrder.sharesRow(left, shifted, tolerance = 1.01f))
-        assertTrue(ReadingOrder.follows(shifted, left, ReadingDirection.LeftToRight, rowTolerance = 1.01f))
+        assertTrue(ReadingOrder.follows(shifted, left, ReadingDirection.LEFT_TO_RIGHT, rowTolerance = 1.01f))
         assertFalse(ReadingOrder.sharesRow(left, nudged))
         assertTrue(ReadingOrder.sharesRow(left, nudged, tolerance = 5f))
     }
@@ -49,7 +49,7 @@ class ReadingOrderTest {
     fun invalidTolerancesNeverMatch() {
         for (tolerance in listOf(0f, -1f, Float.POSITIVE_INFINITY, Float.NaN)) {
             assertFalse(ReadingOrder.sharesRow(left, right, tolerance))
-            assertFalse(ReadingOrder.follows(right, left, ReadingDirection.LeftToRight, tolerance))
+            assertFalse(ReadingOrder.follows(right, left, ReadingDirection.LEFT_TO_RIGHT, tolerance))
         }
     }
 
@@ -63,8 +63,8 @@ class ReadingOrderTest {
         for (frame in frames) {
             assertFalse(ReadingOrder.sharesRow(left, frame))
             assertFalse(ReadingOrder.sharesRow(frame, left))
-            assertFalse(ReadingOrder.follows(frame, left, ReadingDirection.LeftToRight))
-            assertFalse(ReadingOrder.follows(left, frame, ReadingDirection.RightToLeft))
+            assertFalse(ReadingOrder.follows(frame, left, ReadingDirection.LEFT_TO_RIGHT))
+            assertFalse(ReadingOrder.follows(left, frame, ReadingDirection.RIGHT_TO_LEFT))
         }
     }
 

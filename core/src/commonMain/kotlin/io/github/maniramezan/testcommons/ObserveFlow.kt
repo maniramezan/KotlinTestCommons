@@ -25,7 +25,7 @@ import kotlin.time.Duration
  *
  * ```kotlin
  * val observation = observeFlow(viewModel.state, maxCount = 5, timeout = 2.seconds) { it.isLoaded }
- * assertEquals(FlowObservation.End.Matched, observation.end)
+ * assertEquals(FlowObservation.End.MATCHED, observation.end)
  * ```
  *
  * @param flow The flow to collect; its failures propagate unchanged.
@@ -43,8 +43,8 @@ public suspend fun <T> observeFlow(
     require(maxCount >= 0) { "maxCount must be nonnegative" }
     require(!timeout.isNegative()) { "timeout must be nonnegative" }
     currentCoroutineContext().ensureActive()
-    if (maxCount == 0) return FlowObservation(emptyList(), FlowObservation.End.LimitReached)
-    if (timeout == Duration.ZERO) return FlowObservation(emptyList(), FlowObservation.End.TimedOut)
+    if (maxCount == 0) return FlowObservation(emptyList(), FlowObservation.End.LIMIT_REACHED)
+    if (timeout == Duration.ZERO) return FlowObservation(emptyList(), FlowObservation.End.TIMED_OUT)
 
     val values = mutableListOf<T>()
     val timedOut = AtomicBoolean(false)
@@ -53,10 +53,10 @@ public suspend fun <T> observeFlow(
             try {
                 flow.collect { value ->
                     values += value
-                    if (until(value)) throw StopObservation(FlowObservation.End.Matched)
-                    if (values.size >= maxCount) throw StopObservation(FlowObservation.End.LimitReached)
+                    if (until(value)) throw StopObservation(FlowObservation.End.MATCHED)
+                    if (values.size >= maxCount) throw StopObservation(FlowObservation.End.LIMIT_REACHED)
                 }
-                FlowObservation.End.Finished
+                FlowObservation.End.FINISHED
             } catch (stop: StopObservation) {
                 stop.end
             }
@@ -72,7 +72,7 @@ public suspend fun <T> observeFlow(
             currentCoroutineContext().ensureActive()
             if (!timedOut.load()) throw cancelled
             collector.join()
-            FlowObservation.End.TimedOut
+            FlowObservation.End.TIMED_OUT
         }
         timer.cancel()
         FlowObservation(values.toList(), end)
