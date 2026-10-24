@@ -1,8 +1,9 @@
 # Preparing and publishing a release
 
-Merging a PR verifies code and prepares a candidate. Publishing is a separate, explicit action. The
-Release workflow's `publish` input defaults to `false`; an ordinary successful push to `main` cannot
-publish to Maven Central or create a tag.
+CI stages and verifies Maven publications on every PR. After releasable changes reach `main`, the
+Release workflow prepares a versioned candidate. Publishing is a separate, explicit action. Its
+`publish` input defaults to `false`; an ordinary successful push to `main` cannot publish to Maven
+Central or create a tag.
 
 ## Release sequence
 
@@ -29,8 +30,9 @@ changelog file.
 ## Prepare without publishing
 
 From **Actions → Release → Run workflow**, select `main`, leave `publish` unchecked, and optionally
-enter an exact new `force_version`. The run stages unsigned candidates locally and verifies their Maven
-metadata and consumers. It needs no publishing credentials and creates no external publication or tag.
+enter an exact new `force_version`. Supply `force_version` when the commit history contains no
+releasable changes since the latest tag. The run stages unsigned candidates locally and verifies their
+Maven metadata and consumers. It needs no publishing credentials and creates no external publication or tag.
 
 For the same checks locally, use the [independent consumer instructions](../verification/consumer/README.md).
 Run the release-verification unit tests with:
