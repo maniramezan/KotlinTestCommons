@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
@@ -19,8 +20,42 @@ import io.github.maniramezan.testcommons.ReadingDirection
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 class GeometryTest {
+    @Test
+    fun rejectsEmptyBoundsInEitherArgument() = runComposeUiTest {
+        setContent {
+            Row {
+                Box(Modifier.size(0.dp).testTag("empty"))
+                Box(Modifier.size(0.dp, 40.dp).testTag("zeroWidth"))
+                Box(Modifier.size(40.dp, 0.dp).testTag("zeroHeight"))
+                Box(Modifier.size(40.dp).testTag("visible"))
+            }
+        }
+        val visible = onNodeWithTag("visible")
+        for (tag in listOf("empty", "zeroWidth", "zeroHeight")) {
+            val empty = onNodeWithTag(tag)
+            val firstFailure = assertFailsWith<AssertionError> { assertNoOverlap(empty, visible) }
+            val secondFailure = assertFailsWith<AssertionError> { assertNoOverlap(visible, empty) }
+            assertTrue(firstFailure.message.orEmpty().contains("usable"))
+            assertTrue(secondFailure.message.orEmpty().contains("usable"))
+        }
+    }
+
+    @Test
+    fun rejectsBoundsClippedAwayByTheRoot() = runComposeUiTest {
+        setContent {
+            Box(Modifier.size(100.dp).clipToBounds()) {
+                Box(Modifier.offset(10_000.dp, 0.dp).size(40.dp).testTag("outside"))
+                Box(Modifier.size(40.dp).testTag("visible"))
+            }
+        }
+        val outside = onNodeWithTag("outside")
+        assertEquals(0f, outside.frameInRoot().width)
+        assertFailsWith<AssertionError> { assertNoOverlap(outside, onNodeWithTag("visible")) }
+    }
+
     @Test
     fun checksReadingOrderOverlapAndContainment() =
         runComposeUiTest {

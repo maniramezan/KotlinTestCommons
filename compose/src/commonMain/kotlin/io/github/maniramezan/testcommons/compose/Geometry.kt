@@ -39,17 +39,21 @@ public fun assertReadingOrder(
 }
 
 /**
- * Asserts that two nodes do not overlap; touching edges are allowed.
+ * Asserts that two nodes have usable bounds and do not overlap; touching edges are allowed.
+ *
+ * Empty, clipped-away, and nonfinite bounds fail rather than passing because they have no intersection.
  *
  * @param first One node.
  * @param second The other node.
- * @throws AssertionError with both frames when they overlap.
+ * @throws AssertionError with both frames when either is unusable or they overlap.
  */
 public fun assertNoOverlap(first: SemanticsNodeInteraction, second: SemanticsNodeInteraction) {
     val firstFrame = first.frameInRoot()
     val secondFrame = second.frameInRoot()
-    if (FrameGeometry.overlaps(firstFrame, secondFrame)) {
-        throw AssertionError("Expected $firstFrame and $secondFrame not to overlap")
+    if (!FrameGeometry.isUsable(firstFrame) || !FrameGeometry.isUsable(secondFrame) ||
+        FrameGeometry.overlaps(firstFrame, secondFrame)
+    ) {
+        throw AssertionError("Expected usable, non-overlapping frames but found $firstFrame and $secondFrame")
     }
 }
 
