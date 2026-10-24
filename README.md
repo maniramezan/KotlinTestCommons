@@ -10,9 +10,17 @@ Shared test helpers for Kotlin, Android, and Compose Multiplatform. This is the 
 | `compose` | Android, desktop, iOS | Compose UI test waits, matchers, scrolling, assertions, geometry, a themed rule, device configuration overrides. | Compose UI tests |
 | `device` | Android | Espresso waits and matchers, UiAutomator snapshots, gestures, verified text entry, launch, diagnostics, device settings. | Instrumented tests |
 
-Requires JDK 17+ and Android minSdk 26. Built with Kotlin 2.4, AGP 9, and Compose Multiplatform 1.12.
+The library targets JVM 17 bytecode and Android minSdk 26. Built with Kotlin 2.4, AGP 9, and Compose
+Multiplatform 1.12. Building this repository requires JDK 21 and Android SDK 37; iOS tests also require
+macOS and Xcode.
+
+Start with the [runnable sample apps](samples/README.md), the [testing guide](docs/testing-guide.md),
+or browse the [API documentation](https://maniramezan.github.io/KotlinTestCommons/).
 
 ## Installation
+
+Add `mavenCentral()` to your dependency repositories. Choose the artifacts for your test environment;
+Android dependencies below use a regular Android application's source-set names.
 
 ```kotlin
 dependencies {
@@ -25,6 +33,7 @@ dependencies {
 
 Use the latest [release](https://github.com/maniramezan/KotlinTestCommons/releases). Tags are bare SemVer
 (`0.1.0`), never `v0.1.0`. Before 1.0, a minor release can contain breaking changes.
+For Kotlin Multiplatform source sets and JUnit Jupiter setup, see the [testing guide](docs/testing-guide.md).
 
 ## Dependency spies and fakes
 
@@ -83,7 +92,9 @@ whether it matched, reached the limit, finished, or timed out. `AsyncGate` is a 
 ```kotlin
 @get:Rule val mainDispatcher = MainDispatcherRule()
 
-@Test fun loads() = runTest(mainDispatcher.dispatcher) { /* ... */ }
+@Test fun loads() = runTest(mainDispatcher.dispatcher) {
+    assertEquals("Ready", repository.load())
+}
 ```
 
 ## Layout geometry and reading order
@@ -117,8 +128,8 @@ folder for a test class and returns `null` otherwise, so the snapshot library ke
 
 ## Compose UI tests
 
-Waits work on `ComposeUiTest` (`runComposeUiTest`) and on JUnit 4 `ComposeTestRule`. They require nodes to be
-displayed, not just present:
+Waits work on `ComposeUiTest` (`runComposeUiTest`) and on JUnit 4 `ComposeTestRule`. The single-node waits
+require nodes to be displayed:
 
 ```kotlin
 @get:Rule val composeRule = ThemedComposeRule(theme = { content -> AppTheme(content = content) })
@@ -131,7 +142,8 @@ displayed, not just present:
 }
 ```
 
-- Waits: `waitUntilDisplayed`, `waitUntilGone`, `waitForText`, `waitForContentDescription`, `waitForAnyTag`.
+- Waits: `waitUntilDisplayed`, `waitUntilGone`, `waitForText`, `waitForTag`, `waitForContentDescription`.
+- State selection: `waitForAnyTag` returns the first existing tag in argument order, including off-screen nodes.
 - Matchers: `hasTestTagStartingWith`, `onNodeWithRequiredContentDescription`.
 - Scrolling: `scrollContainer` picks the largest container on an axis; `scrollByViewport` and `scrollToNode`
   use semantics actions, so they work with lazy lists.

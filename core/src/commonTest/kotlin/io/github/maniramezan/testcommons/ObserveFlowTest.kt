@@ -15,6 +15,7 @@ import kotlin.test.assertTrue
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 class ObserveFlowTest {
     @Test
@@ -44,6 +45,24 @@ class ObserveFlowTest {
                 flow {
                     emit(1)
                     awaitCancellation()
+                },
+                maxCount = 5,
+                timeout = 20.milliseconds,
+            )
+            assertEquals(FlowObservation(listOf(1), FlowObservation.End.TimedOut), observation)
+        }
+
+    @Test
+    fun timeoutIncludesSynchronousUpstreamWork() =
+        runTest {
+            val observation = observeFlow(
+                flow {
+                    emit(1)
+                    val started = TimeSource.Monotonic.markNow()
+                    while (started.elapsedNow() < 200.milliseconds) {
+                        continue
+                    }
+                    emit(2)
                 },
                 maxCount = 5,
                 timeout = 20.milliseconds,

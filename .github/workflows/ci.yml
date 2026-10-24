@@ -31,7 +31,7 @@ jobs:
 
       # Tests on every target, ktlint, the public API check, and per-module coverage floors.
       - name: Check
-        run: ./gradlew check koverXmlReport dokkaGenerate
+        run: ./gradlew check koverXmlReport dokkaGenerate :samples:android:assembleDebug :samples:android:assembleDebugAndroidTest
 
       - name: Changed-line coverage
         if: github.event_name == 'pull_request'
@@ -73,9 +73,15 @@ jobs:
           arch: x86_64
           target: google_apis
           disable-animations: true
-          script: ./gradlew :device:connectedAndroidDeviceTest
+          script: |
+            ./gradlew :device:connectedAndroidDeviceTest
+            ./gradlew :samples:android:connectedDebugAndroidTest
       - uses: actions/upload-artifact@v7.0.2
         if: always()
         with:
           name: device-reports
-          path: device/build/reports/**
+          path: |
+            device/build/reports/**
+            device/build/outputs/androidTest-results/**
+            samples/android/build/reports/**
+            samples/android/build/outputs/androidTest-results/**

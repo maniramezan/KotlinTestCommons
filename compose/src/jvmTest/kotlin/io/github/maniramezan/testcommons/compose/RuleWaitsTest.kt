@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.unit.dp
 import org.junit.Rule
@@ -33,6 +34,8 @@ class RuleWaitsTest {
             }
         }
         composeRule.waitForText("Theme: brand")
+        composeRule.waitForTag("title").assertIsDisplayed()
+        composeRule.waitForTag("title", useUnmergedTree = true).assertIsDisplayed()
         composeRule.waitForText("brand", substring = true)
         composeRule.waitForContentDescription("Close")
         composeRule.waitUntilDisplayed(hasText("Theme: brand"))

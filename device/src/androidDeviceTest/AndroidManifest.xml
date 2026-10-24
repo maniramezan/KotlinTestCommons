@@ -3,6 +3,7 @@
     <application>
         <activity
             android:name="io.github.maniramezan.testcommons.device.FixtureActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 </manifest>

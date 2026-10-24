@@ -3,6 +3,7 @@ package io.github.maniramezan.testcommons.device
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.BySelector
 import androidx.test.uiautomator.Direction
+import androidx.test.uiautomator.StaleObjectException
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
 import androidx.test.uiautomator.Until
@@ -64,6 +65,8 @@ public fun UiDevice.setTextVerified(
  *
  * Scrolls [container] when given; otherwise the largest scrollable object on screen. Checks
  * before the first scroll and after the last one, and makes no scrolls for a nonpositive budget.
+ * A missing explicit container ends the search. A scroll's event result does not end the search;
+ * transiently stale containers are looked up again on the next attempt.
  *
  * @param target Selects the object to reveal.
  * @param container Selects the object to scroll, or `null` to pick one.
@@ -76,18 +79,34 @@ public fun UiDevice.scrollUntilVisible(
     container: BySelector? = null,
     direction: Direction = Direction.DOWN,
     maxScrolls: Int = 10,
-): UiObject2? {
-    repeat(maxScrolls.coerceAtLeast(0) + 1) { attempt ->
-        findObject(target)?.let { return it }
-        if (attempt == maxScrolls.coerceAtLeast(0)) return null
-        val scroller = container?.let(::findObject)
-            ?: findObjects(By.scrollable(true))
-                .maxByOrNull { it.visibleBounds.width() * it.visibleBounds.height() }
-            ?: return null
-        // `scroll` reports `false` whenever it sees no scroll event in time, which slow devices
-        // can report mid-list, so only the budget ends the search.
-        runCatching { scroller.scroll(direction, 0.8f) }
-        waitForIdle()
+): UiObject2? = scrollWithinBudget(
+    maxScrolls = maxScrolls,
+    findTarget = { findObject(target) },
+    scroll = {
+        val scroller = if (container != null) {
+            findObject(container)
+        } else {
+            findObjects(By.scrollable(true))
+                .maxByOrNull { it.visibleBounds.width().toLong() * it.visibleBounds.height() }
+        }
+        if (scroller == null) {
+            false
+        } else {
+            try {
+                scroller.scroll(direction, 0.8f)
+            } catch (_: StaleObjectException) {
+            }
+            waitForIdle()
+            true
+        }
+    },
+)
+
+internal fun <T> scrollWithinBudget(maxScrolls: Int, findTarget: () -> T?, scroll: () -> Boolean): T? {
+    findTarget()?.let { return it }
+    repeat(maxScrolls.coerceAtLeast(0)) {
+        if (!scroll()) return null
+        findTarget()?.let { return it }
     }
     return null
 }
