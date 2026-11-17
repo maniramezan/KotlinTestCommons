@@ -224,10 +224,11 @@ public final class io/github/maniramezan/testcommons/SnapshotReferenceDirectory 
 	public static synthetic fun resolve$default (Lio/github/maniramezan/testcommons/SnapshotReferenceDirectory;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Ljava/io/File;
 }
 
-public final class io/github/maniramezan/testcommons/TemporaryDirectory {
+public final class io/github/maniramezan/testcommons/TemporaryDirectory : java/lang/AutoCloseable {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;Ljava/io/File;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/io/File;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun close ()V
 	public final fun getFile ()Ljava/io/File;
 	public final fun remove ()V
 	public final fun write (Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;
