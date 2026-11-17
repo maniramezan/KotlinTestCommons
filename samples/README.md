@@ -38,5 +38,5 @@ With one emulator attached, run the Android sample tests:
 ```
 
 CI builds both apps, runs the host tests through `check`, and runs the Android sample's Compose and
-UiAutomator tests on API 35. Instrumented suites run sequentially so they do not compete for the same
+UiAutomator tests on API 26, 33, and 35. Instrumented suites run sequentially so they do not compete for the same
 emulator or accessibility connection. HTML reports are under each module's `build/reports` directory.

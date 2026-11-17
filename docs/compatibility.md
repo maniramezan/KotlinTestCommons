@@ -16,7 +16,7 @@ older or newer toolchain is compatible.
 | AndroidX Compose test manifest | 1.12.1 |
 | JUnit 4 | 4.13.2 |
 | JUnit Jupiter | 6.1.3 |
-| Android instrumented-test emulator | API 35 |
+| Android instrumented-test emulator | API 26, 33, 35 |
 
 The [version catalog](../gradle/libs.versions.toml) pins all dependency and plugin versions. JUnit's
 Jupiter extension API is `compileOnly` in `junit`; a Jupiter consumer supplies its API, engine, and
@@ -37,7 +37,7 @@ Kotlin support.
 | `compose` JVM/desktop | UI tests with the host renderer | Loads core/matcher APIs from the published JVM variant |
 | `compose` Android | Robolectric helpers and sample instrumented UI tests | Compiles the Android variant and loads matcher APIs in host tests |
 | `compose` iOS | Compilation, ABI validation, and common UI tests on the simulator | Compiles both native variants |
-| `device` Android | Pure-logic host tests and API 35 instrumented tests | Compiles an actual UiAutomator query using the published Android variant |
+| `device` Android | Pure-logic host tests and instrumented tests on API 26, 33, and 35 | Compiles an actual UiAutomator query using the published Android variant |
 
 **The common Compose UI tests run on the iOS simulator in CI.** The waits, matchers and assertions,
 scrolling, and geometry helpers are exercised through `runComposeUiTest` on `iosSimulatorArm64`, using
@@ -45,8 +45,10 @@ the same tests as desktop. Image capture, device configuration overrides, and th
 are JVM or Android only and are not tested on iOS. Neither is anything inside a real iOS app host, such
 as UIKit interop, so an iOS app should still check those workflows in its own test host.
 
-Android's declared minimum is API 26; the instrumented suite currently executes on API 35. The sample
-also exercises a short window with 200% font scale. This does not constitute a full device/OS matrix.
+Android's declared minimum is API 26. The instrumented suites run on API 26 (the minimum), 33 (per-app
+locales), and 35, each on one `google_apis` x86_64 emulator. The sample also exercises a short window
+with 200% font scale. This is still not a full device/OS matrix: no physical devices, form factors, or
+the API levels in between.
 
 ## Using the library
 
