@@ -28,7 +28,7 @@ python3 Scripts/verify-release-artifacts.py --version "$candidate_version" --sta
 
 `stageRelease` writes the same Maven publications used for Central into `build/release-staging`, with
 signing disabled for this local verification. The manifest checks metadata, binaries, sources, and
-documentation for all 13 publications. No credentials or external publication are involved.
+documentation for all 24 publications. No credentials or external publication are involved.
 
 CI uses a version containing the commit SHA so Gradle cannot reuse another commit's candidate under
 the same coordinates. A release run instead stages the exact proposed stable version.
