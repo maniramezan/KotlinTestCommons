@@ -5,6 +5,7 @@
 - Kotlin 2.4, AGP 9, JDK 17 bytecode, Android minSdk 26. Verify current stable versions online before adding or bumping a dependency, plugin, or GitHub Action, and pin exact versions.
 - Module rules:
   - `core` (KMP: JVM, Android, iOS) must stay free of JUnit, kotlin-test, coroutines-test, Compose, and AndroidX Test so tools and apps can ship it. Its only dependency is `kotlinx-coroutines-core`. Java file helpers go in `jvmSharedMain`.
+  - `coroutines` (KMP: JVM, Android, iOS) holds `Dispatchers.Main` test helpers for shared `commonTest` code. It exposes `kotlinx-coroutines-test` as an `api` dependency.
   - `junit` (JVM) holds JUnit 4 rules and JUnit 5 extensions. Jupiter stays `compileOnly`.
   - `compose` (KMP) holds Compose UI test helpers. Common helpers target `ComposeUiTest`/`SemanticsNodeInteractionsProvider`; JUnit 4 `ComposeTestRule` helpers go in `jvmSharedMain`; `DeviceConfigurationOverride` helpers are Android-only.
   - `device` (Android-only KMP) holds Espresso and UiAutomator helpers. Move device-free logic into internal functions with host tests.
