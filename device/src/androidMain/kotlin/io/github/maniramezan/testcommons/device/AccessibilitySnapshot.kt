@@ -25,7 +25,8 @@ public object AccessibilitySnapshot {
      * previous screen. Enables interactive-window retrieval so windows of apps other than the
      * instrumentation target are included. That setting stays on for the rest of the test process.
      *
-     * @param packageName When set, keeps only elements from this package.
+     * @param packageName When set, reads only windows whose root node belongs to this package and keeps
+     *   only elements from it. Nodes of this package embedded in another package's window are not returned.
      * @param maxDepth The maximum depth to walk from each window root.
      * @param uiAutomation The automation connection to read from.
      * @return The elements, in depth-first order.
@@ -43,7 +44,11 @@ public object AccessibilitySnapshot {
         val roots = windows.mapNotNull { it.root }.ifEmpty { listOfNotNull(uiAutomation.rootInActiveWindow) }
         val elements = ArrayList<AccessibilityElement>()
         try {
-            for (root in roots) collect(AccessibilityNodeSource(root), maxDepth, elements)
+            for (root in roots) {
+                if (rootBelongsTo(root.packageName?.toString(), packageName)) {
+                    collect(AccessibilityNodeSource(root), maxDepth, elements)
+                }
+            }
         } finally {
             @Suppress("DEPRECATION")
             for (root in roots) runCatching { root.recycle() }
@@ -53,6 +58,13 @@ public object AccessibilitySnapshot {
         return if (packageName.isNullOrBlank()) elements else elements.filter { it.packageName == packageName }
     }
 }
+
+/**
+ * Returns whether a window whose root node is in [rootPackage] should be read when capturing
+ * [packageName]; every window is read when no package is requested.
+ */
+internal fun rootBelongsTo(rootPackage: String?, packageName: String?): Boolean =
+    packageName.isNullOrBlank() || rootPackage == packageName
 
 /**
  * Turns on interactive-window retrieval so [UiAutomation.getWindows] includes windows of apps

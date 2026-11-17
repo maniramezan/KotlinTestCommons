@@ -44,6 +44,7 @@ class ViewMatchersTest {
         assertFalse(withIndex(withText("Item"), 0).matches(second))
         assertTrue(withIndex(withText("Item"), 1).matches(second))
         assertFalse(withIndex(withText("Item"), 1).matches(root))
+        assertFalse(withIndex(withText("Item"), 2).matches(second))
         assertTrue(StringDescription.toString(withIndex(withText("Item"), 1)).contains("index 1"))
         assertFailsWith<IllegalArgumentException> { withIndex(withText("Item"), -1) }
     }

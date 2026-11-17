@@ -47,8 +47,13 @@ public fun withIndex(matcher: Matcher<View>, index: Int): Matcher<View> {
 
         override fun matchesSafely(view: View): Boolean {
             if (!matcher.matches(view)) return false
-            val matches = TreeIterables.breadthFirstViewTraversal(view.rootView).filter { matcher.matches(it) }
-            return matches.getOrNull(index) === view
+            var seen = 0
+            for (candidate in TreeIterables.breadthFirstViewTraversal(view.rootView)) {
+                if (!matcher.matches(candidate)) continue
+                if (seen == index) return candidate === view
+                seen++
+            }
+            return false
         }
     }
 }
