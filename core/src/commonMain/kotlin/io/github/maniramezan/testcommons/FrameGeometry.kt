@@ -9,7 +9,10 @@ import kotlin.math.abs
  */
 public object FrameGeometry {
     /**
-     * Returns whether [frame] has finite edges and a positive width and height.
+     * Returns whether [frame] has finite edges and a positive width and height that fit in a `Float`.
+     *
+     * The answer is the same on every target, including JS, where `Float` arithmetic keeps double
+     * precision and so [Frame.width] can exceed `Float.MAX_VALUE` without becoming infinite.
      *
      * @param frame The frame to validate.
      * @return `true` when the frame can take part in layout checks.
@@ -19,10 +22,13 @@ public object FrameGeometry {
             frame.top.isFinite() &&
             frame.right.isFinite() &&
             frame.bottom.isFinite() &&
-            frame.width.isFinite() &&
-            frame.height.isFinite() &&
-            frame.width > 0 &&
-            frame.height > 0
+            hasUsableSpan(frame.left, frame.right) &&
+            hasUsableSpan(frame.top, frame.bottom)
+
+    private fun hasUsableSpan(start: Float, end: Float): Boolean {
+        val span = end.toDouble() - start.toDouble()
+        return span > 0 && span <= Float.MAX_VALUE
+    }
 
     /**
      * Returns whether [child] lies within [container], grown by [tolerance] on every side.

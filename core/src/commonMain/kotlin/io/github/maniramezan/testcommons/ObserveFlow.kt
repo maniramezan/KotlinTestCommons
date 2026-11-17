@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlin.concurrent.atomics.AtomicBoolean
 import kotlin.time.Duration
+import kotlin.time.TimeSource
 
 /**
  * Collects [flow] with both an event budget and a real-time budget.
@@ -22,6 +23,8 @@ import kotlin.time.Duration
  * on the caller's dispatcher. Zero budgets collect nothing.
  * The budget starts before collection, including synchronous upstream work. Collection must
  * cooperate with cancellation; a timeout cannot interrupt blocking or non-cooperative code.
+ * An event that arrives after the timeout is never recorded, including on single-threaded
+ * targets such as JS, where the timer cannot run until the upstream suspends.
  *
  * ```kotlin
  * val observation = observeFlow(viewModel.state, maxCount = 5, timeout = 2.seconds) { it.isLoaded }
@@ -46,12 +49,16 @@ public suspend fun <T> observeFlow(
     if (maxCount == 0) return FlowObservation(emptyList(), FlowObservation.End.LIMIT_REACHED)
     if (timeout == Duration.ZERO) return FlowObservation(emptyList(), FlowObservation.End.TIMED_OUT)
 
+    val deadline = TimeSource.Monotonic.markNow() + timeout
     val values = mutableListOf<T>()
     val timedOut = AtomicBoolean(false)
     return coroutineScope {
         val collector = async(start = CoroutineStart.LAZY) {
             try {
                 flow.collect { value ->
+                    // The timer cannot cancel synchronous upstream work on a single thread, so
+                    // every event checks the deadline itself.
+                    if (deadline.hasPassedNow()) throw StopObservation(FlowObservation.End.TIMED_OUT)
                     values += value
                     if (until(value)) throw StopObservation(FlowObservation.End.MATCHED)
                     if (values.size >= maxCount) throw StopObservation(FlowObservation.End.LIMIT_REACHED)

@@ -3,6 +3,7 @@ package io.github.maniramezan.testcommons.coroutines
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.coroutines.EmptyCoroutineContext
@@ -10,7 +11,7 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
+import kotlin.test.assertIs
 import kotlin.time.Duration.Companion.seconds
 
 class MainDispatcherTest {
@@ -48,16 +49,21 @@ class MainDispatcherTest {
     }
 
     @Test
-    fun runTestWithMainRestoresMainAfterAFailure() {
+    fun runTestWithMainRestoresMainAfterAFailure(): TestResult {
         main.reset()
-        assertFailsWith<IllegalStateException> {
-            runTestWithMain(UnconfinedTestDispatcher()) {
-                assertEquals(false, Dispatchers.Main.isDispatchNeeded(EmptyCoroutineContext))
-                throw IllegalStateException("boom")
-            }
-        }
-        val needsDispatch = runCatching { Dispatchers.Main.isDispatchNeeded(EmptyCoroutineContext) }
-        assertEquals(true, needsDispatch.getOrDefault(true))
-        main.install()
+        return checkFailure(
+            test = {
+                runTestWithMain(UnconfinedTestDispatcher()) {
+                    assertEquals(false, Dispatchers.Main.isDispatchNeeded(EmptyCoroutineContext))
+                    throw IllegalStateException("boom")
+                }
+            },
+            check = { failure ->
+                assertIs<IllegalStateException>(failure)
+                val needsDispatch = runCatching { Dispatchers.Main.isDispatchNeeded(EmptyCoroutineContext) }
+                assertEquals(true, needsDispatch.getOrDefault(true))
+                main.install()
+            },
+        )
     }
 }

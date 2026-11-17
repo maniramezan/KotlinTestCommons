@@ -31,9 +31,11 @@ Kotlin support.
 | `core` Android | Host unit tests | Compiles and runs host probes |
 | `core` iOS simulator | Common unit tests on the simulator | Compiles the simulator variant |
 | `core` iOS device | Compilation and ABI validation | Compiles the device variant |
+| `core` macOS, JS, Wasm | Common unit tests on macOS and on Node.js | Not checked yet |
 | `junit` JVM | JUnit 4 and Jupiter adapter tests | Runs both frameworks in separate consumers; Jupiter is absent from the JUnit 4 consumer |
 | `junit` Android | Used by sample host tests | Runs the rule in Android host tests |
 | `coroutines` JVM, Android, iOS | Common tests on every target, including the iOS simulator | Runs `runTestWithMain` from common tests on every consumer target |
+| `coroutines` macOS, JS, Wasm | Common tests on macOS and on Node.js | Not checked yet |
 | `compose` JVM/desktop | UI tests with the host renderer | Loads core/matcher APIs from the published JVM variant |
 | `compose` Android | Robolectric helpers and sample instrumented UI tests | Compiles the Android variant and loads matcher APIs in host tests |
 | `compose` iOS | Compilation, ABI validation, and common UI tests on the simulator | Compiles both native variants |
@@ -44,6 +46,11 @@ scrolling, and geometry helpers are exercised through `runComposeUiTest` on `ios
 the same tests as desktop. Image capture, device configuration overrides, and the JUnit 4 rule helpers
 are JVM or Android only and are not tested on iOS. Neither is anything inside a real iOS app host, such
 as UIKit interop, so an iOS app should still check those workflows in its own test host.
+
+**JS and Wasm tests run on Node.js only.** Browser runtimes are not tested. Both are single-threaded:
+`observeFlow` drops events that arrive after its timeout, but its timer cannot interrupt synchronous
+upstream work until that work suspends. `runTestWithMain` returns a promise there, so return it from
+the test function as with `runTest`.
 
 Android's declared minimum is API 26; the instrumented suite currently executes on API 35. The sample
 also exercises a short window with 200% font scale. This does not constitute a full device/OS matrix.
