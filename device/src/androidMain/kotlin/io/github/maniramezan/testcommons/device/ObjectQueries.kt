@@ -133,7 +133,8 @@ internal fun textReplaced(before: String, after: String, expected: String, isPas
 private fun UiObject2.isPassword(): Boolean {
     val bounds = runCatching { visibleBounds }.getOrNull() ?: return false
     val frame = Frame(bounds.left.toFloat(), bounds.top.toFloat(), bounds.right.toFloat(), bounds.bottom.toFloat())
-    return AccessibilitySnapshot.capture().any { it.isPassword && it.frame == frame }
+    val packageName = runCatching { applicationPackage }.getOrNull()
+    return AccessibilitySnapshot.capture(packageName = packageName).any { it.isPassword && it.frame == frame }
 }
 
 private fun describe(element: UiObject2): String =
