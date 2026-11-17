@@ -1,5 +1,6 @@
 package io.github.maniramezan.testcommons.samples.android
 
+import android.os.SystemClock
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
@@ -28,6 +29,10 @@ class CatalogDeviceTest {
         val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         launchTargetApp().use {
             device.setTextVerified(By.res(SampleIds.name), "Grace")
+            // The keyboard can still be opening on slower emulators; dismiss it once it shows so
+            // later swipes land on the list rather than on the keyboard.
+            val deadline = SystemClock.uptimeMillis() + 2_000
+            while (!device.isKeyboardVisible() && SystemClock.uptimeMillis() < deadline) SystemClock.sleep(100)
             if (device.isKeyboardVisible()) device.pressBackReliably()
             device.uniqueObject(By.res(SampleIds.save)).click()
             device.uniqueObject(By.text("Hello, Grace!"))

@@ -56,7 +56,8 @@ public fun UiDevice.setTextVerified(
     field.click()
     field.text = text
     waitForIdle()
-    val after = field.text.orEmpty()
+    // On API 26 the original handle keeps reporting the old text after a set, so read a fresh one.
+    val after = (findObject(selector) ?: field).text.orEmpty()
     val isPassword by lazy(LazyThreadSafetyMode.NONE) { field.isPassword() }
     if (!textReplaced(before, after, text) { isPassword }) {
         throw AssertionError("Expected $selector to contain '${if (isPassword) "•".repeat(text.length) else text}'")
