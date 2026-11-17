@@ -15,6 +15,7 @@
   - `./gradlew check` (tests on every target, ktlint, `checkKotlinAbi`, and Kover floors)
   - `./gradlew koverXmlReport && python3 Scripts/check-coverage.py --diff-base origin/main`
   - `./gradlew :device:connectedAndroidDeviceTest` with an emulator attached when `device` changes
+  - `python3 Scripts/check-doc-versions.py` (documentation pins match the latest release tag)
 - After an intended public API change, run `./gradlew updateApi` and commit the `*/api/` dumps.
 - Coverage floors (`minBound` in each module's `build.gradle.kts`) only go up; never lower them to pass a PR. At least 90% of changed lines must be covered, except in `device`.
 - Conventional Commits drive releases: `feat` → minor, `fix`/`perf` → patch while pre-1.0; other types do not release. Tags are bare SemVer (`0.1.0`), never `v0.1.0`.

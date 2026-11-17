@@ -25,15 +25,15 @@ Android dependencies below use a regular Android application's source-set names.
 
 ```kotlin
 dependencies {
-    testImplementation("io.github.maniramezan.testcommons:core:0.1.0")
-    testImplementation("io.github.maniramezan.testcommons:junit:0.1.0")
-    testImplementation("io.github.maniramezan.testcommons:coroutines:0.1.0")
-    androidTestImplementation("io.github.maniramezan.testcommons:compose:0.1.0")
-    androidTestImplementation("io.github.maniramezan.testcommons:device:0.1.0")
+    testImplementation("io.github.maniramezan.testcommons:core:0.2.0")
+    testImplementation("io.github.maniramezan.testcommons:junit:0.2.0")
+    testImplementation("io.github.maniramezan.testcommons:coroutines:0.2.0")
+    androidTestImplementation("io.github.maniramezan.testcommons:compose:0.2.0")
+    androidTestImplementation("io.github.maniramezan.testcommons:device:0.2.0")
 }
 ```
 
-The example pins `0.1.0`. Use a specific [release](https://github.com/maniramezan/KotlinTestCommons/releases). Tags are bare SemVer
+The example pins `0.2.0`. Use a specific [release](https://github.com/maniramezan/KotlinTestCommons/releases). Tags are bare SemVer
 (`0.1.0`), never `v0.1.0`. Before 1.0, a minor release can contain breaking changes.
 For Kotlin Multiplatform source sets and JUnit Jupiter setup, see the [testing guide](docs/testing-guide.md).
 

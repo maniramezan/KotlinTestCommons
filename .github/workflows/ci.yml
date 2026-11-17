@@ -36,6 +36,9 @@ jobs:
       - name: Test release verification
         run: python3 -m unittest discover -s Scripts/tests -p 'test_*.py'
 
+      - name: Documentation pins match the latest release
+        run: python3 Scripts/check-doc-versions.py
+
       - name: Verify an independently resolved release candidate
         env:
           CANDIDATE_VERSION: 0.0.0-verification-${{ github.sha }}
