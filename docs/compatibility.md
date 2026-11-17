@@ -36,13 +36,14 @@ Kotlin support.
 | `coroutines` JVM, Android, iOS | Common tests on every target, including the iOS simulator | Runs `runTestWithMain` from common tests on every consumer target |
 | `compose` JVM/desktop | UI tests with the host renderer | Loads core/matcher APIs from the published JVM variant |
 | `compose` Android | Robolectric helpers and sample instrumented UI tests | Compiles the Android variant and loads matcher APIs in host tests |
-| `compose` iOS | Compilation and ABI validation | Compiles both native variants |
+| `compose` iOS | Compilation, ABI validation, and common UI tests on the simulator | Compiles both native variants |
 | `device` Android | Pure-logic host tests and API 35 instrumented tests | Compiles an actual UiAutomator query using the published Android variant |
 
-**iOS Compose UI interaction tests do not currently run in CI.** Publishing an iOS variant and compiling
-a consumer do not verify rendering, input, scrolling, or UI-test execution on iOS. An iOS app should
-validate those workflows in its own test host. Adding an iOS UI test host is future work, not an
-existing guarantee.
+**The common Compose UI tests run on the iOS simulator in CI.** The waits, matchers and assertions,
+scrolling, and geometry helpers are exercised through `runComposeUiTest` on `iosSimulatorArm64`, using
+the same tests as desktop. Image capture, device configuration overrides, and the JUnit 4 rule helpers
+are JVM or Android only and are not tested on iOS. Neither is anything inside a real iOS app host, such
+as UIKit interop, so an iOS app should still check those workflows in its own test host.
 
 Android's declared minimum is API 26; the instrumented suite currently executes on API 35. The sample
 also exercises a short window with 200% font scale. This does not constitute a full device/OS matrix.
