@@ -25,6 +25,8 @@ class FixtureActivity : Activity() {
                 Button(this@FixtureActivity).apply {
                     id = android.R.id.button1
                     text = "Save"
+                    // API 26 reports the all-caps transformed label to accessibility; keep it as written.
+                    isAllCaps = false
                 },
             )
             addView(
