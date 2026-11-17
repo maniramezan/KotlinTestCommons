@@ -21,6 +21,14 @@ import java.util.UUID
  * }
  * ```
  *
+ * It is also [AutoCloseable], so `use { }` removes it when the block ends:
+ *
+ * ```kotlin
+ * TemporaryDirectory(prefix = "ImportTests").use { directory ->
+ *     importer.import(directory.write("{}", "fixtures/empty.json"))
+ * }
+ * ```
+ *
  * @param prefix An optional label placed before the unique name, such as a test name, to identify
  *   leftover directories. It must be nonempty and must not contain a path separator.
  * @param parent The directory to create it in; defaults to `java.io.tmpdir`.
@@ -30,7 +38,7 @@ import java.util.UUID
 public class TemporaryDirectory(
     prefix: String? = null,
     parent: File = File(checkNotNull(System.getProperty("java.io.tmpdir")) { "java.io.tmpdir is not set" }),
-) {
+) : AutoCloseable {
     /** The unique directory. */
     public val file: File
 
@@ -80,5 +88,14 @@ public class TemporaryDirectory(
     public fun remove() {
         if (!file.exists()) return
         if (!file.deleteRecursively()) throw IOException("Could not delete ${file.path}")
+    }
+
+    /**
+     * Removes the directory and its contents, like [remove], so `use { }` cleans up. Closing twice is harmless.
+     *
+     * @throws IOException when the directory cannot be deleted.
+     */
+    override fun close() {
+        remove()
     }
 }

@@ -28,6 +28,24 @@ class TemporaryDirectoryTest {
     }
 
     @Test
+    fun useRemovesTheDirectory() {
+        val directory = TemporaryDirectory(prefix = "Use").use { directory ->
+            directory.write("{}", "fixtures/empty.json")
+            assertTrue(directory.file.exists())
+            directory
+        }
+        assertFalse(directory.file.exists())
+    }
+
+    @Test
+    fun closingTwiceIsHarmless() {
+        val directory = TemporaryDirectory()
+        directory.close()
+        directory.close()
+        assertFalse(directory.file.exists())
+    }
+
+    @Test
     fun rejectsEscapingPathsAndInvalidPrefixes() {
         val directory = TemporaryDirectory()
         try {

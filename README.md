@@ -135,7 +135,7 @@ Modifier.testTag(ids.make("home", "feed", "video_card", key = video.id))
 ## Temporary files and fixtures
 
 On the JVM and Android, `TemporaryDirectory` creates a uniquely named directory and writes nested files;
-paths escaping it are rejected. Cleanup is explicit with `remove()`. `FixtureDirectory` reads text or bytes
+paths escaping it are rejected. Clean up with `remove()` or `use { }`. `FixtureDirectory` reads text or bytes
 from a root folder or a test class's resources. `SnapshotReferenceDirectory` finds an existing reference
 folder for a test class and returns `null` otherwise, so the snapshot library keeps its default.
 `fixtureEnvironment` and `roundTrip` build environments and check serialization without global state.
