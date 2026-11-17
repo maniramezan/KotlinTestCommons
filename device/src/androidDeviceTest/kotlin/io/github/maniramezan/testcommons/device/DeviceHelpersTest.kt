@@ -1,5 +1,6 @@
 package io.github.maniramezan.testcommons.device
 
+import android.os.Build
 import android.os.SystemClock
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -11,6 +12,7 @@ import androidx.test.uiautomator.By
 import androidx.test.uiautomator.Direction
 import androidx.test.uiautomator.UiDevice
 import org.junit.After
+import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -136,6 +138,19 @@ class DeviceHelpersTest {
         }
         assertTrue(File(directory, "DeviceHelpersTest/fails_1_.png").length() > 0)
         assertTrue(File(directory, "DeviceHelpersTest/fails_1_.xml").readText().contains("Save"))
+    }
+
+    @Test
+    fun restoresTheSystemLocaleWithAnEmptyList() {
+        assumeTrue(Build.VERSION.SDK_INT >= 33)
+        val pkg = InstrumentationRegistry.getInstrumentation().targetContext.packageName
+        try {
+            device.setAppLocales(pkg, listOf("fr-FR"))
+            assertTrue(device.executeShellCommand("cmd locale get-app-locales $pkg").contains("fr-FR"))
+        } finally {
+            device.setAppLocales(pkg, emptyList())
+        }
+        assertFalse(device.executeShellCommand("cmd locale get-app-locales $pkg").contains("fr-FR"))
     }
 
     @Test

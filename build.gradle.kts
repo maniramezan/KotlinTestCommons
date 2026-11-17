@@ -51,6 +51,23 @@ subprojects {
     }
 }
 
+// Every published module's API pages link to their source on GitHub and open with Module.md.
+val repositoryRoot = rootProject.layout.projectDirectory.asFile
+subprojects {
+    plugins.withId("org.jetbrains.dokka") {
+        extensions.configure<org.jetbrains.dokka.gradle.DokkaExtension> {
+            dokkaSourceSets.configureEach {
+                includes.from(layout.projectDirectory.file("Module.md"))
+                sourceLink {
+                    localDirectory.set(repositoryRoot)
+                    remoteUrl("https://github.com/maniramezan/KotlinTestCommons/tree/main")
+                    remoteLineSuffix.set("#L")
+                }
+            }
+        }
+    }
+}
+
 // Aggregated API docs (`./gradlew dokkaGenerate` -> build/dokka/html) and merged coverage
 // (`./gradlew koverXmlReport` -> build/reports/kover/report.xml) for every published module.
 dependencies {

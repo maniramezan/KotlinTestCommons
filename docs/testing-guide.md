@@ -11,7 +11,7 @@ With `mavenCentral()` configured, add the dependencies to the owning source sets
 This example assumes a project with a JVM target; omit `jvmTest` when that target is absent.
 
 ```kotlin
-val testCommonsVersion = "0.1.0"
+val testCommonsVersion = "0.2.0"
 
 kotlin {
     sourceSets {

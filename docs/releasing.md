@@ -17,13 +17,16 @@ Central or create a tag.
    publishing. If `main` has moved, prepare and review the new candidate first.
 5. After Central accepts the deployment, a separate job waits for all manifest files to be downloadable
    and runs consumers against Maven Central. Only then does another job create the tag and GitHub Release.
+6. After the tag exists, open a PR from branch `docs/pin-<version>` titled
+   `docs: pin <version> in install snippets` that updates every documented version pin. Until it merges,
+   every other PR fails `python3 Scripts/check-doc-versions.py` in CI.
 
 `feat` selects a minor version; `fix` and `perf` select a patch before 1.0. Other commit types do not
 release. Breaking changes select a minor version before 1.0 and a major version afterward. Tags are
 bare SemVer, such as `0.1.1`. `force_version` is optional when preparing and required when publishing,
 so the published version is the one that was reviewed.
 
-Preserve existing release tags and artifacts. `0.1.0` already exists; fixes belong in a new version.
+Preserve existing release tags and artifacts. Published versions are immutable; fixes belong in a new version.
 Document behavioral changes and migration notes in PR descriptions and GitHub Release notes, not a
 changelog file.
 
@@ -138,5 +141,5 @@ Release. It never moves an existing tag.
 For an already tagged version, verify its downloads without invoking publishing:
 
 ```sh
-./gradlew -p verification/consumer verifyConsumer -PtestCommonsVersion=0.1.0 --refresh-dependencies
+./gradlew -p verification/consumer verifyConsumer -PtestCommonsVersion=0.2.0 --refresh-dependencies
 ```

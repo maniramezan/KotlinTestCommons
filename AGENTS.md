@@ -5,6 +5,7 @@
 - Kotlin 2.4, AGP 9, JDK 17 bytecode, Android minSdk 26. Verify current stable versions online before adding or bumping a dependency, plugin, or GitHub Action, and pin exact versions.
 - Module rules:
   - `core` (KMP: JVM, Android, iOS) must stay free of JUnit, kotlin-test, coroutines-test, Compose, and AndroidX Test so tools and apps can ship it. Its only dependency is `kotlinx-coroutines-core`. Java file helpers go in `jvmSharedMain`.
+  - `coroutines` (KMP: JVM, Android, iOS) holds `Dispatchers.Main` test helpers for shared `commonTest` code. It exposes `kotlinx-coroutines-test` as an `api` dependency.
   - `junit` (JVM) holds JUnit 4 rules and JUnit 5 extensions. Jupiter stays `compileOnly`.
   - `compose` (KMP) holds Compose UI test helpers. Common helpers target `ComposeUiTest`/`SemanticsNodeInteractionsProvider`; JUnit 4 `ComposeTestRule` helpers go in `jvmSharedMain`; `DeviceConfigurationOverride` helpers are Android-only.
   - `device` (Android-only KMP) holds Espresso and UiAutomator helpers. Move device-free logic into internal functions with host tests.
@@ -15,6 +16,7 @@
   - `./gradlew check` (tests on every target, ktlint, `checkKotlinAbi`, and Kover floors)
   - `./gradlew koverXmlReport && python3 Scripts/check-coverage.py --diff-base origin/main`
   - `./gradlew :device:connectedAndroidDeviceTest` with an emulator attached when `device` changes
+  - `python3 Scripts/check-doc-versions.py` (documentation pins match the latest release tag)
 - After an intended public API change, run `./gradlew updateApi` and commit the `*/api/` dumps.
 - Coverage floors (`minBound` in each module's `build.gradle.kts`) only go up; never lower them to pass a PR. At least 90% of changed lines must be covered, except in `device`.
 - Conventional Commits drive releases: `feat` → minor, `fix`/`perf` → patch while pre-1.0; other types do not release. Tags are bare SemVer (`0.1.0`), never `v0.1.0`.

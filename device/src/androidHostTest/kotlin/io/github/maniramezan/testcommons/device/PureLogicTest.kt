@@ -96,6 +96,16 @@ class PureLogicTest {
     }
 
     @Test
+    fun snapshotReadsOnlyTheRequestedPackagesWindows() {
+        assertTrue(rootBelongsTo(null, null))
+        assertTrue(rootBelongsTo("a", ""))
+        assertTrue(rootBelongsTo("a", " "))
+        assertTrue(rootBelongsTo("a", "a"))
+        assertFalse(rootBelongsTo("a", "b"))
+        assertFalse(rootBelongsTo(null, "a"))
+    }
+
+    @Test
     fun fileStemsAreFileSystemSafe() {
         assertEquals("loads_fa_IR_", fileStem("loads[fa/IR]"))
         assertEquals("test", fileStem(null))

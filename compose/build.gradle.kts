@@ -42,6 +42,12 @@ kotlin {
                 withJvm()
                 withCompilations { it.target.platformType == KotlinPlatformType.androidJvm }
             }
+            // `skiko` holds the UI tests that run on both Skiko renderers: desktop and iOS.
+            group("skiko") {
+                withJvm()
+                withIosArm64()
+                withIosSimulatorArm64()
+            }
         }
     }
 
@@ -61,6 +67,10 @@ kotlin {
             api(libs.compose.ui.test.junit4)
         }
         commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.compose.foundation)
+        }
+        named("skikoTest").dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.compose.foundation)
         }
