@@ -30,8 +30,12 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @RunWith(AndroidJUnit4::class)
 class DeviceHelpersTest {
+    // AGP pulls the runner's additional test output directory before uninstalling the test APK, so
+    // CI keeps the failure screenshot and hierarchy; the rule's default directory is removed with it.
     @get:Rule
-    val diagnostics = DiagnosticsOnFailureRule()
+    val diagnostics = InstrumentationRegistry.getArguments().getString("additionalTestOutputDir")
+        ?.let { DiagnosticsOnFailureRule(File(it, "diagnostics")) }
+        ?: DiagnosticsOnFailureRule()
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val packageName = InstrumentationRegistry.getInstrumentation().context.packageName
@@ -40,7 +44,21 @@ class DeviceHelpersTest {
     @Before
     fun launch() {
         scenario = ActivityScenario.launch(FixtureActivity::class.java)
+        // A slow emulator can list the fixture's views before its window accepts input; touches then
+        // reach the system's input sink instead, so fail here rather than in a later gesture.
+        assertTrue(waitForWindowFocus(), "FixtureActivity's window never received input focus")
         device.wait(androidx.test.uiautomator.Until.hasObject(By.text("Save")), 5_000)
+    }
+
+    private fun waitForWindowFocus(): Boolean {
+        val deadline = SystemClock.uptimeMillis() + 10_000
+        while (SystemClock.uptimeMillis() < deadline) {
+            var focused = false
+            scenario.onActivity { focused = it.hasWindowFocus() }
+            if (focused) return true
+            SystemClock.sleep(100)
+        }
+        return false
     }
 
     @After
