@@ -12,7 +12,7 @@ This example assumes a project with a JVM target; omit `jvmTest` when that targe
 
 <!-- x-release-please-start-version -->
 ```kotlin
-val testCommonsVersion = "0.2.0"
+val testCommonsVersion = "0.3.0"
 
 kotlin {
     sourceSets {
