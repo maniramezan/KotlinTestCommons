@@ -30,12 +30,18 @@ class FindPinsTest(unittest.TestCase):
         self.assertEqual(CHECK.find_pins("Tags are bare SemVer (`0.1.0`), never `v0.1.0`."), [])
 
 
-class LatestTagTest(unittest.TestCase):
-    def test_sorts_numerically_and_skips_other_tags(self):
-        self.assertEqual(CHECK.latest_tag(["0.9.0", "v1.0.0", "1.0.0-rc1", "0.10.0", "list"]), "0.10.0")
+class ManifestVersionTest(unittest.TestCase):
+    def test_reads_the_root_package_version(self):
+        self.assertEqual(CHECK.manifest_version('{\n  ".": "0.3.0"\n}\n'), "0.3.0")
 
-    def test_returns_none_without_release_tags(self):
-        self.assertIsNone(CHECK.latest_tag([]))
+    def test_rejects_a_missing_root_package(self):
+        with self.assertRaises(ValueError):
+            CHECK.manifest_version('{"core": "0.3.0"}')
+
+    def test_rejects_a_prefixed_or_prerelease_version(self):
+        for version in ("v0.3.0", "0.3.0-rc1"):
+            with self.subTest(version=version), self.assertRaises(ValueError):
+                CHECK.manifest_version(f'{{".": "{version}"}}')
 
 
 if __name__ == "__main__":

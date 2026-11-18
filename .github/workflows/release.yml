@@ -1,25 +1,14 @@
 name: Release
 
+# release-please keeps a release PR open on main. Merging that PR is the decision to release: after
+# CI passes on main, this workflow publishes the merged version to Maven Central, verifies public
+# consumers, and only then lets release-please create the bare SemVer tag and GitHub Release.
+
 on:
   workflow_run:
     workflows: ["CI"]
     types: [completed]
     branches: [main]
-  workflow_dispatch:
-    inputs:
-      force_version:
-        description: "Exact candidate version, e.g. 0.1.1 (required for publishing; otherwise optional)"
-        required: false
-        type: string
-      candidate_commit:
-        description: "Full commit SHA from the reviewed candidate summary (required for publishing)"
-        required: false
-        type: string
-      publish:
-        description: "Publish the verified candidate and tag it after public consumer verification"
-        required: true
-        default: false
-        type: boolean
 
 permissions:
   actions: read
@@ -30,131 +19,88 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  prepare:
-    name: Prepare and verify a release candidate
-    runs-on: macos-26
+  release-pr:
+    name: Open or update the release PR
     if: >-
-      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
-      (github.event.workflow_run.conclusion == 'success' &&
-       github.event.workflow_run.event == 'push' &&
-       github.event.workflow_run.head_repository.full_name == github.repository)
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require the release-please token
+        env:
+          RELEASE_PLEASE_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+        run: |
+          if [ -z "$RELEASE_PLEASE_TOKEN" ]; then
+            echo "Missing GitHub Actions secret: RELEASE_PLEASE_TOKEN" >&2
+            exit 1
+          fi
+
+      # A PAT, not GITHUB_TOKEN, so CI runs on the release PR. While a merged release PR is still
+      # untagged, release-please leaves the PR alone until the tag job below finishes.
+      - uses: googleapis/release-please-action@v5.0.0
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          target-branch: main
+          skip-github-release: true
+
+  prepare:
+    name: Prepare and verify the release candidate
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: macos-26
     outputs:
       release: ${{ steps.version.outputs.release }}
-      version: ${{ steps.version.outputs.tag }}
-      commit: ${{ steps.source.outputs.sha }}
+      version: ${{ steps.version.outputs.version }}
+      commit: ${{ steps.version.outputs.commit }}
     steps:
-      - name: Checkout the candidate commit
-        uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
 
-      - name: Record the candidate commit
-        id: source
-        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-
-      - name: Require successful CI before publishing
-        if: github.event_name == 'workflow_dispatch' && inputs.publish
-        env:
-          GH_TOKEN: ${{ github.token }}
-          RELEASE_SHA: ${{ steps.source.outputs.sha }}
-          REVIEWED_SHA: ${{ inputs.candidate_commit }}
-          REVIEWED_VERSION: ${{ inputs.force_version }}
-        run: |
-          set -euo pipefail
-          if [ "$REVIEWED_SHA" != "$RELEASE_SHA" ] || [ -z "$REVIEWED_VERSION" ]; then
-            echo "Publishing requires the reviewed candidate's exact version and current main commit SHA." >&2
-            exit 1
-          fi
-          passed="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$RELEASE_SHA&event=push&branch=main" --jq 'any(.workflow_runs[]; .conclusion == "success")')"
-          if [ "$passed" != true ]; then
-            echo "CI must succeed for $RELEASE_SHA before publishing." >&2
-            exit 1
-          fi
-
-      - name: Compute next version
+      # The release commit is the merged release PR, the last first-parent commit that changed the
+      # manifest. Later commits on main never ride along with the version that was reviewed.
+      - name: Find an unreleased version
         id: version
-        env:
-          FORCE_VERSION: ${{ github.event.inputs.force_version }}
         run: |
           set -euo pipefail
-
-          # Only consider bare SemVer tags (no "v" prefix).
-          latest_tag="$(git tag --list --sort=-v:refname | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n1 || true)"
-
-          if [ -n "${FORCE_VERSION:-}" ]; then
-            next="${FORCE_VERSION#v}"
-            if ! [[ "$next" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
-              echo "force_version must be a stable SemVer version (for example 0.2.0)." >&2
-              exit 1
-            fi
-            if git rev-parse --verify --quiet "refs/tags/${next}"; then
-              echo "Version ${next} already has a tag; nothing to publish."
-              echo "release=false" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-            echo "Forcing version $next"
-            echo "tag=$next" >> "$GITHUB_OUTPUT"
-            echo "release=true" >> "$GITHUB_OUTPUT"
-            exit 0
+          version="$(python3 -c 'import json; print(json.load(open(".release-please-manifest.json"))["."])')"
+          if ! [[ "$version" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo "The manifest version must be bare SemVer, found '$version'." >&2
+            exit 1
           fi
-
-          # First release — bootstrap at 0.1.0.
-          if [ -z "$latest_tag" ]; then
-            echo "No existing tags; bootstrapping 0.1.0"
-            echo "tag=0.1.0" >> "$GITHUB_OUTPUT"
-            echo "release=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          echo "Latest tag: $latest_tag"
-          major="${latest_tag%%.*}"
-          rest="${latest_tag#*.}"
-          minor="${rest%%.*}"
-          patch="${rest#*.}"
-
-          range="${latest_tag}..HEAD"
-          subjects="$(git log "$range" --format='%s')"
-          bodies="$(git log "$range" --format='%B')"
-          if [ -z "$subjects" ]; then
-            echo "No commits since $latest_tag; nothing to release."
+          if git rev-parse --verify --quiet "refs/tags/$version" >/dev/null; then
+            echo "Version $version is already tagged; nothing to publish."
             echo "release=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          commit="$(git log -1 --first-parent --format=%H -- .release-please-manifest.json)"
+          echo "Version $version from release commit $commit is unpublished."
+          {
+            echo "release=true"
+            echo "version=$version"
+            echo "commit=$commit"
+          } >> "$GITHUB_OUTPUT"
 
-          breaking=false; feat=false; fix=false
-          if echo "$subjects" | grep -Eq '^[a-zA-Z]+(\([^)]+\))?!:'; then breaking=true; fi
-          if echo "$bodies" | grep -Eq 'BREAKING[ -]CHANGE'; then breaking=true; fi
-          if echo "$subjects" | grep -Eq '^feat(\([^)]+\))?!?:'; then feat=true; fi
-          if echo "$subjects" | grep -Eq '^(fix|perf)(\([^)]+\))?!?:'; then fix=true; fi
-
-          if [ "$major" -eq 0 ]; then
-            if [ "$breaking" = true ] || [ "$feat" = true ]; then bump="minor"
-            elif [ "$fix" = true ]; then bump="patch"
-            else bump="none"
-            fi
-          else
-            if [ "$breaking" = true ]; then bump="major"
-            elif [ "$feat" = true ]; then bump="minor"
-            elif [ "$fix" = true ]; then bump="patch"
-            else bump="none"
-            fi
+      - name: Require successful CI for the release commit
+        if: steps.version.outputs.release == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_SHA: ${{ steps.version.outputs.commit }}
+        run: |
+          set -euo pipefail
+          passed="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$RELEASE_SHA&event=push&branch=main" --jq 'any(.workflow_runs[]; .conclusion == "success")')"
+          if [ "$passed" != true ]; then
+            echo "CI must succeed on main for release commit $RELEASE_SHA before publishing." >&2
+            exit 1
           fi
 
-          case "$bump" in
-            major) next="$((major + 1)).0.0" ;;
-            minor) next="${major}.$((minor + 1)).0" ;;
-            patch) next="${major}.${minor}.$((patch + 1))" ;;
-            none)
-              echo "Only non-releasing commits since $latest_tag; nothing to release."
-              echo "release=false" >> "$GITHUB_OUTPUT"
-              exit 0
-              ;;
-          esac
-
-          echo "Bump: $bump -> $next"
-          echo "tag=$next" >> "$GITHUB_OUTPUT"
-          echo "release=true" >> "$GITHUB_OUTPUT"
+      - name: Check out the release commit
+        if: steps.version.outputs.release == 'true'
+        run: git checkout --detach "${{ steps.version.outputs.commit }}"
 
       - name: Set up Java
         if: steps.version.outputs.release == 'true'
@@ -170,23 +116,11 @@ jobs:
       - name: Stage and verify the release candidate
         if: steps.version.outputs.release == 'true'
         env:
-          RELEASE_VERSION: ${{ steps.version.outputs.tag }}
+          RELEASE_VERSION: ${{ steps.version.outputs.version }}
         run: |
           ./gradlew stageRelease -PVERSION_NAME="$RELEASE_VERSION" -PRELEASE_SIGNING_ENABLED=false --no-configuration-cache
           python3 Scripts/verify-release-artifacts.py --version "$RELEASE_VERSION" --staging-repository build/release-staging --manifest build/release-manifest.json
           ./gradlew -p verification/consumer verifyConsumer -PtestCommonsVersion="$RELEASE_VERSION" -PtestCommonsRepository="$GITHUB_WORKSPACE/build/release-staging"
-
-      - name: Describe the prepared candidate
-        if: steps.version.outputs.release == 'true'
-        env:
-          RELEASE_VERSION: ${{ steps.version.outputs.tag }}
-          RELEASE_SHA: ${{ steps.source.outputs.sha }}
-        run: |
-          {
-            echo "Candidate $RELEASE_VERSION from $RELEASE_SHA passed independent Maven consumer verification."
-            echo "Publishing requires a manual Release run on main with the publish input selected."
-            echo "A GitHub tag is created only after the public Maven Central consumer also passes."
-          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload publication manifest
         if: steps.version.outputs.release == 'true'
@@ -206,9 +140,9 @@ jobs:
             verification/consumer/**/build/reports/**
 
   publish:
-    name: Publish the reviewed candidate
+    name: Publish to Maven Central
     needs: prepare
-    if: github.event_name == 'workflow_dispatch' && inputs.publish && needs.prepare.outputs.release == 'true'
+    if: needs.prepare.outputs.release == 'true'
     runs-on: macos-26
     environment: secrets
     steps:
@@ -283,32 +217,24 @@ jobs:
     name: Tag the verified publication
     needs: [prepare, verify]
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - uses: actions/checkout@v7.0.1
+      # Tags the merged release PR, creates its GitHub Release from the PR's notes, marks the PR
+      # tagged, and then opens the next release PR if releasable commits are already waiting.
+      - uses: googleapis/release-please-action@v5.0.0
+        id: release
         with:
-          ref: ${{ needs.prepare.outputs.commit }}
-          fetch-depth: 0
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          target-branch: main
 
-      - name: Create tag and GitHub Release
+      - name: Require the tag on the published commit
         env:
-          GH_TOKEN: ${{ github.token }}
           TAG: ${{ needs.prepare.outputs.version }}
           RELEASE_SHA: ${{ needs.prepare.outputs.commit }}
         run: |
           set -euo pipefail
-          if git rev-parse --verify --quiet "refs/tags/$TAG"; then
-            if [ "$(git rev-list -n 1 "$TAG")" != "$RELEASE_SHA" ]; then
-              echo "Existing tag $TAG points at a different commit." >&2
-              exit 1
-            fi
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git tag -a "$TAG" -m "$TAG"
-            git push origin "$TAG"
+          tagged="$(git ls-remote "https://github.com/$GITHUB_REPOSITORY.git" "refs/tags/$TAG^{}" "refs/tags/$TAG" | awk 'END { print $1 }')"
+          if [ "$tagged" != "$RELEASE_SHA" ]; then
+            echo "Tag $TAG points at '${tagged:-nothing}', expected the published commit $RELEASE_SHA." >&2
+            exit 1
           fi
-          if ! gh release view "$TAG" >/dev/null 2>&1; then
-            gh release create "$TAG" --title "$TAG" --generate-notes
-          fi
+          echo "Tag $TAG points at $RELEASE_SHA."

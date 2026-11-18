@@ -1,44 +1,41 @@
 # Preparing and publishing a release
 
-CI stages and verifies Maven publications on every PR. After releasable changes reach `main`, the
-Release workflow prepares a versioned candidate. Publishing is a separate, explicit action. Its
-`publish` input defaults to `false`; an ordinary successful push to `main` cannot publish to Maven
-Central or create a tag.
+CI stages and verifies Maven publications on every PR. [release-please](https://github.com/googleapis/release-please)
+keeps a release PR open on `main` with the next version and its release notes. Merging that PR is the
+only way to publish; an ordinary push to `main` cannot publish to Maven Central or create a tag.
 
 ## Release sequence
 
-1. Merge reviewed changes through PRs and wait for CI on the exact `main` commit to pass.
-2. The Release workflow computes a version from Conventional Commits, stages every Maven publication,
-   and verifies a separate consumer against that file repository. It uploads candidate evidence.
-3. Review the candidate, its version, compatibility limits, public API changes, and release notes.
-4. Run **Release** manually on `main` with `publish` selected, `force_version` set to the reviewed
-   candidate version, and `candidate_commit` set to its full commit SHA. The run refuses a different
-   `main` commit, requires successful CI for that commit, and repeats candidate verification before
-   publishing. If `main` has moved, prepare and review the new candidate first.
-5. After Central accepts the deployment, a separate job waits for all manifest files to be downloadable
-   and runs consumers against Maven Central. Only then does another job create the tag and GitHub Release.
-6. After the tag exists, open a PR from branch `docs/pin-<version>` titled
-   `docs: pin <version> in install snippets` that updates every documented version pin. Until it merges,
-   every other PR fails `python3 Scripts/check-doc-versions.py` in CI.
+1. Merge reviewed changes through PRs. After CI passes on `main`, the Release workflow opens or updates
+   a PR titled `chore: release <version>`. It raises `.release-please-manifest.json` and every version
+   pin in the documentation, and its description holds the release notes.
+2. Review the release PR: its version, notes, compatibility limits, and public API changes. CI runs on it
+   like any other PR. Merge it when you are ready to release.
+3. After CI passes on the merge commit, the Release workflow stages every Maven publication from that
+   commit, verifies a separate consumer against the staged files, and publishes to Maven Central.
+4. A separate job waits for all manifest files to be downloadable and runs consumers against Maven
+   Central. Only then does release-please create the bare SemVer tag and the GitHub Release from the
+   release PR's notes, and open the next release PR if releasable commits are already waiting.
 
 `feat` selects a minor version; `fix` and `perf` select a patch before 1.0. Other commit types do not
-release. Breaking changes select a minor version before 1.0 and a major version afterward. Tags are
-bare SemVer, such as `0.1.1`. `force_version` is optional when preparing and required when publishing,
-so the published version is the one that was reviewed.
+release and are left out of the notes. Breaking changes select a minor version before 1.0 and a major
+version afterward. Tags are bare SemVer, such as `0.1.1`. To choose a version yourself, add a
+`Release-As: 0.4.0` footer to a commit on `main`; release-please proposes that version in the release PR.
+
+Never edit `.release-please-manifest.json` or the version pins between `x-release-please` markers by
+hand; the release PR updates both. `python3 Scripts/check-doc-versions.py` fails any PR whose
+documented pins differ from the manifest. Wrap a new documented pin in
+`<!-- x-release-please-start-version -->` and `<!-- x-release-please-end -->` lines and list its file
+under `extra-files` in `release-please-config.json`.
 
 Preserve existing release tags and artifacts. Published versions are immutable; fixes belong in a new version.
 Document behavioral changes and migration notes in PR descriptions and GitHub Release notes, not a
 changelog file.
 
-## Prepare without publishing
+## Verify without publishing
 
-From **Actions → Release → Run workflow**, select `main`, leave `publish` unchecked, and optionally
-enter an exact new `force_version`. Supply `force_version` when the commit history contains no
-releasable changes since the latest tag. The run stages unsigned candidates locally and verifies their
-Maven metadata and consumers. It needs no publishing credentials and creates no external publication or tag.
-
-For the same checks locally, use the [independent consumer instructions](../verification/consumer/README.md).
-Run the release-verification unit tests with:
+For the same staging checks locally, use the [independent consumer instructions](../verification/consumer/README.md).
+Run the release-script unit tests with:
 
 ```sh
 python3 -m unittest discover -s Scripts/tests -p 'test_*.py'
@@ -64,9 +61,24 @@ for each name; an environment secret with the same name takes precedence.
 | `MAVEN_CENTRAL_PASSWORD` | Central Portal user-token password |
 | `SIGNING_IN_MEMORY_KEY` | Complete ASCII-armored private GPG key, with its original line breaks |
 | `SIGNING_IN_MEMORY_KEY_PASSWORD` | GPG key passphrase, if the key is protected |
+| `RELEASE_PLEASE_TOKEN` | Fine-grained personal access token for release-please; see below |
 
-The publishing job fails with the missing secret's name before attempting an upload. The passphrase
+The Release workflow fails with the missing secret's name before calling release-please or attempting an upload. The passphrase
 secret is optional for an unprotected key. No secret values are printed by the preflight check.
+
+### release-please token
+
+release-please opens the release PR with this token instead of `GITHUB_TOKEN`, because GitHub does not
+run CI on PRs opened by `GITHUB_TOKEN`. Create a
+[fine-grained personal access token](https://github.com/settings/personal-access-tokens/new) limited to
+this repository, with **Contents**, **Pull requests**, and **Issues** (for release labels) set to
+read and write. Give it an expiration and store it:
+
+```sh
+gh secret set RELEASE_PLEASE_TOKEN --repo maniramezan/KotlinTestCommons
+```
+
+Renew it before it expires; until then, the Release workflow fails at its first step.
 
 ### Central Portal account and token
 
@@ -131,15 +143,17 @@ consumer. It does not equate an accepted deployment with a downloadable release.
 If public verification fails after publishing succeeded, wait for Central or inspect the deployment
 status, then use **Re-run failed jobs** on that same workflow run. The successful publishing job is
 retained, so verification can retry without uploading the immutable version again. Do not re-run all
-jobs or dispatch another publication of that version. The original run retains its candidate commit,
+jobs; Central rejects a second upload of the same version. The original run retains its release commit,
 manifest, and version.
 
-If tag/release creation fails after public verification succeeded, rerun the failed job. It accepts an
-existing tag only when it already points to the verified commit and creates only a missing GitHub
-Release. It never moves an existing tag.
+If tagging fails after public verification succeeded, rerun the failed job. release-please tags only
+merged release PRs still labeled `autorelease: pending`, and the job then checks that the tag points
+at the published commit. Until the tag exists, release-please does not open the next release PR.
 
 For an already tagged version, verify its downloads without invoking publishing:
 
+<!-- x-release-please-start-version -->
 ```sh
 ./gradlew -p verification/consumer verifyConsumer -PtestCommonsVersion=0.2.0 --refresh-dependencies
 ```
+<!-- x-release-please-end -->

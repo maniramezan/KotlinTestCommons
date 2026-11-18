@@ -35,9 +35,11 @@ the same coordinates. A release run instead stages the exact proposed stable ver
 
 ## Verify a published version
 
+<!-- x-release-please-start-version -->
 ```sh
 ./gradlew -p verification/consumer verifyConsumer -PtestCommonsVersion=0.2.0 --refresh-dependencies
 ```
+<!-- x-release-please-end -->
 
 Omitting `testCommonsRepository` selects Maven Central. The version must be exact; ranges and dynamic
 versions are rejected. For a just-published candidate, the release workflow first waits for every
