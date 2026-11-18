@@ -10,6 +10,7 @@ With `mavenCentral()` configured, add the dependencies to the owning source sets
 `testCommonsVersion` to your chosen [release](https://github.com/maniramezan/KotlinTestCommons/releases).
 This example assumes a project with a JVM target; omit `jvmTest` when that target is absent.
 
+<!-- x-release-please-start-version -->
 ```kotlin
 val testCommonsVersion = "0.2.0"
 
@@ -27,6 +28,7 @@ kotlin {
     }
 }
 ```
+<!-- x-release-please-end -->
 
 Add `compose` only if your shared tests exercise Compose UI. For common UI tests, use
 `androidx.compose.ui.test.v2.runComposeUiTest` and opt in to `androidx.compose.ui.test.ExperimentalTestApi`

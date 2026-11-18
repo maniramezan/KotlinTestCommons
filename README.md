@@ -23,6 +23,7 @@ the [compatibility matrix](docs/compatibility.md), or browse the [API documentat
 Add `mavenCentral()` to your dependency repositories. Choose the artifacts for your test environment;
 Android dependencies below use a regular Android application's source-set names.
 
+<!-- x-release-please-start-version -->
 ```kotlin
 dependencies {
     testImplementation("io.github.maniramezan.testcommons:core:0.2.0")
@@ -32,8 +33,13 @@ dependencies {
     androidTestImplementation("io.github.maniramezan.testcommons:device:0.2.0")
 }
 ```
+<!-- x-release-please-end -->
 
-The example pins `0.2.0`. Use a specific [release](https://github.com/maniramezan/KotlinTestCommons/releases). Tags are bare SemVer
+<!-- x-release-please-start-version -->
+The example pins `0.2.0`.
+<!-- x-release-please-end -->
+
+Use a specific [release](https://github.com/maniramezan/KotlinTestCommons/releases). Tags are bare SemVer
 (`0.1.0`), never `v0.1.0`. Before 1.0, a minor release can contain breaking changes.
 For Kotlin Multiplatform source sets and JUnit Jupiter setup, see the [testing guide](docs/testing-guide.md).
 
@@ -222,9 +228,9 @@ built with `./gradlew dokkaGenerate`.
 CI also stages Maven publications and runs the [independent consumer build](verification/consumer/README.md).
 This checks the packaging used by external applications, beyond the samples' local project dependencies.
 
-Conventional Commits determine release-candidate versions. Publishing requires an explicit manual
-Release run with the reviewed version and commit; tags follow successful public Maven Central verification. See the
-[release and secrets guide](docs/releasing.md). There is no `CHANGELOG.md`.
+Conventional Commits determine versions. release-please keeps a release PR open with the next version
+and its notes; merging that PR publishes to Maven Central, and the tag and GitHub Release follow
+successful public verification. See the [release and secrets guide](docs/releasing.md). There is no `CHANGELOG.md`.
 See [AGENTS.md](AGENTS.md) for conventions.
 
 ## License
