@@ -129,5 +129,7 @@ jobs:
           path: |
             device/build/reports/**
             device/build/outputs/androidTest-results/**
+            device/build/outputs/connected_android_test_additional_output/**
             samples/android/build/reports/**
             samples/android/build/outputs/androidTest-results/**
+            samples/android/build/outputs/connected_android_test_additional_output/**
