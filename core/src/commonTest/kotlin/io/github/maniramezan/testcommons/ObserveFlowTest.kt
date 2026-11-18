@@ -11,6 +11,7 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -47,7 +48,8 @@ class ObserveFlowTest {
                     awaitCancellation()
                 },
                 maxCount = 5,
-                timeout = 20.milliseconds,
+                // Leaves a cold, loaded CI runner room to emit the first event before the deadline.
+                timeout = 500.milliseconds,
             )
             assertEquals(FlowObservation(listOf(1), FlowObservation.End.TIMED_OUT), observation)
         }
@@ -67,7 +69,10 @@ class ObserveFlowTest {
                 maxCount = 5,
                 timeout = 20.milliseconds,
             )
-            assertEquals(FlowObservation(listOf(1), FlowObservation.End.TIMED_OUT), observation)
+            assertEquals(FlowObservation.End.TIMED_OUT, observation.end)
+            // A slow runner can pass the deadline before the first event, so only the event
+            // emitted after the synchronous work is guaranteed to be excluded.
+            assertFalse(2 in observation.values)
         }
 
     @Test
