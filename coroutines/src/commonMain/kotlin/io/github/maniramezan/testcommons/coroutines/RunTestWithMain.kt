@@ -22,8 +22,9 @@ import kotlin.time.Duration
  * }
  * ```
  *
- * The dispatcher is restored when the call returns, so run it on the JVM and native targets, where
- * the returned [TestResult] has already completed.
+ * The platform dispatcher is restored once the returned [TestResult] has completed: when the call
+ * returns on the JVM, Android, and native targets, and when the promise settles on JS and Wasm.
+ * Return the result from the test function, as with `runTest`.
  *
  * @param dispatcher The dispatcher installed as `Dispatchers.Main` and used to run the test.
  * @param timeout The real-time limit for the body, or `null` for `runTest`'s default.
@@ -37,13 +38,14 @@ public fun runTestWithMain(
 ): TestResult {
     val fixture = MainDispatcherFixture(dispatcher)
     fixture.install()
-    try {
-        return if (timeout == null) {
-            runTest(dispatcher, testBody = testBody)
-        } else {
-            runTest(dispatcher, timeout, testBody)
-        }
-    } finally {
-        fixture.reset()
-    }
+    return runThenCleanUp(
+        test = {
+            if (timeout == null) {
+                runTest(dispatcher, testBody = testBody)
+            } else {
+                runTest(dispatcher, timeout, testBody)
+            }
+        },
+        cleanup = fixture::reset,
+    )
 }

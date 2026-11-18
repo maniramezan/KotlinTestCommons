@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
@@ -31,6 +32,14 @@ kotlin {
     }
     iosArm64()
     iosSimulatorArm64()
+    macosArm64()
+    js {
+        nodejs()
+    }
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        nodejs()
+    }
 
     // `jvmShared` holds the java.io / java.nio helpers shared by the JVM and Android targets.
     @OptIn(ExperimentalKotlinGradlePluginApi::class)

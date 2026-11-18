@@ -21,6 +21,8 @@ class FrameGeometryTest {
         assertFalse(FrameGeometry.isUsable(Frame(0f, 0f, Float.POSITIVE_INFINITY, 10f)))
         assertFalse(FrameGeometry.isUsable(Frame(Float.NaN, 0f, 10f, 10f)))
         assertFalse(FrameGeometry.isUsable(Frame(-Float.MAX_VALUE, 0f, Float.MAX_VALUE, 10f)))
+        assertFalse(FrameGeometry.isUsable(Frame(0f, -Float.MAX_VALUE, 10f, Float.MAX_VALUE)))
+        assertTrue(FrameGeometry.isUsable(Frame(0f, 0f, Float.MAX_VALUE, 10f)))
     }
 
     @Test

@@ -71,6 +71,15 @@ class ObserveFlowTest {
         }
 
     @Test
+    fun infiniteTimeoutCollectsUntilTheFlowFinishes() =
+        runTest {
+            assertEquals(
+                FlowObservation(listOf(1, 2), FlowObservation.End.FINISHED),
+                observeFlow(flowOf(1, 2), maxCount = 5, timeout = Duration.INFINITE),
+            )
+        }
+
+    @Test
     fun zeroBudgetsCollectNothing() =
         runTest {
             assertEquals(FlowObservation.End.LIMIT_REACHED, observeFlow(flowOf(1), 0, 1.seconds).end)

@@ -19,11 +19,10 @@ class PublicationManifestTest(unittest.TestCase):
         self.addCleanup(self.directory.cleanup)
         self.root = Path(self.directory.name)
         for artifact in RELEASE.ARTIFACTS:
-            binary = ".klib" if "-ios" in artifact else ".aar" if artifact.endswith("-android") else ".jar"
             folder = self.root / RELEASE.GROUP_PATH / artifact / VERSION
             folder.mkdir(parents=True)
-            for suffix in (".pom", ".module", binary, "-sources.jar", "-javadoc.jar"):
-                (folder / f"{artifact}-{VERSION}{suffix}").write_bytes(b"artifact")
+            for relative in RELEASE.publication_paths(artifact, VERSION):
+                (self.root / relative).write_bytes(b"artifact")
 
     def write_manifest(self, manifest):
         path = self.root / "manifest.json"
@@ -32,11 +31,17 @@ class PublicationManifestTest(unittest.TestCase):
 
     def test_records_all_variants_sources_and_documentation(self):
         manifest = RELEASE.collect_manifest(self.root, VERSION)
-        self.assertEqual(90, len(manifest["files"]))
+        self.assertEqual(120, len(manifest["files"]))
         self.assertEqual(VERSION, manifest["version"])
         self.assertEqual(
             manifest["files"], RELEASE.read_manifest(self.write_manifest(manifest), VERSION),
         )
+
+    def test_native_and_javascript_variants_use_klib_files(self):
+        for artifact in ("core-iosarm64", "core-macosarm64", "core-js", "core-wasm-js"):
+            with self.subTest(artifact=artifact):
+                paths = RELEASE.publication_paths(artifact, VERSION)
+                self.assertTrue(any(path.endswith(".klib") for path in paths))
 
     def test_rejects_an_incomplete_manifest(self):
         manifest = RELEASE.collect_manifest(self.root, VERSION)
@@ -78,7 +83,7 @@ class PublicationManifestTest(unittest.TestCase):
         other.mkdir()
         (other / "junit-0.1.0.jar").write_bytes(b"old")
         manifest = RELEASE.collect_manifest(self.root, VERSION)
-        self.assertEqual(90, len(manifest["files"]))
+        self.assertEqual(120, len(manifest["files"]))
 
     def test_rejects_a_manifest_for_another_version(self):
         path = self.write_manifest({"version": "0.1.0", "files": ["anything"]})

@@ -15,18 +15,25 @@ from urllib.parse import urlparse
 GROUP_PATH = "io/github/maniramezan/testcommons"
 ARTIFACTS = (
     "core", "core-jvm", "core-android", "core-iosarm64", "core-iossimulatorarm64",
+    "core-js", "core-macosarm64", "core-wasm-js",
     "junit", "coroutines", "coroutines-jvm", "coroutines-android", "coroutines-iosarm64",
     "coroutines-iossimulatorarm64", "compose", "compose-jvm", "compose-android", "compose-iosarm64",
+    "coroutines-js", "coroutines-macosarm64", "coroutines-wasm-js",
     "compose-iossimulatorarm64", "device", "device-android",
 )
 VERSION = re.compile(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?")
 PUBLICATION_SUFFIXES = {".pom", ".module", ".jar", ".aar", ".klib"}
+KLIB_ARTIFACT_SUFFIXES = ("-iosarm64", "-iossimulatorarm64", "-macosarm64", "-js")
 
 
 def publication_paths(artifact, version):
     """Return the minimum files required for one published target."""
     prefix = f"{GROUP_PATH}/{artifact}/{version}/{artifact}-{version}"
-    binary = ".klib" if "-ios" in artifact else ".aar" if artifact.endswith("-android") else ".jar"
+    binary = (
+        ".klib" if artifact.endswith(KLIB_ARTIFACT_SUFFIXES)
+        else ".aar" if artifact.endswith("-android")
+        else ".jar"
+    )
     return [prefix + suffix for suffix in (".pom", ".module", binary, "-sources.jar", "-javadoc.jar")]
 
 

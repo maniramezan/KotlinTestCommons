@@ -5,9 +5,9 @@ Shared test helpers for Kotlin, Android, and Compose Multiplatform. This is the 
 
 | Artifact | Targets | Use it for | Add it to |
 |---|---|---|---|
-| `core` | JVM, Android, iOS | Spies, scripted fakes, a manual clock, async waits, flow observation, layout geometry, automation IDs, temporary files and fixtures. No test-framework imports. | Any test source set; can also ship in tools and apps |
+| `core` | JVM, Android, iOS, macOS, JS, Wasm | Spies, scripted fakes, a manual clock, async waits, flow observation, layout geometry, automation IDs, temporary files and fixtures. No test-framework imports. | Any test source set; can also ship in tools and apps |
 | `junit` | JVM | `MainDispatcherRule` (JUnit 4) and `MainDispatcherExtension` (JUnit 5). | JVM and Android unit tests |
-| `coroutines` | JVM, Android, iOS | `MainDispatcherFixture` and `runTestWithMain`: swap `Dispatchers.Main` for a test dispatcher from shared `commonTest` code. | Shared `commonTest` and any coroutine tests |
+| `coroutines` | JVM, Android, iOS, macOS, JS, Wasm | `MainDispatcherFixture` and `runTestWithMain`: swap `Dispatchers.Main` for a test dispatcher from shared `commonTest` code. | Shared `commonTest` and any coroutine tests |
 | `compose` | Android, desktop, iOS | Compose UI test waits, matchers, scrolling, assertions, geometry, a themed rule, device configuration overrides. | Compose UI tests |
 | `device` | Android | Espresso waits and matchers, UiAutomator snapshots, gestures, verified text entry, launch, diagnostics, device settings. | Instrumented tests |
 
