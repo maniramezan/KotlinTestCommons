@@ -26,17 +26,17 @@ Android dependencies below use a regular Android application's source-set names.
 <!-- x-release-please-start-version -->
 ```kotlin
 dependencies {
-    testImplementation("io.github.maniramezan.testcommons:core:0.2.0")
-    testImplementation("io.github.maniramezan.testcommons:junit:0.2.0")
-    testImplementation("io.github.maniramezan.testcommons:coroutines:0.2.0")
-    androidTestImplementation("io.github.maniramezan.testcommons:compose:0.2.0")
-    androidTestImplementation("io.github.maniramezan.testcommons:device:0.2.0")
+    testImplementation("io.github.maniramezan.testcommons:core:0.3.0")
+    testImplementation("io.github.maniramezan.testcommons:junit:0.3.0")
+    testImplementation("io.github.maniramezan.testcommons:coroutines:0.3.0")
+    androidTestImplementation("io.github.maniramezan.testcommons:compose:0.3.0")
+    androidTestImplementation("io.github.maniramezan.testcommons:device:0.3.0")
 }
 ```
 <!-- x-release-please-end -->
 
 <!-- x-release-please-start-version -->
-The example pins `0.2.0`.
+The example pins `0.3.0`.
 <!-- x-release-please-end -->
 
 Use a specific [release](https://github.com/maniramezan/KotlinTestCommons/releases). Tags are bare SemVer

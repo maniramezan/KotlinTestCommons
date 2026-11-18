@@ -154,6 +154,6 @@ For an already tagged version, verify its downloads without invoking publishing:
 
 <!-- x-release-please-start-version -->
 ```sh
-./gradlew -p verification/consumer verifyConsumer -PtestCommonsVersion=0.2.0 --refresh-dependencies
+./gradlew -p verification/consumer verifyConsumer -PtestCommonsVersion=0.3.0 --refresh-dependencies
 ```
 <!-- x-release-please-end -->

@@ -37,7 +37,7 @@ the same coordinates. A release run instead stages the exact proposed stable ver
 
 <!-- x-release-please-start-version -->
 ```sh
-./gradlew -p verification/consumer verifyConsumer -PtestCommonsVersion=0.2.0 --refresh-dependencies
+./gradlew -p verification/consumer verifyConsumer -PtestCommonsVersion=0.3.0 --refresh-dependencies
 ```
 <!-- x-release-please-end -->
 
