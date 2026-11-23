@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
-      - uses: actions/setup-java@v6.2.0
+      - uses: actions/setup-java@v6.3.0
         with:
           distribution: temurin
           # Keep in sync with release.yml and gradle/gradle-daemon-jvm.properties.
@@ -80,7 +80,7 @@ jobs:
             cold-boot: true
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: actions/setup-java@v6.2.0
+      - uses: actions/setup-java@v6.3.0
         with:
           distribution: temurin
           java-version: '21'
